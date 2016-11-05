@@ -25,7 +25,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
     // These variables will reference widgets that will be modified during play
 
-    private ImageButton dieImageButton      = null;
+    private ImageButton dieImageButton = null;
 
     private AggravationState gameStateInfo = new AggravationState(); // holds copy of the game state
 
@@ -81,7 +81,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                 //I think this is where we update the screen with button arrays
                 // can we combined with the below for the initial update
 
-                //and then probaly other stuff :)
+                //and then probably other stuff :)
             }
             else if(whoseTurn != playerNum)
             {
@@ -162,8 +162,11 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
         //Initialize the widget reference member variables
 
-        this.dieImageButton      = (ImageButton)activity.findViewById(R.id.dieButton);
-        //ALL THOSE BUTTONS GO HERE (follow above die button example)
+        this.dieImageButton = (ImageButton)activity.findViewById(R.id.imageButton);
+        //ALL THOSE BUTTONS GO HERE
+        for (int i = 0; i<57; i++) {
+            this.gameBoard[i] = (ImageButton) activity.findViewById(R.id.imageButton2);
+        }
 
         //Listen for button presses
         dieImageButton.setOnClickListener(this);

@@ -11,7 +11,7 @@ import java.util.Random;
  *
  * @author Emily Peterson, Andrew Ripple & Owen Price
  *
- * @version February 2016
+ * @version November 2016
  */
 public class AggravationLocalGame extends LocalGame {
 
