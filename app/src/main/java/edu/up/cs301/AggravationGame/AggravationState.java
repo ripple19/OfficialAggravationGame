@@ -3,6 +3,9 @@ package edu.up.cs301.AggravationGame;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
+ * Class which defines the "state" of the game
+ * Contains all necessary information to play Aggravation Game
+ *
  * @authors Emily Peterson, Andrew Ripple & Owen Price
  *
  * @version November 2016

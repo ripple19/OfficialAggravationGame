@@ -25,13 +25,17 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
    /* instance variables */
 
     // These variables will reference widgets that will be modified during play
-    private TextView    playerScoreTextView = null;
-    private TextView    oppScoreTextView    = null;
-    private TextView    turnTotalTextView   = null;
-    private TextView    messageTextView     = null;
+
     private ImageButton dieImageButton      = null;
-    private Button      holdButton          = null;
-    private AggravationGameState gameStateInfo = new AggravationGameState(); // holds copy of the game state
+
+    private AggravationState gameStateInfo = new AggravationState(); // holds copy of the game state
+
+    private ImageButton[] gameBoard = null;
+    private ImageButton[][] playerStart = null;
+    private ImageButton[][] playerHome = null;
+
+    //didn't put in playerIdx bc playerNum is defined in Game Human Player
+    // .... so i think we should follow the pig lead on this one.
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -69,17 +73,20 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
         if(info instanceof AggravationState)
         {
-            int x = gameStateInfo.getPlayerID();
-            if(x == playerNum)
+            int whoseTurn = gameStateInfo.getTurn();
+            if(whoseTurn == playerNum)
             {
-                playerScoreTextView.setText(""+gameStateInfo.getPlayerZeroScore());
-                turnTotalTextView.setText(""+gameStateInfo.getRunningTotal());
+                // In pig set the score text view
 
+
+                //I think this is where we update the screen with button arrays
+                // can we combined with the below for the initial update
+
+                //and then probaly other stuff :)
             }
-            else if(x != playerNum)
+            else if(whoseTurn != playerNum)
             {
-                oppScoreTextView.setText(""+gameStateInfo.getPlayerOneScore());
-                turnTotalTextView.setText(""+gameStateInfo.getRunningTotal());
+
             }
 
         }
@@ -90,49 +97,52 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
 
 
-        if(gameStateInfo.getDiceValue() == 1)
+        if(gameStateInfo.getDieValue() == 1)
         {
             dieImageButton.setImageResource(R.drawable.face1);
         }
-        if(gameStateInfo.getDiceValue() == 2)
+        if(gameStateInfo.getDieValue() == 2)
         {
             dieImageButton.setImageResource(R.drawable.face2);
         }
-        if(gameStateInfo.getDiceValue() == 3)
+        if(gameStateInfo.getDieValue() == 3)
         {
             dieImageButton.setImageResource(R.drawable.face3);
         }
-        if(gameStateInfo.getDiceValue() == 4)
+        if(gameStateInfo.getDieValue() == 4)
         {
             dieImageButton.setImageResource(R.drawable.face4);
         }
-        if(gameStateInfo.getDiceValue() == 5)
+        if(gameStateInfo.getDieValue() == 5)
         {
             dieImageButton.setImageResource(R.drawable.face5);
         }
-        if(gameStateInfo.getDiceValue() == 6)
+        if(gameStateInfo.getDieValue() == 6)
         {
             dieImageButton.setImageResource(R.drawable.face6);
         }
     }//receiveInfo
 
     /**
-     * this method gets called when the user clicks the die or hold button. It
-     * creates a new PigRollAction or PigHoldAction and sends it to the game.
+     * this method gets called when the user clicks the die or a button space. It
+     * creates a new AggravationRollAction or AggravationMovePieceAction and sends it to the game,
+     * or updates the user's display if is is just showing possible moves.
      *
      * @param button
      *        the button that was clicked
      */
     public void onClick(View button) {
-        if(button == holdButton)
-        {
-            AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
-            game.sendAction(hold);
-        }
-        else
+        if(button == dieImageButton)
         {
             AggravationRollAction roll = new AggravationRollAction(this);
             game.sendAction(roll);
+
+        }
+        else //(NORMAL BUTTONS)
+        {
+            //set conditionals to know what type of move it is (???)
+            AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
+            game.sendAction(hold);
         }
     }// onClick
 
@@ -152,16 +162,13 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         activity.setContentView(R.layout.pig_layout);
 
         //Initialize the widget reference member variables
-        this.playerScoreTextView = (TextView)activity.findViewById(R.id.yourScoreValue);
-        this.oppScoreTextView    = (TextView)activity.findViewById(R.id.oppScoreValue);
-        this.turnTotalTextView   = (TextView)activity.findViewById(R.id.turnTotalValue);
-        this.messageTextView     = (TextView)activity.findViewById(R.id.messageTextView);
+
         this.dieImageButton      = (ImageButton)activity.findViewById(R.id.dieButton);
-        this.holdButton          = (Button)activity.findViewById(R.id.holdButton);
+        //ALL THOSE BUTTONS GO HERE (follow above die button example)
 
         //Listen for button presses
         dieImageButton.setOnClickListener(this);
-        holdButton.setOnClickListener(this);
+        //ALL THE LISTENERS GO HERE
 
     }//setAsGui
 
