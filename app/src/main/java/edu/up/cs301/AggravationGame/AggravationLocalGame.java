@@ -9,8 +9,7 @@ import java.util.Random;
 /**
  * class AggravationLocalGame controls the play of the game
  *
- * @author Andrew M. Nuxoll, modified by Steven R. Vegdahl
- *          modified by Emily Peterson, Andrew Ripple & Owen Price
+ * @author Emily Peterson, Andrew Ripple & Owen Price
  *
  * @version February 2016
  */
@@ -21,19 +20,19 @@ public class AggravationLocalGame extends LocalGame {
      */
     private AggravationState officialGameState;
     private AggravationState copyGameState;
-    public AggravationLocalGame() {
+    public AggravationLocalGame()
+    {
         super();
         officialGameState= new AggravationState();
-
     }
 
     /**
      * can the player with the given id take an action right now?
      */
     @Override
-    protected boolean canMove(int playerIdx) {
+    protected boolean canMove(int playerNum) {
 
-        if(pig.getPlayerID() == playerIdx)
+        if(officialGameState.getTurn() == playerNum)
         {
             return true;
         }
@@ -51,44 +50,30 @@ public class AggravationLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-        if(action instanceof PigRollAction)
+        if(action instanceof AggravationRollAction)
         {
             Random dieValue = new Random();
             int value = dieValue.nextInt(6-1+1) + 1;
-            if(value == 1)
+            if(value != 6) //if the player did not roll a 6
             {
-                pig.setRunningTotal(0);
-                int x = pig.getPlayerID();
-                pig.setPlayerID(1-x);
-                pig.setDiceValue(value);      //ADDTHIS HERE TOO    WOEIFJEFIO
+                int playerNum = officialGameState.getTurn();
+                officialGameState.setTurn(playerNum+1);
+                officialGameState.setDieValue(value);
                 return true;
 
             }
             else
             {
-                pig.setRunningTotal(value+pig.getRunningTotal());
-                pig.setDiceValue(value);   ///ADD THIS HERE TO MAKE DICE-PICTURE CHANGE CORRECTLY OMG
+                officialGameState.setDieValue(value);
                 return true;
             }
         }
-        else if(action instanceof PigHoldAction)
+        else if(action instanceof AggravationMovePieceAction)
         {
-            int x = pig.getPlayerID();
-            if(x == 0)
-            {
-                pig.setPlayerZeroScore(pig.getPlayerZeroScore() + pig.getRunningTotal());
-                pig.setRunningTotal(0);
-                int y = pig.getPlayerID();
-                pig.setPlayerID(1-y);
+            int playerNum = officialGameState.getTurn();
 
-            }
-            else
-            {
-                pig.setPlayerOneScore(pig.getRunningTotal() + pig.getPlayerOneScore());
-                pig.setRunningTotal(0);
-                int y = pig.getPlayerID();
-                pig.setPlayerID(1-y);
-            }
+            //CODE HERE
+
             return true;
         }
 
@@ -100,8 +85,8 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-        piggy = new PigGameState(pig);
-        p.sendInfo(piggy);
+        copyGameState = new AggravationState(officialGameState);
+        p.sendInfo(copyGameState);
     }//sendUpdatedSate
 
     /**
@@ -113,15 +98,8 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-        if(pig.getPlayerOneScore() >= 50)
-        {
-            return "Player 1 has won the game with a score of " + pig.getPlayerOneScore() + "!!";
-        }
-        else if(pig.getPlayerZeroScore() >= 50)
-        {
-            return "Player 0 has won the game with a score of " + pig.getPlayerZeroScore() + "!!";
-        }
+        //check stuff with official game state
         return null;
     }
 
-}// class PigLocalGame
+}// class AggravationLocalGame

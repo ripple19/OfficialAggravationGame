@@ -16,8 +16,7 @@ import android.view.View.OnClickListener;
  * A GUI for a human to play Aggravation.
  *
  *
- * @author Andrew M. Nuxoll, modified by Steven R. Vegdahl,
- *          modified by Emily Peterson, Andrew Ripple & Owen Price
+ * @author Emily Peterson, Andrew Ripple & Owen Price
  * @version November 2016
  */
 public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickListener {
@@ -172,4 +171,4 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
     }//setAsGui
 
-}// class PigHumanPlayer
+}// class AggravationHumanPlayer

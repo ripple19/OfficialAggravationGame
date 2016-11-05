@@ -14,6 +14,8 @@ import edu.up.cs301.game.config.GamePlayerType;
  * @author Andrew M. Nuxoll, modified by Steven R. Vegdahl
  *          modified by Emily Peterson, Andrew Ripple & Owen Price
  *
+ *          DO STUFF IN HERE TO CHANGE TO 4 PLAYERS
+ *
  * @version November 2016
  */
 public class AggravationMainActivity extends GameMainActivity {
@@ -40,9 +42,13 @@ public class AggravationMainActivity extends GameMainActivity {
             public GamePlayer createPlayer(String name) {
                 return new AggravationHumanPlayer(name);
             }});
-        playerTypes.add(new GamePlayerType("Computer Player") {
+        playerTypes.add(new GamePlayerType("Smart Computer Player") {
             public GamePlayer createPlayer(String name) {
-                return new AggravationComputerPlayer(name);
+                return new AggravationComputerPlayerSmart(name);
+            }});
+        playerTypes.add(new GamePlayerType("Dumb Computer Player") {
+            public GamePlayer createPlayer(String name) {
+                return new AggravationComputerPlayerDumb(name);
             }});
 
         // Create a game configuration class for Pig:
@@ -67,3 +73,4 @@ public class AggravationMainActivity extends GameMainActivity {
     }
 
 }
+ //class AggravationMainActivity

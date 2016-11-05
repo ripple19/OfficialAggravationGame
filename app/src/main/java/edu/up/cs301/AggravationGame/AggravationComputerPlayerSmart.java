@@ -8,23 +8,21 @@ import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.infoMsg.GameInfo;
 
 /**
- * An AI for Pig
+ * An smart AI for Aggravation
  *
- * @author Andrew M. Nuxoll
- *          modified by Emily Peterson & Andrew Ripple & Owen Price
+ * @author Emily Peterson & Andrew Ripple & Owen Price
  * @version Nov 2016
  */
-public class AggravationComputerPlayer extends GameComputerPlayer {
+public class AggravationComputerPlayerSmart extends GameComputerPlayer {
 
     private AggravationState gameStateInfo; //the copy of the game state
 
-    private int x = 3;
 
 
     /* *
      * ctor does nothing extra
      */
-    public AggravationComputerPlayer(String name) {
+    public AggravationComputerPlayerSmart(String name) {
         super(name);
     }
 
@@ -38,11 +36,14 @@ public class AggravationComputerPlayer extends GameComputerPlayer {
     protected void receiveInfo(GameInfo info) {
         gameStateInfo = (AggravationState)info;
 
-        if(gameStateInfo.getPlayerID() == this.playerNum)
+        if(gameStateInfo.getTurn() == this.playerNum)
         {
-            PigHoldAction holdAct = new PigHoldAction(this);
-            PigRollAction rollAct = new PigRollAction(this);
-            Random x = new Random();
+
+            AggravationRollAction rollAct = new AggravationRollAction(this);
+
+            //EMILY'S NOTE: Leaving the below here as an example
+
+           /* Random x = new Random();
             int y = x.nextInt(100-0+1)+0;
             Log.i("y = sdsds ", Integer.toString(y));
             System.out.println("Hello");
@@ -55,6 +56,7 @@ public class AggravationComputerPlayer extends GameComputerPlayer {
             {
                 game.sendAction(rollAct);
             }
+            */
 
         }
         else
@@ -65,3 +67,5 @@ public class AggravationComputerPlayer extends GameComputerPlayer {
     }//receiveInfo
 
 }
+
+//class AggravationComputerPlayerSmart
