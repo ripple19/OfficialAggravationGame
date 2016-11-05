@@ -18,6 +18,7 @@ public class AggravationComputerPlayer extends GameComputerPlayer {
 
     private AggravationState gameStateInfo; //the copy of the game state
 
+    private int x = 3;
 
 
     /* *
