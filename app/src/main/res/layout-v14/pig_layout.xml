@@ -22,22 +22,22 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton" />
+            android:id="@+id/Start20" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton2" />
+            android:id="@+id/Start21" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton3" />
+            android:id="@+id/Start22" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton4" />
+            android:id="@+id/Start23" />
 
     </LinearLayout>
 
@@ -57,27 +57,27 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton5" />
+            android:id="@+id/GameBoard24" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton6" />
+            android:id="@+id/GameBoard25" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton7" />
+            android:id="@+id/GameBoard26" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton8" />
+            android:id="@+id/GameBoard27" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton9" />
+            android:id="@+id/GameBoard28" />
 
     </LinearLayout>
 
@@ -107,27 +107,27 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton20" />
+                    android:id="@+id/GameBoard14" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton21" />
+                    android:id="@+id/GameBoard15" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton22" />
+                    android:id="@+id/GameBoard16" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton23" />
+                    android:id="@+id/GameBoard17" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton46" />
+                    android:id="@+id/GameBoard18" />
             </LinearLayout>
 
         </LinearLayout>
@@ -145,27 +145,27 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton10" />
+                    android:id="@+id/GameBoard23" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton11" />
+                    android:id="@+id/GameBoard22" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton12" />
+                    android:id="@+id/GameBoard21" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton13" />
+                    android:id="@+id/GameBoard20" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton14" />
+                    android:id="@+id/GameBoard19" />
             </LinearLayout>
 
             <LinearLayout
@@ -185,22 +185,22 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton24" />
+                        android:id="@+id/Home20" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton25" />
+                        android:id="@+id/Home21" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton26" />
+                        android:id="@+id/Home22" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton27" />
+                        android:id="@+id/Home23" />
                 </LinearLayout>
 
                 <Space
@@ -215,27 +215,27 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton16" />
+                        android:id="@+id/GameBoard29" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton15" />
+                        android:id="@+id/GameBoard30" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton17" />
+                        android:id="@+id/GameBoard31" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton18" />
+                        android:id="@+id/GameBoard32" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton19" />
+                        android:id="@+id/GameBoard33" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -259,27 +259,27 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton28" />
+                    android:id="@+id/GameBoard34" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton29" />
+                    android:id="@+id/GameBoard35" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton30" />
+                    android:id="@+id/GameBoard36" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton31" />
+                    android:id="@+id/GameBoard37" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton32" />
+                    android:id="@+id/GameBoard38" />
 
             </LinearLayout>
 
@@ -309,22 +309,22 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton33" />
+                android:id="@+id/Start10" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton34" />
+                android:id="@+id/Start11" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton35" />
+                android:id="@+id/Start12" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton36" />
+                android:id="@+id/Start13" />
         </LinearLayout>
 
         <Space
@@ -344,22 +344,22 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton37" />
+                    android:id="@+id/GameBoard13" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton38" />
+                    android:id="@+id/GameBoard12" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton39" />
+                    android:id="@+id/GameBoard11" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton40" />
+                    android:id="@+id/GameBoard10" />
 
             </LinearLayout>
         </LinearLayout>
@@ -381,22 +381,22 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton41" />
+                    android:id="@+id/Home10" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton42" />
+                    android:id="@+id/Home11" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton43" />
+                    android:id="@+id/Home12" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton44" />
+                    android:id="@+id/Home13" />
             </LinearLayout>
 
             <Space
@@ -411,27 +411,27 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton59" />
+                    android:id="@+id/GameBoard9" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton60" />
+                    android:id="@+id/GameBoard8" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton61" />
+                    android:id="@+id/GameBoard7" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton62" />
+                    android:id="@+id/GameBoard6" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton63" />
+                    android:id="@+id/GameBoard5" />
             </LinearLayout>
         </LinearLayout>
 
@@ -451,7 +451,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton45" />
+                android:id="@+id/GameBoard56" />
 
         </LinearLayout>
 
@@ -480,22 +480,22 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton47" />
+                    android:id="@+id/Home33" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton48" />
+                    android:id="@+id/Home32" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton49" />
+                    android:id="@+id/Home31" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton50" />
+                    android:id="@+id/Home30" />
             </LinearLayout>
 
             <Space
@@ -510,27 +510,27 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton64" />
+                    android:id="@+id/GameBoard47" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton65" />
+                    android:id="@+id/GameBoard46" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton66" />
+                    android:id="@+id/GameBoard45" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton67" />
+                    android:id="@+id/GameBoard44" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton68" />
+                    android:id="@+id/GameBoard43" />
             </LinearLayout>
         </LinearLayout>
 
@@ -542,22 +542,22 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton51" />
+                android:id="@+id/GameBoard39" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton52" />
+                android:id="@+id/GameBoard40" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton53" />
+                android:id="@+id/GameBoard41" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton54" />
+                android:id="@+id/GameBoard42" />
         </LinearLayout>
 
         <Space
@@ -572,22 +572,22 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton55" />
+                android:id="@+id/Start33" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton56" />
+                android:id="@+id/Start32" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton57" />
+                android:id="@+id/Start31" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton58" />
+                android:id="@+id/Start30" />
         </LinearLayout>
 
     </LinearLayout>
@@ -609,22 +609,23 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton69" />
+                android:id="@+id/GameBoard4"
+                android:contentDescription="&quot;@string/desc&quot;" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton70" />
+                android:id="@+id/GameBoard3" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton72" />
+                android:id="@+id/GameBoard2" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton73" />
+                android:id="@+id/GameBoard1" />
         </LinearLayout>
 
         <Space
@@ -643,22 +644,22 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton74" />
+                android:id="@+id/Home03" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton75" />
+                android:id="@+id/Home02" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton76" />
+                android:id="@+id/Home01" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton77" />
+                android:id="@+id/Home00" />
         </LinearLayout>
 
         <Space
@@ -673,29 +674,55 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton78" />
+                android:id="@+id/GameBoard48" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton79" />
+                android:id="@+id/GameBoard49" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton81" />
+                android:id="@+id/GameBoard50" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton82" />
+                android:id="@+id/GameBoard51" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Space
+                android:layout_width="500px"
+                android:layout_height="150px" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Space
+                    android:layout_width="500px"
+                    android:layout_height="40px" />
+
+                <ImageButton
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:id="@+id/RollButton" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <Space
@@ -705,27 +732,27 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton83" />
+            android:id="@+id/GameBoard0" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton84" />
+            android:id="@+id/GameBoard55" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton85" />
+            android:id="@+id/GameBoard54" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton86" />
+            android:id="@+id/GameBoard53" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton87" />
+            android:id="@+id/GameBoard52" />
     </LinearLayout>
 
     <Space
@@ -734,8 +761,8 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
         <Space
             android:layout_width="915px"
@@ -744,22 +771,23 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton88" />
+            android:id="@+id/Start00" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton89" />
+            android:id="@+id/Start01" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton90" />
+            android:id="@+id/Start02" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton91" />
+            android:id="@+id/Start03" />
+
     </LinearLayout>
 
 </LinearLayout>
