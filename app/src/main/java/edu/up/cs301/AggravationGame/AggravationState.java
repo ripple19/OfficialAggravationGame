@@ -26,7 +26,7 @@ public class AggravationState extends GameState {
     {
         super();
         //initializes values
-        playerTurn = 1;
+        playerTurn = 0;
         toRoll = true; //is this right????
 
         //i is player number
@@ -40,7 +40,7 @@ public class AggravationState extends GameState {
         }
 
         //sets gameboard to empty
-        for (int k = 0; k<61; k++) //ASSUMING 61 SQUARES-- might be wrong
+        for (int k = 0; k<57; k++) //ASSUMING 61 SQUARES-- might be wrong
         {
             gameBoard[k] = -1;
         }
