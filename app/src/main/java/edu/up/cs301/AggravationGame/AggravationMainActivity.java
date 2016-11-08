@@ -12,7 +12,7 @@ import edu.up.cs301.game.config.GamePlayerType;
  * this is the primary activity for Aggravation
  *
  * @author Andrew M. Nuxoll, modified by Steven R. Vegdahl
- *          modified by Emily Peterson, Andrew Ripple & Owen Price
+ *          modified by Emily Peterson, Andrew Ripple, & Owen Price
  *
  *          DO STUFF IN HERE TO CHANGE TO 4 PLAYERS
  *
@@ -25,8 +25,8 @@ public class AggravationMainActivity extends GameMainActivity {
 
     /**
      * Create the default configuration for this game:
-     * - one human player vs. one computer player
-     * - minimum of 1 player, maximum of 2
+     * - one human player vs. one dumb computer player vs one smart computer player
+     * - minimum of 2 player, maximum of 4
      *
      * @return
      * 		the new configuration object, representing the default configuration
@@ -37,7 +37,7 @@ public class AggravationMainActivity extends GameMainActivity {
         // Define the allowed player types
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
 
-        // Pig has two player types:  human and computer
+        // Aggravation has 3 player types: human, smart cpu, and dumb cpu
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
                 return new AggravationHumanPlayer(name);
@@ -52,7 +52,7 @@ public class AggravationMainActivity extends GameMainActivity {
             }});
 
         // Create a game configuration class for Pig:
-        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Aggravation", PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4, "Aggravation", PORT_NUMBER);
         defaultConfig.addPlayer("Human Player", 0); // player 1: a human player
         defaultConfig.addPlayer("Dumb Computer Player", 1); // player 2: a computer player
         defaultConfig.addPlayer("Smart Computer Player",2); //smart computer player
