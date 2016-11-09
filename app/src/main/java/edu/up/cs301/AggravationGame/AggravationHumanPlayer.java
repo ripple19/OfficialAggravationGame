@@ -188,7 +188,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         //}
         if(gameStateInfo.getDieValue() == 1)
         {
-            dieImageButton.setImageResource(R.mipmap.faceone);
+            dieImageButton.setImageResource(R.drawable.face1);
         }
         if(gameStateInfo.getDieValue() == 2)
         {
@@ -252,6 +252,9 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
         else //(NORMAL BUTTONS)
         {
+            //set conditionals to know what type of move it is (???)
+            //AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
+            //game.sendAction(hold);
 
 
             for (int i = 0; i<56; i++)
@@ -327,7 +330,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
 
 
-        }
+
     }// onClick
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,

@@ -17,11 +17,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
     private AggravationState gameStateInfo; //the copy of the game state
-
-
-
-
-    /* *
+  /* *
      * ctor does nothing extra
      */
     public AggravationComputerPlayerDumb(String name) {
@@ -38,10 +34,35 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
     protected void receiveInfo(GameInfo info) {
         gameStateInfo = (AggravationState)info;
 
-        if(gameStateInfo.getTurn() == this.playerNum)
-        {
+        if(gameStateInfo.getTurn() == this.playerNum) {
+            if(gameStateInfo.getRoll()){
+                AggravationRollAction rollAct = new AggravationRollAction(this);
+                game.sendAction(rollAct);
+                return;
+            }
+            else
+            {//don't have to roll
 
-            AggravationRollAction rollAct = new AggravationRollAction(this);
+                int value=gameStateInfo.getDieValue();
+
+                if(value==6){//if the value is 6, move from start array
+
+
+                    int tempGameBoard[]=gameStateInfo.getGameBoard();
+                    for(int j =0;j<4;j++) {
+                        if (tempGameBoard[playerNum * 14] == -1) {//if the starting space is empty
+
+                            AggravationMovePieceAction startPieceToEmpty =
+                                    new AggravationMovePieceAction(this, "Start", playerNum, j, playerNum * 14);
+                            game.sendAction(startPieceToEmpty);
+                        }
+                    }
+
+                }
+
+            }
+        }
+
 
             //EMILY'S NOTE: Leaving the below here as an example
 
@@ -61,11 +82,8 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
             */
 
         }
-        else
-        {
-            return;
-        }
+
 
     }//receiveInfo
 
-}
+

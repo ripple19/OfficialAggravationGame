@@ -31,15 +31,7 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove(int playerNum) {
-
-        if(officialGameState.getTurn() == playerNum)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return officialGameState.getTurn() == playerNum;
     }
 
     /**
@@ -50,31 +42,63 @@ public class AggravationLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
+        officialGameState.setRoll(false);//assume that a player cannot roll again
+        Random dieValue = new Random();//dieValue outside of the conditionals
+        int value = dieValue.nextInt(6-1+1) + 1;
+
         if(action instanceof AggravationRollAction)
         {
-            Random dieValue = new Random();
-            int value = dieValue.nextInt(6-1+1) + 1;
-            if(value != 6) //if the player did not roll a 6
-            {
-                int playerNum = officialGameState.getTurn();
-                officialGameState.setRoll(false);
-                officialGameState.setDieValue(value);
-                return true;
-
-            }
-            else
-            {
-                officialGameState.setDieValue(value);
-                return true;
-            }
+            officialGameState.setDieValue(value);
+            return true;
         }
         else if(action instanceof AggravationMovePieceAction)
         {
-            int playerNum = officialGameState.getTurn();
+            int playerNum =((AggravationMovePieceAction) action).playerNum;
+            int newIdx = ((AggravationMovePieceAction) action).newIdx;
+            int oldIdx=((AggravationMovePieceAction) action).oldIdx;
+            String type = ((AggravationMovePieceAction) action).type;
+            int [] boardCopy = officialGameState.getGameBoard();
+            int startCopy[]= officialGameState.getStartArray(playerNum);
 
 
+            if (type.equalsIgnoreCase("Start")) {
+
+                if(boardCopy[newIdx]==-1) {
+                    startCopy[oldIdx]=-1;
+                    boardCopy[newIdx] = playerNum;
+                }
+
+                else {//aggravating move code?
+                    int otherPlayerNum =boardCopy[newIdx];//whatever value is in the space
+                    for (int i=0;i<4;i++){
+                        if (officialGameState.getStartArray(otherPlayerNum)[i]==-1){//first empty space in otherPlayerNum start array
+                            startCopy[i]=otherPlayerNum;//put their piece back in their start array
+                            boardCopy[newIdx]=playerNum;
+                        }
+                    }
+                }
+
+                officialGameState.setStartArray(playerNum,startCopy);
+                officialGameState.setGameBoard(boardCopy);
+            }
+            else if (type.equalsIgnoreCase("Board")) {
+
+                boardCopy = officialGameState.getGameBoard();
+                boardCopy[oldIdx]=-1;
+                boardCopy[newIdx]=playerNum;//needs more code
+            }
+            else if (type.equalsIgnoreCase("Home")) {
+                //CODE HERE
+            }
             //CODE HERE
 
+            if(value == 6) //if the player rolled a 6
+            {
+                officialGameState.setRoll(true);
+                return true;
+            }
+            int turn = officialGameState.getTurn();
+            officialGameState.setTurn(turn+1);
             return true;
         }
 

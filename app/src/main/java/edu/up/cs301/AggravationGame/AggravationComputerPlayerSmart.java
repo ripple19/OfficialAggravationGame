@@ -10,7 +10,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 /**
  * An smart AI for Aggravation
  *
- * @author Emily Peterson & Andrew Ripple & Owen Price
+ * @author Emily Peterson & Andrew Ripple, & Owen Price
  * @version Nov 2016
  */
 public class AggravationComputerPlayerSmart extends GameComputerPlayer {
@@ -40,6 +40,7 @@ public class AggravationComputerPlayerSmart extends GameComputerPlayer {
         {
 
             AggravationRollAction rollAct = new AggravationRollAction(this);
+
 
             //EMILY'S NOTE: Leaving the below here as an example
 
