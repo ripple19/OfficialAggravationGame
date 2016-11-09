@@ -225,6 +225,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         int myNum = playerNum;
         int[] gameBoardCopy = gameStateInfo.getGameBoard();
         int[][] homeCopy = gameStateInfo.getHomeArray();
+        int[][] startCopy = gameStateInfo.getStartArray();
 
         if(button == dieImageButton) { //if the die has been rolled, enable player's buttons
             AggravationRollAction roll = new AggravationRollAction(this);
@@ -232,8 +233,19 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
             for (int i = 0; i < 57; i++) {
                 if (gameBoardCopy[i] == playerNum) {
-                    this.gameBoard[i].setEnabled(true); //enables button
+                    this.gameBoard[i].setEnabled(true); //enables player's buttons in game board
 
+                }
+            }
+            for (int i = 0; i <4; i++) //enables player's buttons in start and home array
+            {
+                if (startCopy[playerNum][i] == playerNum)
+                {
+                    this.playerStart[playerNum][i].setEnabled(true);
+                }
+                if (homeCopy[playerNum][i] == playerNum)
+                {
+                    this.playerHome[playerNum][i].setEnabled(true);
                 }
             }
         }
@@ -241,35 +253,72 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         else //(NORMAL BUTTONS)
         {
 
-            for (int i = 0; i<57; i++)
+
+            for (int i = 0; i<56; i++)
             {
                 if (button == this.gameBoard[i]) //finds the button index
                 {
                     if (gameBoardCopy[i] == playerNum) //if the player clicked on its own button
                     {
-                        if (i +rollVal <57) { //if there is a viable button for player button + roll
+                        if (rollVal == 1 || rollVal ==6) //if a one or a 6 & there are pieces to move from start array, enable space
+                        {
+                            boolean notEmpty = false;
+                            for (int j = 0; j<4; j++) //checks to make sure the start array is not empty
+                            {
+                                if (startCopy[playerNum][j] == playerNum)
+                                {
+                                    notEmpty = true;
+                                }
+                            }
+                            if (notEmpty) //if the start array is not empty, enables "start" space for player
+                            {
+                                this.gameBoard[playerNum * 14].setEnabled(true);
+                            }
+
+                        }
+
+                        if (i + rollVal < 56) { //if there is a viable button for player button + roll
                             if ((gameBoardCopy[i + rollVal]) != playerNum) {
-                                this.gameBoard[i + rollVal].setEnabled(true);
+                                this.gameBoard[i + rollVal].setEnabled(true); //enables that button
                             }
                         }
-                        else
-                        {
+                        else { //checks the Home Arrays
                             int spacesToMove = 56 - i;
-                            if (spacesToMove <5) {
-                                for (int k = 0; i<5; i++) {
-                                    if (homeCopy[playerNum][k] != playerNum)
-                                    {
-                                        playerHome[playerNum][k].setEnabled(true);
+                            if (spacesToMove < 5) {
+                                for (int k = 0; i < 5; i++) { //enables possible buttons in home array
+                                    if (homeCopy[playerNum][k+ spacesToMove] != playerNum) {
+                                        playerHome[playerNum][k + spacesToMove].setEnabled(true);
                                     }
 
                                 }
                             }
                         }
+
+                        if (i+rollVal == (5 + playerNum*14) +1)
+                        {
+                            this.gameBoard[56].setEnabled(true);
+                        }
+                        //if the piece is sitting on a shortcut space
+                        //if the piece is sitting in the middle
                     }
-                    else
+                }
+
+                ///SHORTCUTS: 5, 19, 33, 47 MIDDLE = 56
+                    else //if the player clicked on another space (space to move the button) to
                     {
-                        AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
-                        game.sendAction(hold);
+                        for (int k = 0; k<56; k++)
+                        {
+                            if (button == this.gameBoard[k])
+                            {
+                                if (k == 57) //if the shortcut space is pressed
+                                {}
+                            }
+                            //conditions
+                        }
+
+                        //FINAL CONDITIONS BELOW
+                        /*AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
+                        game.sendAction(hold);*/
                     }
                 }
             }
