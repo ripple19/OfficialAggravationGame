@@ -221,20 +221,65 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
      *        the button that was clicked
      */
     public void onClick(View button) {
-        if(button == dieImageButton)
-        {
+        int rollVal = gameStateInfo.getDieValue();
+        int myNum = playerNum;
+        int[] gameBoardCopy = gameStateInfo.getGameBoard();
+        int[][] homeCopy = gameStateInfo.getHomeArray();
+
+        if(button == dieImageButton) { //if the die has been rolled, enable player's buttons
             AggravationRollAction roll = new AggravationRollAction(this);
             game.sendAction(roll);
 
+            for (int i = 0; i < 57; i++) {
+                if (gameBoardCopy[i] == playerNum) {
+                    this.gameBoard[i].setEnabled(true); //enables button
+
+                }
+            }
         }
+
         else //(NORMAL BUTTONS)
         {
-            //set conditionals to know what type of move it is (???)
-            AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
-            game.sendAction(hold);
+
+            for (int i = 0; i<57; i++)
+            {
+                if (button == this.gameBoard[i]) //finds the button index
+                {
+                    if (gameBoardCopy[i] == playerNum) //if the player clicked on its own button
+                    {
+                        if (i +rollVal <57) { //if there is a viable button for player button + roll
+                            if ((gameBoardCopy[i + rollVal]) != playerNum) {
+                                this.gameBoard[i + rollVal].setEnabled(true);
+                            }
+                        }
+                        else
+                        {
+                            int spacesToMove = 56 - i;
+                            if (spacesToMove <5) {
+                                for (int k = 0; i<5; i++) {
+                                    if (homeCopy[playerNum][k] != playerNum)
+                                    {
+                                        playerHome[playerNum][k].setEnabled(true);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
+                        game.sendAction(hold);
+                    }
+                }
+            }
+
+
+
+
+
         }
     }// onClick
-
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
      * called from the GUI thread
