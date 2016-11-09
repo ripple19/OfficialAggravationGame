@@ -256,6 +256,11 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             //AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
             //game.sendAction(hold);
 
+            //RIGHT NOW this is set up for player 0-- need to change to allow for player 1,2,3, probably by changing all hardwired values, (i.e. 56 to multiples relative to player num)
+
+            //CHECK pieces must be less than other pieces (make array)
+
+
 
             for (int i = 0; i<56; i++)
             {
@@ -297,9 +302,59 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                             }
                         }
 
-                        if (i+rollVal == (5 + playerNum*14) +1)
+                        if ((i+rollVal) == (5+1) || (i + rollVal)== (19+1) || (i+rollVal) == (33+1) || (i+rollVal)==(47+1)) //if the player can directly land on middle shortcut
                         {
-                            this.gameBoard[56].setEnabled(true);
+                            this.gameBoard[56].setEnabled(true); //enable middle
+                        }
+
+                        //tighten up this code with multiples and constants
+                        if (i == 5 || i == 19 || i ==33 || i==47) //if the player is on a corner shortcut
+                        {
+                            if (rollVal ==1)
+                            {
+                                if ((i+ 14*rollVal) < 56) {
+                                    this.gameBoard[i + 14 * (rollVal)].setEnabled(true);
+                                }
+                            }
+                           else if (rollVal ==2)
+                            {
+                                if (i + (14*(rollVal-1) +1) <56)
+                                {
+                                    this.gameBoard[i + (14*(rollVal-1) +1)].setEnabled(true);
+                                }
+                                if (i + (14*rollVal) <56)
+                                {
+                                    this.gameBoard[i + 14*rollVal].setEnabled(true);
+                                }
+                            }
+                           else if (rollVal ==3)
+                            {
+                                if (i + (14*(rollVal-1) +1) <56)
+                                {
+                                    this.gameBoard[i + (14*(rollVal-1) +1)].setEnabled(true);
+                                }
+
+                                if (i + (14*(rollVal-2) +2) <56)
+                                {
+                                    this.gameBoard[i + (14*(rollVal-2) +2)].setEnabled(true);
+                                }
+
+                                if (i + (14*rollVal) <56)
+                                {
+                                    this.gameBoard[i + 14*rollVal].setEnabled(true);
+                                }
+                            }
+                           else if (rollVal ==4)
+                            {}
+                           else  if (rollVal ==5)
+                            {}
+                           else if (rollVal == 6)
+                            {}
+                        }
+
+                        if (i == 56) //if the player is in the middle space
+                        {
+
                         }
                         //if the piece is sitting on a shortcut space
                         //if the piece is sitting in the middle
