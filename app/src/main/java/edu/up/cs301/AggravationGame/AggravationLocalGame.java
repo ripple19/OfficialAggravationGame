@@ -46,6 +46,11 @@ public class AggravationLocalGame extends LocalGame {
         Random dieValue = new Random();//dieValue outside of the conditionals
         int value = dieValue.nextInt(6-1+1) + 1;
 
+        int playerNum=getPlayerIdx(action.getPlayer());
+        int [] boardCopy = officialGameState.getGameBoard();
+        int startCopy[]= officialGameState.getStartArray(playerNum);
+
+
         if(action instanceof AggravationRollAction)
         {
             officialGameState.setDieValue(value);
@@ -53,27 +58,40 @@ public class AggravationLocalGame extends LocalGame {
         }
         else if(action instanceof AggravationMovePieceAction)
         {
-            int playerNum =((AggravationMovePieceAction) action).playerNum;
+
             int newIdx = ((AggravationMovePieceAction) action).newIdx;
             int oldIdx=((AggravationMovePieceAction) action).oldIdx;
             String type = ((AggravationMovePieceAction) action).type;
-            int [] boardCopy = officialGameState.getGameBoard();
-            int startCopy[]= officialGameState.getStartArray(playerNum);
 
 
             if (type.equalsIgnoreCase("Start")) {
 
+                /*A marble must be "started" before it can be advanced around the board.
+                To do this, it is moved from the base row to the start hole.
+                A player only moves a marble to the start hole when he or she rolls a
+                six or a one—it cannot be advanced until the player's next turn.
+                (Remember: If you roll a six, you get an extra turn!) Each player can only
+                have one marble occupying the start hole at a time.*/
+
+                //if the desired space is empty, empty the old space and set the new space to playerNum
                 if(boardCopy[newIdx]==-1) {
                     startCopy[oldIdx]=-1;
                     boardCopy[newIdx] = playerNum;
+                    return true;
+                }
+                else if (boardCopy[newIdx]==playerNum){//started a marble before this and haven't moved it yet
+                    return false;//not a valid move, so they need to make another
                 }
 
-                else {//aggravating move code?
+                else {//aggravating move code - space is not empty
                     int otherPlayerNum =boardCopy[newIdx];//whatever value is in the space
                     for (int i=0;i<4;i++){
-                        if (officialGameState.getStartArray(otherPlayerNum)[i]==-1){//first empty space in otherPlayerNum start array
-                            startCopy[i]=otherPlayerNum;//put their piece back in their start array
+                        //find first empty space in otherPlayerNum start array
+                        if (officialGameState.getStartArray(otherPlayerNum)[i]==-1){
+                            //put their piece back in their start array
+                            startCopy[i]=otherPlayerNum;
                             boardCopy[newIdx]=playerNum;
+                            return true;
                         }
                     }
                 }
@@ -82,10 +100,35 @@ public class AggravationLocalGame extends LocalGame {
                 officialGameState.setGameBoard(boardCopy);
             }
             else if (type.equalsIgnoreCase("Board")) {
+                /*Jumping over of landing on an opponent's marbles is permitted.
+                For more on landing on an opponent's marble, see the "Getting Aggravated"
+                section. However, jumping over or landing on your own is not.
+                If one of your own marbles prevents you from moving another marble the
+                full count on the dice, then you are prevented from moving the "blocked"
+                marble, and your turn is forfeited.*/
 
-                boardCopy = officialGameState.getGameBoard();
-                boardCopy[oldIdx]=-1;
-                boardCopy[newIdx]=playerNum;//needs more code
+                for(int i = oldIdx+1;i<=newIdx;i++){//return false if you would be "leapfrogging" one of your own
+                    if (boardCopy[i]==playerNum){
+                        return false;
+                    }
+                }
+                if (boardCopy[newIdx]==-1){
+                    boardCopy[oldIdx]=-1;
+                    boardCopy[newIdx]=playerNum;
+                    return true;
+                }//needs more code
+                else {
+                    int otherPlayerNum=boardCopy[newIdx];
+                    for (int i=0;i<4;i++){
+                        //find first empty space in otherPlayerNum start array
+                        if (officialGameState.getStartArray(otherPlayerNum)[i]==-1){
+                            //put their piece back in their start array
+                            startCopy[i]=otherPlayerNum;
+                            boardCopy[newIdx]=playerNum;
+                            return true;
+                        }
+                    }
+                }
             }
             else if (type.equalsIgnoreCase("Home")) {
                 //CODE HERE

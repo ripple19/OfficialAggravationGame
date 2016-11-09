@@ -53,7 +53,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                         if (tempGameBoard[playerNum * 14] == -1) {//if the starting space is empty
 
                             AggravationMovePieceAction startPieceToEmpty =
-                                    new AggravationMovePieceAction(this, "Start", playerNum, j, playerNum * 14);
+                                    new AggravationMovePieceAction(this, "Start", j, playerNum * 14);
                             game.sendAction(startPieceToEmpty);
                         }
                     }
