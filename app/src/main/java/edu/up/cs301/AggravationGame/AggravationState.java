@@ -17,8 +17,8 @@ public class AggravationState extends GameState {
     private int dieValue;
     private boolean toRoll;
     private int[][] playerStart;
-    private int [][] playerHome;
-    private int [] gameBoard;
+    private int[][] playerHome;
+    private int[] gameBoard;
 
 
 
@@ -38,9 +38,8 @@ public class AggravationState extends GameState {
                 playerHome[i][j] = -1;    //homes is empty
             }
         }
-
         //sets gameboard to empty
-        for (int k = 0; k<57; k++) //ASSUMING 61 SQUARES-- might be wrong
+        for (int k = 0; k<57; k++) //ASSUMING 57 SQUARES-- might be wrong
         {
             gameBoard[k] = -1;
         }
@@ -74,7 +73,7 @@ public class AggravationState extends GameState {
 
     public void setTurn(int playerNum)
     {
-        if (playerNum >3) //if local game tries to set the player turn to 4 make it player 0's turn
+        if (playerNum > 3) //if local game tries to set the player turn to 4 make it player 0's turn
         {
             playerTurn = 0;
         }

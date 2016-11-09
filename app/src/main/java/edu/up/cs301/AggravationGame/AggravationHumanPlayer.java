@@ -82,31 +82,110 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
     @Override
     public void receiveInfo(GameInfo info) {
         gameStateInfo = (AggravationState)info;
-
         if(info instanceof AggravationState)
         {
+            int[] temp = gameStateInfo.getGameBoard();
+            for(int i = 0; i < 57; i++) //setting game board to the pictures
+            {
+
+                if(temp[i] == -1)
+                {
+                    this.gameBoard[i].setBackgroundResource(R.mipmap.gamesquare);
+                }
+                else if(temp[i] == 0)
+                {
+                    this.gameBoard[i].setBackgroundResource(R.mipmap.playerzeropiece);
+                }
+                else if(temp[i] == 1)
+                {
+                    this.gameBoard[i].setBackgroundResource(R.mipmap.playeronepiece);
+                }
+                else if(temp[i] == 2)
+                {
+                    this.gameBoard[i].setBackgroundResource(R.mipmap.playertwopiece);
+                }
+                else if(temp[i] == 3)
+                {
+                    this.gameBoard[i].setBackgroundResource(R.mipmap.playerthreepiece);
+                }
+            }
+            int tempStart[][] = gameStateInfo.getStartArray(); //temporary array that holds the start array integers of the game state
+            for(int i = 0;i < 4;i++) { //this runs through and looks at the integers in the game state array and changes the image buttons to reflect them
+                for (int j = 0; j < 4; j++) {
+                    if (tempStart[i][j] == -1) {
+                        this.playerStart[i][j].setBackgroundResource(R.mipmap.gamesquare);
+                    } else if (tempStart[i][j] == 0) {
+                        this.playerStart[i][j].setBackgroundResource(R.mipmap.playerzeropiece);
+                    } else if (tempStart[i][j] == 1) {
+                        this.playerStart[i][j].setBackgroundResource(R.mipmap.playeronepiece);
+                    } else if (tempStart[i][j] == 2) {
+                        this.playerStart[i][j].setBackgroundResource(R.mipmap.playertwopiece);
+                    } else if (tempStart[i][j] == 3) {
+                        this.playerStart[i][j].setBackgroundResource(R.mipmap.playerthreepiece);
+                    }
+
+                }
+            }
+                int tempHome[][] = gameStateInfo.getHomeArray();//temporary array that holds the home array integers of the game state
+                for(int i = 0;i < 4;i++)//this runs through and looks at the integers in the game state's home array and changes the image buttons to reflect
+            {
+                    for(int j = 0;j<4;j++)
+                    {
+                        if(tempHome[i][j] == -1)
+                        {
+                            this.playerStart[i][j].setBackgroundResource(R.mipmap.gamesquare);
+                        }
+                        else if(tempHome[i][j] == 0)
+                        {
+                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playerzeropiece);
+                        }
+                        else if(tempHome[i][j] == 1)
+                        {
+                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playeronepiece);
+                        }
+                        else if(tempHome[i][j] == 2)
+                        {
+                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playertwopiece);
+                        }
+                        else if(tempHome[i][j] == 3)
+                        {
+                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playerthreepiece);
+                        }
+
+                    }
+            }
+
             int whoseTurn = gameStateInfo.getTurn();
             if(whoseTurn == playerNum)
-            {
-                // In pig set the score text view
+                {
+                 if(gameStateInfo.getRoll() == true)
+                 {
+                     for (int i = 0; i < 57; i++) {
+                         this.gameBoard[i].setEnabled(false);
+                     }
+                     for (int i = 0; i < 4; i++)//this runs through and looks at the integers in the game state's home array and changes the image buttons to reflect
+                     {
+                         for (int j = 0; j < 4; j++) {
+                             this.playerStart[i][j].setEnabled(false);
+                         }
+                     }
+                     for (int i = 0; i < 4; i++)//this runs through and looks at the integers in the game state's home array and changes the image buttons to reflect
+                     {
+                         for (int j = 0; j < 4; j++) {
+                             this.playerHome[i][j].setEnabled(false);
+                         }
+                     }
+                        this.dieImageButton.setEnabled(true);
 
+                 }
+             }
 
-                //I think this is where we update the screen with button arrays
-                // can we combined with the below for the initial update
-
-                //and then probably other stuff :)
-            }
-            else if(whoseTurn != playerNum)
-            {
-
-            }
 
         }
-        else
-        {
-            flash(Color.RED,100);
-        }
-
+       // else
+       // {
+           // flash(Color.RED,100);
+        //}
         if(gameStateInfo.getDieValue() == 1)
         {
             dieImageButton.setImageResource(R.drawable.face1);

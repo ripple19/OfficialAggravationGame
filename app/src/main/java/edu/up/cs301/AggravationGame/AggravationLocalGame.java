@@ -57,7 +57,7 @@ public class AggravationLocalGame extends LocalGame {
             if(value != 6) //if the player did not roll a 6
             {
                 int playerNum = officialGameState.getTurn();
-                officialGameState.setTurn(playerNum+1);
+                officialGameState.setRoll(false);
                 officialGameState.setDieValue(value);
                 return true;
 
@@ -71,6 +71,7 @@ public class AggravationLocalGame extends LocalGame {
         else if(action instanceof AggravationMovePieceAction)
         {
             int playerNum = officialGameState.getTurn();
+
 
             //CODE HERE
 
