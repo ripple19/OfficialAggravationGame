@@ -188,7 +188,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         //}
         if(gameStateInfo.getDieValue() == 1)
         {
-            dieImageButton.setImageResource(R.drawable.face1);
+            dieImageButton.setImageResource(R.mipmap.faceone);
         }
         if(gameStateInfo.getDieValue() == 2)
         {
