@@ -47,14 +47,15 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
                 if(value==6){//if the value is 6, move from start array
 
-
+                    int tempStart[]=gameStateInfo.getStartArray(playerNum);
                     int tempGameBoard[]=gameStateInfo.getGameBoard();
                     for(int j =0;j<4;j++) {
-                        if (tempGameBoard[playerNum * 14] == -1) {//if the starting space is empty
+                        if (tempGameBoard[playerNum * 14] == -1 && tempStart[j]!=-1) {//if the starting space is empty
 
                             AggravationMovePieceAction startPieceToEmpty =
                                     new AggravationMovePieceAction(this, "Start", j, playerNum * 14);
                             game.sendAction(startPieceToEmpty);
+                            return;
                         }
                     }
 

@@ -78,7 +78,6 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
      */
 
 
-
     @Override
     public void receiveInfo(GameInfo info) {
         gameStateInfo = (AggravationState)info;
@@ -211,6 +210,14 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             dieImageButton.setImageResource(R.drawable.face6);
         }
     }//receiveInfo
+
+
+    public int getPlayerNum()
+    {
+        return playerNum;
+    }
+
+
 
     /**
      * this method gets called when the user clicks the die or a button space. It

@@ -30,7 +30,8 @@ public class AggravationLocalGame extends LocalGame {
      * can the player with the given id take an action right now?
      */
     @Override
-    protected boolean canMove(int playerNum) {
+    protected boolean canMove(int playerNum)
+    {
         return officialGameState.getTurn() == playerNum;
     }
 
@@ -74,9 +75,12 @@ public class AggravationLocalGame extends LocalGame {
                 have one marble occupying the start hole at a time.*/
 
                 //if the desired space is empty, empty the old space and set the new space to playerNum
+
                 if(boardCopy[newIdx]==-1) {
                     startCopy[oldIdx]=-1;
                     boardCopy[newIdx] = playerNum;
+                    officialGameState.setStartArray(playerNum,startCopy);
+                    officialGameState.setGameBoard(boardCopy);
                     return true;
                 }
                 else if (boardCopy[newIdx]==playerNum){//started a marble before this and haven't moved it yet
@@ -91,6 +95,8 @@ public class AggravationLocalGame extends LocalGame {
                             //put their piece back in their start array
                             startCopy[i]=otherPlayerNum;
                             boardCopy[newIdx]=playerNum;
+                            officialGameState.setStartArray(playerNum,startCopy);
+                            officialGameState.setGameBoard(boardCopy);
                             return true;
                         }
                     }
@@ -116,7 +122,7 @@ public class AggravationLocalGame extends LocalGame {
                     boardCopy[oldIdx]=-1;
                     boardCopy[newIdx]=playerNum;
                     return true;
-                }//needs more code
+                }//needs more code?
                 else {
                     int otherPlayerNum=boardCopy[newIdx];
                     for (int i=0;i<4;i++){
