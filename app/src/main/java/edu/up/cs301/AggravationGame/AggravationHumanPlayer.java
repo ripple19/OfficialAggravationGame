@@ -220,6 +220,35 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
 
     /**
+     * this method checks whether a possible move would move one player's piece ahead of one of his/her
+     * pieces. If it would, returns false (illegal move). Otherwise returns true.
+     *
+     * Helper Method!
+     *
+     * @param pieceLocations locations of the player's pieces
+     * @param playerNum player number
+     * @param startMove space on board the piece currently is
+     * @param endMove space of the proposed move
+     * @return true is move is legal. False otherwise
+     */
+    public boolean checkPieceOrder(int[] pieceLocations, int playerNum, int startMove, int endMove)
+    {
+        //Resets everything on a scale of 0-56 to check any player Num
+        for (int i = 0; i<4;i++)
+        {
+            pieceLocations[i] = pieceLocations[i] + playerNum*14;
+        }
+        int startMove1 = startMove + playerNum*14;
+        int endMove1 = endMove + playerNum*14;
+        for (int j = 0; j<4; j++)
+        {
+            if (pieceLocations[j]!= startMove1 && pieceLocations[j] > startMove1 && pieceLocations[j] <endMove1)
+            { return false;}
+        }
+        return true;
+    }
+
+    /**
      * this method gets called when the user clicks the die or a button space. It
      * creates a new AggravationRollAction or AggravationMovePieceAction and sends it to the game,
      * or updates the user's display if is is just showing possible moves.
@@ -234,12 +263,17 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         int[][] homeCopy = gameStateInfo.getHomeArray();
         int[][] startCopy = gameStateInfo.getStartArray();
 
+        int[] currentPieceLocations = new int[4]; //holds locations of player pieces
+        int cpLi = 0; //iterator for cpL
+
         if(button == dieImageButton) { //if the die has been rolled, enable player's buttons
             AggravationRollAction roll = new AggravationRollAction(this);
             game.sendAction(roll);
 
             for (int i = 0; i < 57; i++) {
                 if (gameBoardCopy[i] == playerNum) {
+                    currentPieceLocations[cpLi] = i;
+                    cpLi++;
                     this.gameBoard[i].setEnabled(true); //enables player's buttons in game board
 
                 }
@@ -265,10 +299,6 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
             //RIGHT NOW this is set up for player 0-- need to change to allow for player 1,2,3, probably by changing all hardwired values, (i.e. 56 to multiples relative to player num)
 
-            //CHECK pieces must be less than other pieces (make array)
-
-
-
             for (int i = 0; i<56; i++)
             {
                 if (button == this.gameBoard[i]) //finds the button index
@@ -292,115 +322,127 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
                         }
 
-                        if (i + rollVal < 56) { //if there is a viable button for player button + roll
-                            if ((gameBoardCopy[i + rollVal]) != playerNum) {
-                                this.gameBoard[i + rollVal].setEnabled(true); //enables that button
-                            }
-                        }
-                        else { //checks the Home Arrays
-                            int spacesToMove = 56 - i;
-                            if (spacesToMove < 5) {
-                                for (int k = 0; i < 5; i++) { //enables possible buttons in home array
-                                    if (homeCopy[playerNum][k+ spacesToMove] != playerNum) {
-                                        playerHome[playerNum][k + spacesToMove].setEnabled(true);
-                                    }
-
-                                }
-                            }
-                        }
-
-                        if ((i+rollVal) == (5+1) || (i + rollVal)== (19+1) || (i+rollVal) == (33+1) || (i+rollVal)==(47+1)) //if the player can directly land on middle shortcut
-                        {
-                            this.gameBoard[56].setEnabled(true); //enable middle
-                        }
-
-                        //tighten up this code with multiples and constants
-                        if (i == 5 || i == 19 || i ==33 || i==47) //if the player is on a corner shortcut
-                        {
-                            if (rollVal ==1)
+                        //CASE: roll val on the board
+                        if (((i+rollVal) > (playerNum*14)) && ((i +rollVal) <(55 - playerNum*14))) //if there is a viable button for player button + roll
+                            if ((i+rollVal) > 55)
                             {
-                                if ((i+ 14*rollVal) < 56) {
-                                    this.gameBoard[i + 14 * (rollVal)].setEnabled(true);
-                                }
+                                int correctedSpace = rollVal + i - 55; //"over the top space"
+                                if (gameBoardCopy[correctedSpace] != playerNum)//"over the top"
+                                {
+                                    if (checkPieceOrder(currentPieceLocations,playerNum, i, correctedSpace)) {
+                                        this.gameBoard[correctedSpace].setEnabled(true);
+                                    }}
                             }
-                           else if (rollVal ==2)
-                            {
-                                if (i + (14*(rollVal-1) +1) <56)
-                                {
-                                    this.gameBoard[i + (14*(rollVal-1) +1)].setEnabled(true);
-                                }
-                                if (i + (14*rollVal) <56)
-                                {
-                                    this.gameBoard[i + 14*rollVal].setEnabled(true);
-                                }
-                            }
-                           else if (rollVal ==3)
-                            {
-                                if (i + (14*(rollVal-1) +1) <56)
-                                {
-                                    this.gameBoard[i + (14*(rollVal-1) +1)].setEnabled(true);
-                                }
-
-                                if (i + (14*(rollVal-2) +2) <56)
-                                {
-                                    this.gameBoard[i + (14*(rollVal-2) +2)].setEnabled(true);
-                                }
-
-                                if (i + (14*rollVal) <56)
-                                {
-                                    this.gameBoard[i + 14*rollVal].setEnabled(true);
-                                }
-                            }
-                           else if (rollVal ==4)
-                            {}
-                           else  if (rollVal ==5)
-                            {}
-                           else if (rollVal == 6)
-                            {}
+                    }
+                    else if ((gameBoardCopy[i + rollVal]) != playerNum) {
+                        if (checkPieceOrder(currentPieceLocations,playerNum, i, (i+rollVal))) {
+                            this.gameBoard[i + rollVal].setEnabled(true); //enables that button
                         }
-
-                        if (i == 56) //if the player is in the middle space
-                        {
-
-                        }
-                        //if the piece is sitting on a shortcut space
-                        //if the piece is sitting in the middle
                     }
                 }
 
-                ///SHORTCUTS: 5, 19, 33, 47 MIDDLE = 56
-                    else //if the player clicked on another space (space to move the button) to
+
+                //CASE: Potential home array move
+                { //checks the Home Arrays
+                    int spacesToMove = 55 - 14*playerNum - i;
+                    if (spacesToMove < 5) {
+                        for (int k = 0; i < 5; i++) { //enables possible buttons in home array
+                            if (homeCopy[playerNum][k+ spacesToMove] != playerNum) {
+                                playerHome[playerNum][k + spacesToMove].setEnabled(true);
+                            }
+
+                        }
+                    }
+                }
+
+                if ((i+rollVal) == (5+1) || (i + rollVal)== (19+1) || (i+rollVal) == (33+1) || (i+rollVal)==(47+1)) //if the player can directly land on middle shortcut
+                {
+                    this.gameBoard[56].setEnabled(true); //enable middle
+                }
+
+
+                //tighten up this code with multiples and constants
+                if (i == 5 || i == 19 || i ==33 || i==47) //if the player is on a corner shortcut
+                {
+                    if (rollVal ==1)
                     {
-                        for (int k = 0; k<56; k++)
+                        if ((i+ rollVal) < 56) {
+                            this.gameBoard[i + 14 * (rollVal)].setEnabled(true);
+                        }
+                    }
+                    else if (rollVal ==2)
+                    {
+                        if (i + (14*(rollVal-1) +1) <56)
                         {
-                            if (button == this.gameBoard[k])
-                            {
-                                if (k == 57) //if the shortcut space is pressed
-                                {}
-                            }
-                            //conditions
+                            this.gameBoard[i + (14*(rollVal-1) +1)].setEnabled(true);
+                        }
+                        if (i + (14*rollVal) <56)
+                        {
+                            this.gameBoard[i + 14*rollVal].setEnabled(true);
+                        }
+                    }
+                    else if (rollVal ==3)
+                    {
+                        if (i + (14*(rollVal-1) +1) <56)
+                        {
+                            this.gameBoard[i + (14*(rollVal-1) +1)].setEnabled(true);
                         }
 
-                        //FINAL CONDITIONS BELOW
-                        /*AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
-                        game.sendAction(hold);*/
+                        if (i + (14*(rollVal-2) +2) <56)
+                        {
+                            this.gameBoard[i + (14*(rollVal-2) +2)].setEnabled(true);
+                        }
+
+                        if (i + (14*rollVal) <56)
+                        {
+                            this.gameBoard[i + 14*rollVal].setEnabled(true);
+                        }
                     }
+                    else if (rollVal ==4)
+                    {}
+                    else  if (rollVal ==5)
+                    {}
+                    else if (rollVal == 6)
+                    {}
                 }
+
+                if (i == 56) //if the player is in the middle space
+                {
+
+                }
+                //if the piece is sitting on a shortcut space
+                //if the piece is sitting in the middle
+            }
+        }
+
+        ///SHORTCUTS: 5, 19, 33, 47 MIDDLE = 56
+        //else //if the player clicked on another space (space to move the button) to
+        {
+            for (int k = 0; k<56; k++)
+            {
+                if (button == this.gameBoard[k])
+                {
+                    if (k == 56) //if the shortcut space is pressed
+                    {}
+                }
+                //conditions
             }
 
+            //FINAL CONDITIONS BELOW
+                    /*AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
+                    game.sendAction(hold);*/
+        }
+    }
 
+// onClick
 
-
-
-
-    }// onClick
-    /**
-     * callback method--our game has been chosen/rechosen to be the GUI,
-     * called from the GUI thread
-     *
-     * @param activity
-     *        the activity under which we are running
-     */
+/**
+ * callback method--our game has been chosen/rechosen to be the GUI,
+ * called from the GUI thread
+ *
+ * @param activity
+ *        the activity under which we are running
+ */
     public void setAsGui(GameMainActivity activity) {
 
         // remember the activity
