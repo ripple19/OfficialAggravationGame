@@ -29,16 +29,22 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/Start21" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/Start22" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/Start23" />
 
     </LinearLayout>
@@ -59,26 +65,36 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard24" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard25" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard26" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard27" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard28" />
 
     </LinearLayout>
@@ -109,26 +125,36 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard14" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard15" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard16" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard17" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard18" />
             </LinearLayout>
 
@@ -147,26 +173,36 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard23" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard22" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard21" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard20" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard19" />
             </LinearLayout>
 
@@ -187,6 +223,8 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType = "fitCenter"
+                        android:adjustViewBounds = "true"
                         android:id="@+id/Home20" />
 
                     <ImageButton
@@ -197,11 +235,15 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType = "fitCenter"
+                        android:adjustViewBounds = "true"
                         android:id="@+id/Home22" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType = "fitCenter"
+                        android:adjustViewBounds = "true"
                         android:id="@+id/Home23" />
                 </LinearLayout>
 
@@ -217,26 +259,36 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType = "fitCenter"
+                        android:adjustViewBounds = "true"
                         android:id="@+id/GameBoard29" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType = "fitCenter"
+                        android:adjustViewBounds = "true"
                         android:id="@+id/GameBoard30" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType = "fitCenter"
+                        android:adjustViewBounds = "true"
                         android:id="@+id/GameBoard31" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType = "fitCenter"
+                        android:adjustViewBounds = "true"
                         android:id="@+id/GameBoard32" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType = "fitCenter"
+                        android:adjustViewBounds = "true"
                         android:id="@+id/GameBoard33" />
                 </LinearLayout>
 
@@ -261,26 +313,36 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard34" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard35" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard36" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard37" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard38" />
 
             </LinearLayout>
@@ -311,21 +373,29 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Start10" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Start11" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Start12" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Start13" />
         </LinearLayout>
 
@@ -346,21 +416,29 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard13" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard12" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard11" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard10" />
 
             </LinearLayout>
@@ -383,21 +461,29 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/Home10" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/Home11" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                     android:id="@+id/Home12" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/Home13" />
             </LinearLayout>
 
@@ -413,26 +499,36 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard9" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard8" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard7" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard6" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard5" />
             </LinearLayout>
         </LinearLayout>
@@ -453,6 +549,8 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard56" />
 
         </LinearLayout>
@@ -482,21 +580,29 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/Home33" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/Home32" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/Home31" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/Home30" />
             </LinearLayout>
 
@@ -512,26 +618,36 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard47" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard46" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard45" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard44" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
                     android:id="@+id/GameBoard43" />
             </LinearLayout>
         </LinearLayout>
@@ -544,21 +660,29 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard39" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard40" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard41" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard42" />
         </LinearLayout>
 
@@ -574,21 +698,29 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Start33" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Start32" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Start31" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Start30" />
         </LinearLayout>
 
@@ -611,22 +743,29 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/GameBoard4"
-                android:contentDescription="&quot;@string/desc&quot;" />
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
+                android:id="@+id/GameBoard4" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard3" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard2" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard1" />
         </LinearLayout>
 
@@ -646,21 +785,29 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Home03" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Home02" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Home01" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/Home00" />
         </LinearLayout>
 
@@ -676,21 +823,29 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard48" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard49" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard50" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType = "fitCenter"
+                android:adjustViewBounds = "true"
                 android:id="@+id/GameBoard51" />
         </LinearLayout>
 
@@ -715,7 +870,10 @@
                 <ImageButton
                     android:layout_width="105dp"
                     android:layout_height="105dp"
-                    android:id="@+id/RollButton" />
+                    android:scaleType = "fitCenter"
+                    android:adjustViewBounds = "true"
+                    android:id="@+id/RollButton"
+                    android:contextClickable="false" />
             </LinearLayout>
 
         </LinearLayout>
@@ -734,26 +892,36 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard0" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard55" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard54" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard53" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/GameBoard52" />
     </LinearLayout>
 
@@ -773,21 +941,29 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/Start00" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/Start01" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/Start02" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType = "fitCenter"
+            android:adjustViewBounds = "true"
             android:id="@+id/Start03" />
 
     </LinearLayout>

@@ -134,23 +134,23 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                     {
                         if(tempHome[i][j] == -1)
                         {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.gamesquare);
+                            this.playerHome[i][j].setBackgroundResource(R.mipmap.gamesquare);
                         }
                         else if(tempHome[i][j] == 0)
                         {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playerzeropiece);
+                            this.playerHome[i][j].setBackgroundResource(R.mipmap.playerzeropiece);
                         }
                         else if(tempHome[i][j] == 1)
                         {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playeronepiece);
+                            this.playerHome[i][j].setBackgroundResource(R.mipmap.playeronepiece);
                         }
                         else if(tempHome[i][j] == 2)
                         {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playertwopiece);
+                            this.playerHome[i][j].setBackgroundResource(R.mipmap.playertwopiece);
                         }
                         else if(tempHome[i][j] == 3)
                         {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playerthreepiece);
+                            this.playerHome[i][j].setBackgroundResource(R.mipmap.playerthreepiece);
                         }
 
                     }
