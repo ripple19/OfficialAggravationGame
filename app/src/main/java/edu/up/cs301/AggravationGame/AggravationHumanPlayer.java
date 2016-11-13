@@ -376,35 +376,54 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                         if (rollVal == 2) {
                             if (i + 14 * rollVal < playerNum * 14 + 56) //take 2 shortcuts
                             {
-                                if (gameBoardCopy[i + 14 * rollVal] != playerNum) {
-                                    this.gameBoard[i + 14 * rollVal].setEnabled(true);
+                                moveSpace = i + 14*rollVal;
+                                if (moveSpace > 56)
+                                {moveSpace = moveSpace - 56;}
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    this.gameBoard[moveSpace].setEnabled(true);
                                 }
                             }
                             if (i + 14 * 1 + 1 < playerNum * 14 + 56) //take 1 shortcut + one step
                             {
-                                if (gameBoardCopy[i + 14 + 1] != playerNum) {
-                                    this.gameBoard[i + 14 + 1].setEnabled(true);
+                                moveSpace = i + 14*1 +1;
+                                if (moveSpace > 56)
+                                {moveSpace = moveSpace - 56;}
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    this.gameBoard[moveSpace].setEnabled(true);
                                 }
                             }
                         }
                         if (rollVal == 3) {
                             if (i + 14 * rollVal < playerNum * 14 + 56) //take 3 shortcuts
                             {
-                                if (gameBoardCopy[i + 14 * rollVal] != playerNum) {
-                                    this.gameBoard[i + 14 * rollVal].setEnabled(true);
+                                moveSpace = i + 14*rollVal;
+                                if (moveSpace > 56)
+                                {moveSpace = moveSpace - 56;}
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    this.gameBoard[moveSpace].setEnabled(true);
                                 }
                             }
                             if (i + 14 * 2 + 1 < playerNum * 14 + 56) //take 2 shortcuts and 1 step
                             {
-                                if (gameBoardCopy[i + 14 * 2 + 1] != playerNum) {
-                                    this.gameBoard[i + 14 * 2 + 1].setEnabled(true);
+                                moveSpace = i + 14*2 +1;
+                                if (moveSpace > 56)
+                                {moveSpace = moveSpace - 56;}
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    this.gameBoard[moveSpace].setEnabled(true);
                                 }
                             }
 
                             if (i + 14 * 1 + 2 < playerNum * 14 + 56) //take 1 shortcuts and 2 steps
                             {
-                                if (gameBoardCopy[i + 14 * 1 + 2] != playerNum) {
-                                    this.gameBoard[i + 14 * 1 + 2].setEnabled(true);
+                                moveSpace = i + 14*1 +2;
+                                if (moveSpace > 56)
+                                {moveSpace = moveSpace - 56;}
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    this.gameBoard[moveSpace].setEnabled(true);
                                 }
                             }
 
@@ -413,32 +432,55 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                         if (rollVal > 3) {
                             if (i + 14 * 3 + (rollVal - 3) < playerNum * 14 + 56) ////3 shortcuts + x step
                             {
-                                if (gameBoardCopy[i + 14 * 3 + (rollVal - 3)] != playerNum) {
-                                    this.gameBoard[i + 14 * 3 + (rollVal - 3)].setEnabled(true);
+                                moveSpace = i + 14*3 + (rollVal - 3);
+                                if (moveSpace > 56)
+                                {moveSpace = moveSpace - 56;}
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    this.gameBoard[moveSpace].setEnabled(true);
                                 }
                             }
 
                             if (i + 14 * 2 + (rollVal - 2) < playerNum * 14 + 56) //take 2 shortcuts and 2 steps
                             {
-                                if (gameBoardCopy[i + 14 * 2 + (rollVal - 2)] != playerNum) {
-                                    this.gameBoard[i + 14 * 2 + (rollVal - 2)].setEnabled(true);
+                                moveSpace = i + 14*2 + (rollVal -2);
+                                if (moveSpace > 56)
+                                {moveSpace = moveSpace - 56;}
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    this.gameBoard[moveSpace].setEnabled(true);
                                 }
                             }
 
                             if (i + 14 * 1 + (rollVal - 3) < playerNum * 14 + 56) //take 1 shortcuts and 3 steps
                             {
-                                if (gameBoardCopy[i + 14 * 1 + (rollVal - 3)] != playerNum) {
-                                    this.gameBoard[i + 14 * 1 + (rollVal - 3)].setEnabled(true);
+                                moveSpace = i + 14*1 + (rollVal -3);
+                                if (moveSpace > 56)
+                                {moveSpace = moveSpace - 56;}
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    this.gameBoard[moveSpace].setEnabled(true);
                                 }
                             }
 
                         }
                     }
 
-                    if (i == 56) //if the player is in the middle space
+                    if (i == 56 && rollVal ==1) //if the player is in the middle space
                     {
-                      // this.gameBoard[5].setEnabled(true);
-                        //5 19 || i == 33 || i == 47
+                        if (gameBoardCopy[5] != playerNum) {
+                            this.gameBoard[5].setEnabled(true);
+                        }
+                        if (gameBoardCopy[19] != playerNum) {
+                            this.gameBoard[19].setEnabled(true);
+                        }
+                        if (gameBoardCopy[33] != playerNum) {
+                            this.gameBoard[33].setEnabled(true);
+                        }
+                        if (gameBoardCopy[47] != playerNum) {
+                            this.gameBoard[47].setEnabled(true);
+                        }
+
                     }
                 }
             }
