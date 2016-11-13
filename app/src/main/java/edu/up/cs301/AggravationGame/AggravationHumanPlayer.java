@@ -360,11 +360,17 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
                     if (i == 5 || i == 19 || i == 33 || i == 47) //if the player is on a corner shortcut
                     {
+                        int moveSpace;
                         if (rollVal == 1 && i + 14 * rollVal < playerNum * 14 + 56) //1 shortcut
                         {
+                            moveSpace = i + 14*rollVal;
+                            if (moveSpace > 56)
+                            {
+                                moveSpace = moveSpace - 56;
+                            }
 
-                            if (gameBoardCopy[i + 14 * rollVal] != playerNum) {
-                                this.gameBoard[i + 14 * rollVal].setEnabled(true);
+                            if (gameBoardCopy[moveSpace] != playerNum) {
+                                this.gameBoard[moveSpace].setEnabled(true);
                             }
                         }
                         if (rollVal == 2) {
