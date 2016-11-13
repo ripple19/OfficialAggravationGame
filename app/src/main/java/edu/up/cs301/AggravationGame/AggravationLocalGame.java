@@ -172,9 +172,14 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        int count = 0;
         for(int i = 0;i < 4; i++)
         {
-
+            int[][] tempGameOver = officialGameState.getHomeArray();
+            if(tempGameOver[0][i] == 0)
+            {
+                count++;
+            }
         }
         return null;
     }
