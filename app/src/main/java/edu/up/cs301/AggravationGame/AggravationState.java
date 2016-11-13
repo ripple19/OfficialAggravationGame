@@ -16,9 +16,9 @@ public class AggravationState extends GameState {
     private int playerTurn;
     private int dieValue;
     private boolean toRoll;
-    private int[][] playerStart;
-    private int[][] playerHome;
-    private int[] gameBoard;
+    private int[][] playerStart = new int [4][4];
+    private int[][] playerHome = new int [4][4];
+    private int[] gameBoard = new int[57];
 
 
 
@@ -34,8 +34,8 @@ public class AggravationState extends GameState {
         {
             for (int j= 0; j<4; j++) //the space number
             {
-                playerStart[i][j] = i;//start with full start array
-                playerHome[i][j] = -1;    //homes is empty
+              playerStart[i][j] = i;//start with full start array
+              playerHome[i][j] = -1;    //homes is empty
             }
         }
         //sets gameboard to empty

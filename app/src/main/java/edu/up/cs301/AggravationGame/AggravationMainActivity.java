@@ -14,8 +14,6 @@ import edu.up.cs301.game.config.GamePlayerType;
  * @author Andrew M. Nuxoll, modified by Steven R. Vegdahl
  *          modified by Emily Peterson, Andrew Ripple, & Owen Price
  *
- *          DO STUFF IN HERE TO CHANGE TO 4 PLAYERS
- *
  * @version November 2016
  */
 public class AggravationMainActivity extends GameMainActivity {
@@ -57,6 +55,7 @@ public class AggravationMainActivity extends GameMainActivity {
         defaultConfig.addPlayer("Dumb Computer Player", 1); // player 2: a computer player
         defaultConfig.addPlayer("Smart Computer Player",2); //smart computer player
         defaultConfig.setRemoteData("Remote Human Player", "", 0);
+        //defaultConfig.addPlayer("Dumb Computer Player", 3);
 
         return defaultConfig;
     }//createDefaultConfig

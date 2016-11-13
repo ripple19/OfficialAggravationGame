@@ -6,6 +6,7 @@ import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameInfo;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,9 +30,9 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
     private AggravationState gameStateInfo = new AggravationState(); // holds copy of the game state
 
-    private ImageButton[] gameBoard = null;
-    private ImageButton[][] playerStart = null;
-    private ImageButton[][] playerHome = null;
+    private ImageButton[] gameBoard = new ImageButton[57];
+    private ImageButton[][] playerStart = new ImageButton[4][4];
+    private ImageButton[][] playerHome = new ImageButton[4][4];
     private int[] gameBoardIDS = {R.id.GameBoard0,R.id.GameBoard1,R.id.GameBoard2,R.id.GameBoard3,R.id.GameBoard4,R.id.GameBoard5,
             R.id.GameBoard6,R.id.GameBoard7,R.id.GameBoard8,R.id.GameBoard9,R.id.GameBoard10,R.id.GameBoard11,R.id.GameBoard12,R.id.GameBoard13,
             R.id.GameBoard14,R.id.GameBoard15,R.id.GameBoard16,R.id.GameBoard17,R.id.GameBoard18,R.id.GameBoard19,
@@ -89,7 +90,8 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
                 if(temp[i] == -1)
                 {
-                    this.gameBoard[i].setBackgroundResource(R.mipmap.gamesquare);
+                   this.gameBoard[i].setBackgroundResource(R.mipmap.gamesquare);
+                    Log.i("set image", "gamesquare");
                 }
                 else if(temp[i] == 0)
                 {
@@ -486,6 +488,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             }
 
 
+            //IF NOTHING IS ENABLED SEND "BLANK" MOVE & note to user
             //else //if the player clicked on another space (space to move the button) to
             {
                 for (int k = 0; k < 56; k++) {
@@ -518,6 +521,12 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.pig_layout);
 
+        //Listen for button presses
+
+        this.dieImageButton = (ImageButton)activity.findViewById(R.id.RollButton);
+        Log.i("HERE","HERE");
+        dieImageButton.setOnClickListener(this);
+        Log.i("die image button", "created");
         //Initialize the widget reference member variables
 
         //ALL THOSE BUTTONS GO HERE
@@ -532,6 +541,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             {
                 this.playerStart[i][j] = (ImageButton) activity.findViewById(playerStartIDS[count]);
                 this.playerStart[i][j].setOnClickListener(this);
+                Log.i("count is", Integer.toString(count));
                 count++;
             }
         }
@@ -543,14 +553,13 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             {
                 this.playerHome[i][j] = (ImageButton) activity.findViewById(playerHomeIDS[count2]);
                 this.playerHome[i][j].setOnClickListener(this);
+                Log.i("count2 is ", Integer.toString(count2));
                 count2++;
             }
         }
 
-        //Listen for button presses
-        this.dieImageButton = (ImageButton)activity.findViewById(R.id.imageButton);
-        dieImageButton.setOnClickListener(this);
-        //ALL THE LISTENERS GO HERE
+
+
 
     }//setAsGui
 
