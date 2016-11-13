@@ -172,7 +172,10 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-        //check stuff with official game state
+        for(int i = 0;i < 4; i++)
+        {
+
+        }
         return null;
     }
 
