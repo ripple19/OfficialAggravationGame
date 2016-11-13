@@ -153,7 +153,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
                     }
             }
-
+            int x;
             int whoseTurn = gameStateInfo.getTurn();
             if(whoseTurn == playerNum)
                 {
