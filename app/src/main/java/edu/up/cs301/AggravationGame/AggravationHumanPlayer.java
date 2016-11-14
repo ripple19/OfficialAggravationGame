@@ -264,11 +264,12 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         int[] gameBoardCopy = gameStateInfo.getGameBoard();
         int[][] homeCopy = gameStateInfo.getHomeArray();
         int[][] startCopy = gameStateInfo.getStartArray();
+        String boardType;
 
         int markedButton = -1; //holds the most recently pressed player piece button
 
         int[] currentPieceLocations = new int[4]; //holds locations of player pieces
-        int cpLi = 0; //iterator for current Piece Location
+        int cpLi = -1; //iterator for current Piece Location
 
         if (button == dieImageButton) { //if the die has been rolled, enable player's buttons
             AggravationRollAction roll = new AggravationRollAction(this);
@@ -291,13 +292,10 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                     this.playerHome[playerNum][i].setEnabled(true);
                 }
             }
-        } else //(NORMAL BUTTONS)
+        }
+        else //(NORMAL BUTTONS)
         {
-            //set conditionals to know what type of move it is (???)
-            //AggravationMovePieceAction hold = new AggravationMovePieceAction(this);
-            //game.sendAction(hold);
 
-            //
             for (int i = 0; i < 56; i++) {
                 if (button == this.gameBoard[i]) //finds the button index
 
@@ -490,15 +488,18 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
             //IF NOTHING IS ENABLED SEND "BLANK" MOVE & note to user
             //else //if the player clicked on another space (space to move the button) to
-            {
-                for (int k = 0; k < 56; k++) {
-                    if (button == this.gameBoard[k]) {
-                        AggravationMovePieceAction move = new AggravationMovePieceAction(this, "Board", markedButton, k);
-                        game.sendAction(move);
+
+            for (int k = 0; k < 56; k++) {
+                if (button == this.gameBoard[k] && gameBoardCopy[k] != playerNum) {
+                    AggravationMovePieceAction move = new AggravationMovePieceAction(this, "Board", markedButton, k);
+                    game.sendAction(move);
                     }
                     //conditions
-                }
+            }
 
+            if (markedButton == -1)
+            {
+                AggravationMovePieceAction move = new AggravationMovePieceAction(this, "Board", -1, -1); //sends empty action
             }
         }
     }
