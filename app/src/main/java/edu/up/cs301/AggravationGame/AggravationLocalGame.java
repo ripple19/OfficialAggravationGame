@@ -113,6 +113,30 @@ public class AggravationLocalGame extends LocalGame {
                 full count on the dice, then you are prevented from moving the "blocked"
                 marble, and your turn is forfeited.*/
 
+
+                /*Trying to handle home bases
+                * endOfTheLine is the last space before the piece should be moving to the home base*/
+                int endOfTheLine = playerNum*14 -2;
+                if (newIdx>=endOfTheLine){
+                    int homeCopy[] = officialGameState.getHomeArray(playerNum);
+                    int homeIdx=newIdx-endOfTheLine;
+                    if (homeIdx>3) {
+                        return false;
+                    }
+
+                    /*leapfrog prevention code*/
+                    for(int i = oldIdx+1;i<=homeIdx;i++){
+                        if (homeCopy[i]==playerNum){
+                            return false;
+                        }
+                    }
+                    if (homeCopy[homeIdx]==-1){
+                        boardCopy[oldIdx]=-1;
+                        homeCopy[homeIdx]=playerNum;
+                        return true;
+                    }
+                }
+
                 //return false if you would be "leapfrogging" one of your own
                 //Should never happen with CPU
                 for(int i = oldIdx+1;i<=newIdx;i++){
@@ -139,10 +163,6 @@ public class AggravationLocalGame extends LocalGame {
                     }
                 }
             }
-            else if (type.equalsIgnoreCase("Home")) {
-                //CODE HERE
-            }
-            //CODE HERE
 
             if(value == 6) //if the player rolled a 6
             {
