@@ -106,23 +106,26 @@ public class AggravationLocalGame extends LocalGame {
                 officialGameState.setGameBoard(boardCopy);
             }
             else if (type.equalsIgnoreCase("Board")) {
-                /*Jumping over of landing on an opponent's marbles is permitted.
+                /*Jumping over or landing on an opponent's marbles is permitted.
                 For more on landing on an opponent's marble, see the "Getting Aggravated"
                 section. However, jumping over or landing on your own is not.
                 If one of your own marbles prevents you from moving another marble the
                 full count on the dice, then you are prevented from moving the "blocked"
                 marble, and your turn is forfeited.*/
 
-                for(int i = oldIdx+1;i<=newIdx;i++){//return false if you would be "leapfrogging" one of your own
+                //return false if you would be "leapfrogging" one of your own
+                //Should never happen with CPU
+                for(int i = oldIdx+1;i<=newIdx;i++){
                     if (boardCopy[i]==playerNum){
                         return false;
                     }
                 }
+
                 if (boardCopy[newIdx]==-1){
                     boardCopy[oldIdx]=-1;
                     boardCopy[newIdx]=playerNum;
                     return true;
-                }//needs more code?
+                }
                 else {
                     int otherPlayerNum=boardCopy[newIdx];
                     for (int i=0;i<4;i++){
@@ -172,14 +175,53 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-        int count = 0;
+        int countZeroPiece = 0;
+        int countOnePiece = 0;
+        int countTwoPiece = 0;
+        int countThreePiece = 0;
         for(int i = 0;i < 4; i++)
         {
             int[][] tempGameOver = officialGameState.getHomeArray();
             if(tempGameOver[0][i] == 0)
             {
-                count++;
+                countZeroPiece++;
             }
+        }
+        for(int i = 0;i < 4; i++)
+        {
+            int[][] tempGameOver = officialGameState.getHomeArray();
+            if(tempGameOver[1][i] == 0)
+            {
+                countOnePiece++;
+            }
+        }
+        for(int i = 0;i < 4; i++)
+        {
+            int[][] tempGameOver = officialGameState.getHomeArray();
+            if(tempGameOver[2][i] == 0)
+            {
+                countTwoPiece++;
+            }
+        }
+        for(int i = 0;i < 4; i++)
+        {
+            int[][] tempGameOver = officialGameState.getHomeArray();
+            if(tempGameOver[3][i] == 0)
+            {
+                countThreePiece++;
+            }
+        }
+        if(countZeroPiece==4){
+            return "Player 0 Wins!";
+        }
+        if(countOnePiece==4){
+            return "Player 1 Wins!";
+        }
+        if(countTwoPiece==4){
+            return "Player 2 Wins!";
+        }
+        if(countThreePiece==4){
+            return "Player 3 Wins!";
         }
         return null;
     }
