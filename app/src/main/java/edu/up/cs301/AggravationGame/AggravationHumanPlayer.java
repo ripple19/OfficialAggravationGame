@@ -90,9 +90,15 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
                 if(temp[i] == -1)
                 {
-                   this.gameBoard[i].setBackgroundResource(R.mipmap.gamesquare);
+                    if(i == 5 || i == 19 || i == 33 || i == 47 || i == 56)
+                    {
+                        this.gameBoard[i].setBackgroundResource(R.mipmap.shortcut);
+                        continue;
+                    }
+                    this.gameBoard[i].setBackgroundResource(R.mipmap.gamesquare);
                     Log.i("set image", "gamesquare");
                 }
+
                 else if(temp[i] == 0)
                 {
                     this.gameBoard[i].setBackgroundResource(R.mipmap.playerzeropiece);
@@ -296,7 +302,8 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         else //(NORMAL BUTTONS)
         {
 
-            for (int i = 0; i < 56; i++) {
+            for (int i = 0; i < 56; i++)
+            {
                 if (button == this.gameBoard[i]) //finds the button index
 
                 {
