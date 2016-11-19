@@ -59,6 +59,8 @@ public class AggravationLocalGame extends LocalGame {
             officialGameState.setDieValue(value);
             Log.i("set value LocalGame", Integer.toString(officialGameState.getDieValue()));
             officialGameState.setRoll(false);
+            System.out.println("Roll = " + value);
+            Log.i("set vale", Integer.toString(value));
             sendUpdatedStateTo(action.getPlayer());
             return true;
         }

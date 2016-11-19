@@ -108,11 +108,11 @@ public final class R {
         public static final int Home31=0x7f0a0064;
         public static final int Home32=0x7f0a0063;
         public static final int Home33=0x7f0a0062;
-        public static final int RollButton=0x7f0a008a;
-        public static final int Start00=0x7f0a0086;
-        public static final int Start01=0x7f0a0087;
-        public static final int Start02=0x7f0a0088;
-        public static final int Start03=0x7f0a0089;
+        public static final int RollButton=0x7f0a008b;
+        public static final int Start00=0x7f0a0087;
+        public static final int Start01=0x7f0a0088;
+        public static final int Start02=0x7f0a0089;
+        public static final int Start03=0x7f0a008a;
         public static final int Start10=0x7f0a0050;
         public static final int Start11=0x7f0a0051;
         public static final int Start12=0x7f0a0052;
@@ -151,7 +151,7 @@ public final class R {
         public static final int ipCodeLabel=0x7f0a000a;
         public static final int localGameTab=0x7f0a0004;
         public static final int localTabLayout=0x7f0a0005;
-        public static final int menu_settings=0x7f0a008b;
+        public static final int menu_settings=0x7f0a008c;
         public static final int playGameButton=0x7f0a0002;
         public static final int playerNameEditText=0x7f0a0010;
         public static final int playerNameHeadingText=0x7f0a000c;
@@ -175,6 +175,7 @@ public final class R {
         public static final int textView5=0x7f0a007f;
         public static final int textView6=0x7f0a0037;
         public static final int top_gui_layout=0x7f0a0018;
+        public static final int yourTurn=0x7f0a0086;
     }
     public static final class layout {
         public static final int game_config_main=0x7f040000;
@@ -192,12 +193,13 @@ public final class R {
         public static final int face1=0x7f030000;
         public static final int faceone=0x7f030001;
         public static final int gamesquare=0x7f030002;
-        public static final int logoimage=0x7f030003;
-        public static final int playeronepiece=0x7f030004;
-        public static final int playerthreepiece=0x7f030005;
-        public static final int playertwopiece=0x7f030006;
-        public static final int playerzeropiece=0x7f030007;
-        public static final int shortcut=0x7f030008;
+        public static final int homesquare=0x7f030003;
+        public static final int logoimage=0x7f030004;
+        public static final int playeronepiece=0x7f030005;
+        public static final int playerthreepiece=0x7f030006;
+        public static final int playertwopiece=0x7f030007;
+        public static final int playerzeropiece=0x7f030008;
+        public static final int shortcut=0x7f030009;
     }
     public static final class string {
         public static final int add_player=0x7f080000;
