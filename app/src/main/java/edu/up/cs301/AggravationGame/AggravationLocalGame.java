@@ -48,6 +48,7 @@ public class AggravationLocalGame extends LocalGame {
         officialGameState.setRoll(false);//assume that a player cannot roll again
         Random dieValue = new Random();//dieValue outside of the conditionals
         int value = dieValue.nextInt(6-1+1) + 1;
+        Log.i("dieVal is ", Integer.toString(value));
 
         int playerNum=getPlayerIdx(action.getPlayer());
         int [] boardCopy = officialGameState.getGameBoard();
@@ -60,7 +61,7 @@ public class AggravationLocalGame extends LocalGame {
             Log.i("set value LocalGame", Integer.toString(officialGameState.getDieValue()));
             officialGameState.setRoll(false);
             System.out.println("Roll = " + value);
-            Log.i("set vale", Integer.toString(value));
+            Log.i("set value", Integer.toString(value));
             sendUpdatedStateTo(action.getPlayer());
             return true;
         }
@@ -188,7 +189,9 @@ public class AggravationLocalGame extends LocalGame {
             {
                 int turn = officialGameState.getTurn();
                 officialGameState.setTurn(turn + 1);
+                officialGameState.setRoll(true);
                 sendUpdatedStateTo(action.getPlayer());
+                Log.i("new Player turn", Integer.toString(turn+1));
                 return true;
             }
         }
