@@ -1,5 +1,7 @@
 package edu.up.cs301.AggravationGame;
 
+import android.util.Log;
+
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
@@ -55,6 +57,8 @@ public class AggravationLocalGame extends LocalGame {
         if(action instanceof AggravationRollAction)
         {
             officialGameState.setDieValue(value);
+            Log.i("set vale", Integer.toString(value));
+            sendUpdatedStateTo(action.getPlayer());
             return true;
         }
         else if(action instanceof AggravationMovePieceAction)
