@@ -28,7 +28,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
     private ImageButton dieImageButton = null;
 
-    private AggravationState gameStateInfo = new AggravationState(); // holds copy of the game state
+    private AggravationState gameStateInfo;  // holds copy of the game state
 
     private ImageButton[] gameBoard = new ImageButton[57];
     private ImageButton[][] playerStart = new ImageButton[4][4];
@@ -58,6 +58,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
      */
     public AggravationHumanPlayer(String name) {
         super(name);
+        gameStateInfo = new AggravationState();
 
     }
 
@@ -84,6 +85,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         gameStateInfo = (AggravationState)info;
         if(info instanceof AggravationState)
         {
+            Log.i("rollVal Recieve Info", Integer.toString(gameStateInfo.getDieValue()));
             int[] temp = gameStateInfo.getGameBoard();
             for(int i = 0; i < 57; i++) //setting game board to the pictures
             {
@@ -96,7 +98,6 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                         continue;
                     }
                     this.gameBoard[i].setBackgroundResource(R.mipmap.gamesquare);
-                    Log.i("set image", "gamesquare");
                 }
 
                 else if(temp[i] == 0)
@@ -269,7 +270,8 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
      *        the button that was clicked
      */
     public void onClick(View button) {
-        int rollVal = gameStateInfo.getDieValue();;
+        Log.i("clicked", "click");
+        int rollVal = gameStateInfo.getDieValue();
         int myNum = playerNum;
         int[] gameBoardCopy = gameStateInfo.getGameBoard();
         int[][] homeCopy = gameStateInfo.getHomeArray();
@@ -286,10 +288,11 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             game.sendAction(roll);
             rollVal= gameStateInfo.getDieValue();
             Log.i("rolled die", Integer.toString(rollVal));
+            Log.i("rolled die2", Integer.toString(gameStateInfo.getDieValue()));
             for (int i = 0; i < 57; i++) {
                 if (gameBoardCopy[i] == playerNum) {
-                    currentPieceLocations[cpLi] = i;
                     cpLi++;
+                    currentPieceLocations[cpLi] = i;
                     this.gameBoard[i].setEnabled(true); //enables player's buttons in game board
                     Log.i("enabled", Integer.toString(i));
                 }
@@ -308,31 +311,27 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         }
         else //(NORMAL BUTTONS)
         {
+            Log.i("roll val is ", Integer.toString(rollVal));
             boolean enabled = false;
-            for (int i = 0; i < 56; i++) {
+            for (int m = 0; m <4; m++) {
+                if (button ==playerStart[playerNum][m] && startCopy[playerNum][m] == playerNum)
+                {
+                    if (rollVal == 1 || rollVal == 6) //if a one or a 6 & there are pieces to move from start array, enable space
+                    {
+                       this.gameBoard[playerNum * 14].setEnabled(true);
+                    }
+                }
+            }
+            for (int i = 0; i < 57; i++) {
                 if (button == this.gameBoard[i]) //finds the button index
+                Log.i("button clicked is", Integer.toString(i));
 
                 {
                     markedButton = i;
                 }
                 if (gameBoardCopy[i] == playerNum) //if the player clicked on its own button
                 {
-                    if (rollVal == 1 || rollVal == 6) //if a one or a 6 & there are pieces to move from start array, enable space
-                    {
-                        boolean notEmpty = false;
-                        for (int j = 0; j < 4; j++) //checks to make sure the start array is not empty
-                        {
-                            if (startCopy[playerNum][j] == playerNum) {
-                                notEmpty = true;
-                            }
-                        }
-                        if (notEmpty) //if the start array is not empty, enables "start" space for player
-                        {
-                            this.gameBoard[playerNum * 14].setEnabled(true);
-                            enabled = true;
-                        }
 
-                    }
 
                     //CASE: roll val on the board
                     if (((i + rollVal) > (playerNum * 14)) && ((i + rollVal) < (55 - playerNum * 14))) //if there is a viable button for player button + roll
@@ -532,10 +531,10 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                     }
                 }
 
-                if (enabled == false)
+               // if (enabled == false)
                 {
-                    AggravationMovePieceAction move = new AggravationMovePieceAction(this, "Board",1,1);
-                    game.sendAction(move);
+                 //   AggravationMovePieceAction move = new AggravationMovePieceAction(this, "Board",1,1);
+                 //   game.sendAction(move);
                     //alternately try the marked btuton one below but talk to owen about how to handle
                 }
                 //IF NOTHING IS ENABLED SEND "BLANK" MOVE & note to user
@@ -551,9 +550,11 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
                 if (markedButton == -1) {
                     AggravationMovePieceAction move = new AggravationMovePieceAction(this, "Board", -1, -1); //sends empty action
+                    game.sendAction(move);
                 }
             }
-        }
+        Log.i("end of", "on click");
+    }
 
 
 // onClick
