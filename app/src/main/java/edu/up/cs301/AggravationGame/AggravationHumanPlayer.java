@@ -281,7 +281,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         int[] gameBoardCopy = gameStateInfo.getGameBoard();
         int[][] homeCopy = gameStateInfo.getHomeArray();
         int[][] startCopy = gameStateInfo.getStartArray();
-        String boardType;
+        String boardType = "board";
 
         int markedButton = -1; //holds the most recently pressed player piece button
 
@@ -291,8 +291,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         if (button == dieImageButton) { //if the die has been rolled, enable player's buttons
             AggravationRollAction roll = new AggravationRollAction(this);
             game.sendAction(roll);
-            rollVal = gameStateInfo.getDieValue();
-            System.out.println(rollVal + "");
+            rollVal= gameStateInfo.getDieValue();
             Log.i("rolled die", Integer.toString(rollVal));
             Log.i("rolled die2", Integer.toString(gameStateInfo.getDieValue()));
             for (int i = 0; i < 57; i++) {
@@ -317,13 +316,16 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         } else //(NORMAL BUTTONS)
         {
             Log.i("roll val is ", Integer.toString(rollVal));
-            System.out.println(rollVal + "");
             boolean enabled = false;
             for (int m = 0; m < 4; m++) {
                 if (button == playerStart[playerNum][m] && startCopy[playerNum][m] == playerNum) {
                     if (rollVal == 1 || rollVal == 6) //if a one or a 6 & there are pieces to move from start array, enable space
                     {
-                        this.gameBoard[playerNum * 14].setEnabled(true);
+                       this.gameBoard[playerNum * 14].setEnabled(true);
+                        Log.i("enabled", Integer.toString(playerNum*14));
+                        markedButton = m; //button the move will be send from
+                        boardType = "start";
+
                     }
                 }
             }
@@ -336,21 +338,6 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                 }
                 if (gameBoardCopy[i] == playerNum) //if the player clicked on its own button
                 {
-                    if (rollVal == 1 || rollVal == 6) //if a one or a 6 & there are pieces to move from start array, enable space
-                    {
-                        boolean notEmpty = false;
-                        for (int j = 0; j < 4; j++) //checks to make sure the start array is not empty
-                        {
-                            if (startCopy[playerNum][j] == playerNum) {
-                                notEmpty = true;
-                            }
-                        }
-                        if (notEmpty) //if the start array is not empty, enables "start" space for player
-                        {
-                            System.out.println("Enabled starting spot");
-                            this.gameBoard[playerNum * 14].setEnabled(true);
-                            enabled = true;
-                        }
 
 
                         //CASE: roll val on the board
@@ -561,20 +548,25 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
                 for (int k = 0; k < 56; k++) {
                     if (button == this.gameBoard[k] && gameBoardCopy[k] != playerNum) {
-                        AggravationMovePieceAction move = new AggravationMovePieceAction(this, "Board", markedButton, k);
+                        Log.i("k ", Integer.toString(k));
+                        Log.i("markedButton", Integer.toString(k));
+                        AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, k);
+                       Log.i("sending move board", Integer.toString(markedButton));
                         game.sendAction(move);
                     }
                     //conditions
                 }
 
                 if (markedButton == -1) {
-                    AggravationMovePieceAction move = new AggravationMovePieceAction(this, "Board", -1, -1); //sends empty action
+                    AggravationMovePieceAction move = new AggravationMovePieceAction(this, "skip", -1,-1); //sends empty action
                     game.sendAction(move);
+                    Log.i("sent", "blank move");
                 }
             }
             Log.i("end of", "on click");
         }
-    }
+
+
 
 // onClick
 
