@@ -623,9 +623,6 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             }
         }
 
-
-
-
     }//setAsGui
 
 }// class AggravationHumanPlayer
