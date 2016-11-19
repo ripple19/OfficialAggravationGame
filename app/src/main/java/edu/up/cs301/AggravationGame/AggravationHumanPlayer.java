@@ -185,6 +185,10 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                         this.dieImageButton.setEnabled(true);
 
                  }
+                    else
+                 {
+                     this.dieImageButton.setEnabled(false);
+                 }
              }
 
 
