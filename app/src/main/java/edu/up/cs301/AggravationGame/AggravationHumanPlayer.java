@@ -296,14 +296,13 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         String boardType = "board";
 
 
-
         int[] currentPieceLocations = new int[4]; //holds locations of player pieces
         int cpLi = -1; //iterator for current Piece Location
 
         if (button == dieImageButton) { //if the die has been rolled, enable player's buttons
             AggravationRollAction roll = new AggravationRollAction(this);
             game.sendAction(roll);
-            rollVal= gameStateInfo.getDieValue();
+            rollVal = gameStateInfo.getDieValue();
             Log.i("rolled die", Integer.toString(rollVal));
             Log.i("rolled die2", Integer.toString(gameStateInfo.getDieValue()));
             for (int i = 0; i < 57; i++) {
@@ -313,19 +312,23 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                     this.gameBoard[i].setEnabled(true); //enables player's buttons in game board
                     Log.i("enabled", Integer.toString(i));
                     //callNewMethod which checks the piece & make it's response = some boolean
+
                 }
             }
             for (int i = 0; i < 4; i++) //enables player's buttons in start and home array
             {
                 if (startCopy[playerNum][i] == playerNum) {
                     this.playerStart[playerNum][i].setEnabled(true);
-                    Log.i("start array", "enabled");
+                    //callMethod
                 }
                 if (homeCopy[playerNum][i] == playerNum) {
                     this.playerHome[playerNum][i].setEnabled(true);
+                    //callMethod
                 }
             }
         }
+
+
         else //(NORMAL BUTTONS)
         {
             Log.i("roll val is ", Integer.toString(rollVal));
@@ -335,8 +338,8 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                 if (button == playerStart[playerNum][m] && startCopy[playerNum][m] == playerNum) {
                     if (rollVal == 1 || rollVal == 6) //if a one or a 6 & there are pieces to move from start array, enable space
                     {
-                       this.gameBoard[playerNum * 14].setEnabled(true);
-                        Log.i("enabled", Integer.toString(playerNum*14));
+                        this.gameBoard[playerNum * 14].setEnabled(true);
+                        Log.i("enabled", Integer.toString(playerNum * 14));
                         markedButton = m; //button the move will be send from
                         Log.i("markedButton", Integer.toString(m));
                         boardType = "start";
@@ -344,64 +347,65 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                     }
                 }
             }
-            for (int i = 0; i < 57; i++)
-            {
+            for (int i = 0; i < 57; i++) {
                 if (button == this.gameBoard[i]) //finds the button index
-                    Log.i("button clicked is", Integer.toString(i));
-
-                       if (gameBoardCopy[i] == playerNum) //if the player clicked on its own button
                 {
-                    markedButton = i;
+                    //======take out below and call method with enabling====
+                    Log.i("button clicked is", Integer.toString(i));
+                    if (gameBoardCopy[i] == playerNum) //if the player clicked on its own button
+                    {
+                        markedButton = i;
 
-                    //CASE: roll val on the board
-                    if (((i + rollVal) > (playerNum * 14)) && ((i + rollVal) < (55 - playerNum * 14))) //if there is a viable button for player button + roll
-                        if ((i + rollVal) > 55) {
-                            int correctedSpace = rollVal + i - 55; //"over the top space"
-                            if (gameBoardCopy[correctedSpace] != playerNum)//"over the top"
-                            {
-                                if (checkPieceOrder(currentPieceLocations, playerNum, i, correctedSpace)) {
-                                    this.gameBoard[correctedSpace].setEnabled(true);
-                                    Log.i("enabledCS1", Integer.toString(correctedSpace));
-                                }
-                            }
-                        } else if ((i + rollVal) > 55 || (gameBoardCopy[i + rollVal]) != playerNum) {
+                        //CASE: roll val on the board
+                        if (((i + rollVal) > (playerNum * 14)) && ((i + rollVal) < (55 - playerNum * 14))) //if there is a viable button for player button + roll
+                        {
                             if ((i + rollVal) > 55) {
                                 int correctedSpace = rollVal + i - 55; //"over the top space"
-                                if (gameBoardCopy[correctedSpace] != playerNum) {
-                                    if (checkPieceOrder(currentPieceLocations, playerNum, i, (correctedSpace))) {
-                                        this.gameBoard[correctedSpace].setEnabled(true); //enables that button
-                                        Log.i("enabledCS2", Integer.toString(correctedSpace));
+                                if (gameBoardCopy[correctedSpace] != playerNum)//"over the top"
+                                {
+                                    if (checkPieceOrder(currentPieceLocations, playerNum, i, correctedSpace)) {
+                                        this.gameBoard[correctedSpace].setEnabled(true);
+                                        Log.i("enabledCS1", Integer.toString(correctedSpace));
                                     }
                                 }
-                            } else if (checkPieceOrder(currentPieceLocations, playerNum, i, (i + rollVal))) {
-                                this.gameBoard[i + rollVal].setEnabled(true); //enables that button
-                                Log.i("enabledcso", Integer.toString(i + rollVal));
-                            }
-                        }
-                    }
-
-
-                    //CASE: Potential home array move
-                    { //checks the Home Arrays
-                        int spacesToMove = 55 - 14 * playerNum - i;
-                        if (spacesToMove < 5) {
-                            for (int k = 0; i < 5; i++) { //enables possible buttons in home array
-                                if (homeCopy[playerNum][k + spacesToMove] != playerNum) {
-                                    playerHome[playerNum][k + spacesToMove].setEnabled(true);
-                                    Log.i("enabledstm", Integer.toString(k + spacesToMove));
+                            } else if ((i + rollVal) > 55 || (gameBoardCopy[i + rollVal]) != playerNum) {
+                                if ((i + rollVal) > 55) {
+                                    int correctedSpace = rollVal + i - 55; //"over the top space"
+                                    if (gameBoardCopy[correctedSpace] != playerNum) {
+                                        if (checkPieceOrder(currentPieceLocations, playerNum, i, (correctedSpace))) {
+                                            this.gameBoard[correctedSpace].setEnabled(true); //enables that button
+                                            Log.i("enabledCS2", Integer.toString(correctedSpace));
+                                        }
+                                    }
+                                } else if (checkPieceOrder(currentPieceLocations, playerNum, i, (i + rollVal))) {
+                                    this.gameBoard[i + rollVal].setEnabled(true); //enables that button
+                                    Log.i("enabledcso", Integer.toString(i + rollVal));
                                 }
-
                             }
                         }
-                    }
 
-                    if ((i + rollVal) == (5 + 1) || (i + rollVal) == (19 + 1) || (i + rollVal) == (33 + 1) || (i + rollVal) == (47 + 1)) //if the player can directly land on middle shortcut
-                    {
-                        if (gameBoardCopy[56] != playerNum) {
-                            this.gameBoard[56].setEnabled(true); //enable middle
-                            Log.i("enabledrv", Integer.toString(56));
+
+                        //CASE: Potential home array move
+                        { //checks the Home Arrays
+                            int spacesToMove = 55 - 14 * playerNum - i;
+                            if (spacesToMove < 5) {
+                                for (int k = 0; i < 5; i++) { //enables possible buttons in home array
+                                    if (homeCopy[playerNum][k + spacesToMove] != playerNum) {
+                                        playerHome[playerNum][k + spacesToMove].setEnabled(true);
+                                        Log.i("enabledstm", Integer.toString(k + spacesToMove));
+                                    }
+
+                                }
+                            }
                         }
 
+                        if ((i + rollVal) == (5 + 1) || (i + rollVal) == (19 + 1) || (i + rollVal) == (33 + 1) || (i + rollVal) == (47 + 1)) //if the player can directly land on middle shortcut
+                        {
+                            if (gameBoardCopy[56] != playerNum) {
+                                this.gameBoard[56].setEnabled(true); //enable middle
+                                Log.i("enabledrv", Integer.toString(56));
+                            }
+                        }
 
                         if (i == 5 || i == 19 || i == 33 || i == 47) //if the player is on a corner shortcut
                         {
@@ -526,7 +530,6 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
                             }
                         }
-
                         if (i == 56 && rollVal == 1) //if the player is in the middle space
                         {
                             if (gameBoardCopy[5] != playerNum) {
@@ -547,15 +550,20 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                             }
 
                         }
+
+
                     }
                 }
 
+
+                //========================================TAKE OUT ABOVE FOR NEW METHOD===========
+                //When the player clicks on an availiable space to make a move
                 for (int k = 0; k < 56; k++) {
                     if (button == this.gameBoard[k] && gameBoardCopy[k] != playerNum) {
                         Log.i("k ", Integer.toString(k));
                         Log.i("markedButton", Integer.toString(markedButton));
                         AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, k);
-                       Log.i("sending move board", Integer.toString(markedButton));
+                        Log.i("sending move board", Integer.toString(markedButton));
                         game.sendAction(move);
                     }
                     //conditions
@@ -563,13 +571,14 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
                 //WE'RE CHANGING THIS
                 if (markedButton == -1) {
-                    AggravationMovePieceAction move = new AggravationMovePieceAction(this, "skip", -1,-1); //sends empty action
+                    AggravationMovePieceAction move = new AggravationMovePieceAction(this, "skip", -1, -1); //sends empty action
                     game.sendAction(move);
                     Log.i("sent", "blank move");
                 }
             }
             Log.i("end of", "on click");
         }
+    }
 
 
 
