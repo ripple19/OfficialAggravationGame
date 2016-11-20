@@ -203,6 +203,7 @@ public class AggravationLocalGame extends LocalGame {
             if(actualRoll == 6) //if the player rolled a 6
             {
                 officialGameState.setRoll(true);
+                sendAllUpdatedState();
                 return true;
             }
         }
