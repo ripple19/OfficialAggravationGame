@@ -143,7 +143,7 @@ public class AggravationLocalGame extends LocalGame {
                         boardCopy[oldIdx]=-1;
                         homeCopy[homeIdx]=playerNum;
                         sendUpdatedStateTo(action.getPlayer());
-                        return true;
+
                     }
                 }
 
@@ -159,7 +159,7 @@ public class AggravationLocalGame extends LocalGame {
                     boardCopy[oldIdx]=-1;
                     boardCopy[newIdx]=playerNum;
                     sendUpdatedStateTo(action.getPlayer());
-                    return true;
+
                 }
                 else {
                     int otherPlayerNum=boardCopy[newIdx];
@@ -170,7 +170,7 @@ public class AggravationLocalGame extends LocalGame {
                             startCopy[i]=otherPlayerNum;
                             boardCopy[newIdx]=playerNum;
                             sendUpdatedStateTo(action.getPlayer());
-                            return true;
+
                         }
                     }
                 }
@@ -181,12 +181,14 @@ public class AggravationLocalGame extends LocalGame {
 
             if(value == 6) //if the player rolled a 6
             {
+                System.out.println("Roll was a 6.");
                 officialGameState.setRoll(true);
                 sendUpdatedStateTo(action.getPlayer());
                 return true;
             }
             else
             {
+                System.out.println("Roll was not a 6.");
                 int turn = officialGameState.getTurn();
                 officialGameState.setTurn(turn + 1);
                 officialGameState.setRoll(true);

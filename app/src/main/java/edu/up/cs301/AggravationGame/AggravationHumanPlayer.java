@@ -28,6 +28,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
     private ImageButton dieImageButton = null;
     private TextView yourTurn;
+    private TextView rollView;
     private AggravationState gameStateInfo;  // holds copy of the game state
 
     private ImageButton[] gameBoard = new ImageButton[57];
@@ -183,7 +184,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                              this.playerHome[i][j].setEnabled(false);
                          }
                      }
-                        this.dieImageButton.setEnabled(true);
+                     this.dieImageButton.setEnabled(true);
 
                  }
                     else
@@ -195,7 +196,15 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
             if(whoseTurn != playerNum)
             {
-                yourTurn.setText("Player " + Integer.toString(whoseTurn) + "!");
+                yourTurn.setText("PLAYER " + Integer.toString(whoseTurn) + "!");
+            }
+            if(whoseTurn != playerNum)
+            {
+                rollView.setText("Not Your Turn To Roll.");
+            }
+            if(whoseTurn == playerNum && gameStateInfo.getRoll() == false)
+            {
+                rollView.setText("You Just Rolled! Move a Piece!");
             }
 
 
@@ -584,6 +593,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
         //Listen for button presses
         this.yourTurn = (TextView)activity.findViewById(R.id.yourTurn);
+        this.rollView = (TextView)activity.findViewById(R.id.rollView);
         this.dieImageButton = (ImageButton)activity.findViewById(R.id.RollButton);
         Log.i("HERE","HERE");
         dieImageButton.setOnClickListener(this);

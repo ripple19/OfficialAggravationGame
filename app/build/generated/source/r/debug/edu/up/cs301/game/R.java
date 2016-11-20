@@ -151,7 +151,7 @@ public final class R {
         public static final int ipCodeLabel=0x7f0a000a;
         public static final int localGameTab=0x7f0a0004;
         public static final int localTabLayout=0x7f0a0005;
-        public static final int menu_settings=0x7f0a008c;
+        public static final int menu_settings=0x7f0a008d;
         public static final int playGameButton=0x7f0a0002;
         public static final int playerNameEditText=0x7f0a0010;
         public static final int playerNameHeadingText=0x7f0a000c;
@@ -162,6 +162,7 @@ public final class R {
         public static final int remoteNameEditText=0x7f0a0014;
         public static final int remoteTabLayout=0x7f0a0007;
         public static final int remote_player_spinner=0x7f0a0015;
+        public static final int rollView=0x7f0a008c;
         public static final int saveConfigButton=0x7f0a0001;
         public static final int serverIPCode=0x7f0a0016;
         public static final int tabHost=0x7f0a0000;

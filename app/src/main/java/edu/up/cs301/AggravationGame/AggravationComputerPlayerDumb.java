@@ -40,6 +40,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
             Log.i("my", "turn!");
             /*getRoll returns whether or there is a roll to be made - either the start of a turn or
             * after rolling a 6 and making a complete move*/
+            sleep(2000);
             if(gameStateInfo.getRoll()){
                 AggravationRollAction rollAct = new AggravationRollAction(this);
                 game.sendAction(rollAct);
@@ -47,6 +48,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
             }
             else
             {//don't have to roll, so move a piece
+                sleep(2000);
                 int value=gameStateInfo.getDieValue();
                 int tempStart[]=gameStateInfo.getStartArray(playerNum);
                 int tempGameBoard[]=gameStateInfo.getGameBoard();
