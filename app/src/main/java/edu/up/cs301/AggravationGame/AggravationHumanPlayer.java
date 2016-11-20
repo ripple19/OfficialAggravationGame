@@ -195,10 +195,10 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                  }
              }
 
-            if(whoseTurn != playerNum)
-            {
+
                 yourTurn.setText("PLAYER " + Integer.toString(whoseTurn) + "!");
-            }
+
+
             if(whoseTurn != playerNum)
             {
                 rollView.setText("Not Your Turn To Roll.");

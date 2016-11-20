@@ -131,9 +131,11 @@ public class AggravationLocalGame extends LocalGame {
 
                 //return false if you would be "leapfrogging" one of your own
                 //Should never happen with CPU
-                for(int i = oldIdx+1;i<=newIdx;i++){
-                    if (boardCopy[i]==playerNum){
-                        return false;
+                if (oldIdx <56) {
+                    for (int i = oldIdx + 1; i <= newIdx; i++) {
+                        if (boardCopy[i] == playerNum) {
+                            return false;
+                        }
                     }
                 }
 
