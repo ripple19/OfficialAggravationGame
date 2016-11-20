@@ -53,7 +53,7 @@ public class AggravationLocalGame extends LocalGame {
         if(action instanceof AggravationRollAction)
         {
             Random dieValue = new Random();//dieValue outside of the conditionals
-            int value = dieValue.nextInt(6-1+1) + 1;
+            int value =  6;//dieValue.nextInt(6-1+1) + 1;
             actualRoll = value;
             Log.i("dieVal is ", Integer.toString(value));
             officialGameState.setDieValue(value);
@@ -61,6 +61,7 @@ public class AggravationLocalGame extends LocalGame {
             officialGameState.setRoll(false);
             System.out.println("Roll = " + value);
             Log.i("set value", Integer.toString(value));
+            return true;
         }
         else if(action instanceof AggravationMovePieceAction)
         {
@@ -202,6 +203,7 @@ public class AggravationLocalGame extends LocalGame {
 
             if(actualRoll == 6) //if the player rolled a 6
             {
+                System.out.println("Roll was a 6.");
                 officialGameState.setRoll(true);
                 sendAllUpdatedState();
                 return true;
