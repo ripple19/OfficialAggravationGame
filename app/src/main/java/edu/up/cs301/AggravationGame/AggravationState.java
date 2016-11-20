@@ -1,5 +1,7 @@
 package edu.up.cs301.AggravationGame;
 
+import android.util.Log;
+
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -73,7 +75,7 @@ public class AggravationState extends GameState {
 
     public void setTurn(int playerNum)
     {
-        if (playerNum > 3) //if local game tries to set the player turn to 4 make it player 0's turn
+        if (playerNum > 1)//3) //if local game tries to set the player turn to 4 make it player 0's turn
         {
             playerTurn = 0;
         }
@@ -81,7 +83,7 @@ public class AggravationState extends GameState {
         {
             playerTurn = playerNum;
         }
-
+        Log.i("changed player num", Integer.toString(playerTurn));
     }
 
     public int getTurn()

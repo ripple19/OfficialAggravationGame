@@ -61,6 +61,7 @@ public class AggravationLocalGame extends LocalGame {
             officialGameState.setRoll(false);
             System.out.println("Roll = " + value);
             Log.i("set value", Integer.toString(value));
+            sendAllUpdatedState();
             return true;
         }
         else if(action instanceof AggravationMovePieceAction)
@@ -199,9 +200,12 @@ public class AggravationLocalGame extends LocalGame {
                 }
                 officialGameState.setGameBoard(boardCopy);
             }
+            else if (type.equalsIgnoreCase("Skip"))
+            {
 
+            }
 
-            if(actualRoll == 6) //if the player rolled a 6
+            if(actualRoll == 6) //if the player rolled a 6 CHANGE THIS
             {
                 System.out.println("Roll was a 6.");
                 officialGameState.setRoll(true);
@@ -209,7 +213,9 @@ public class AggravationLocalGame extends LocalGame {
                 return true;
             }
         }
-        officialGameState.setTurn(playerNum + 1);
+        Log.i("changed turn to ",Integer.toString(playerNum +1));
+        officialGameState.setTurn(playerNum + 1); //CHANGE THIS
+        officialGameState.setRoll(true);
         sendAllUpdatedState();
         return true;
     }//makeMove
@@ -219,6 +225,7 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
+        Log.i("player run in sendSta", Integer.toString(officialGameState.getTurn()));
         copyGameState = new AggravationState(officialGameState);
         p.sendInfo(copyGameState);
     }//sendUpdatedState
