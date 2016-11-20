@@ -199,9 +199,7 @@ public class AggravationLocalGame extends LocalGame {
                 }
                 officialGameState.setGameBoard(boardCopy);
             }
-            else if (type.equalsIgnoreCase("Skip")) {
-                officialGameState.setGameBoard(boardCopy);//do nothing
-            }
+
 
             if(value == 6) //if the player rolled a 6
             {

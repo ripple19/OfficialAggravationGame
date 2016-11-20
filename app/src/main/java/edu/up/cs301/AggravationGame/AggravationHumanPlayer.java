@@ -83,9 +83,10 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
     @Override
     public void receiveInfo(GameInfo info) {
-        gameStateInfo = (AggravationState)info;
+
         if(info instanceof AggravationState)
         {
+            gameStateInfo = (AggravationState)info;
             Log.i("rollVal Recieve Info", Integer.toString(gameStateInfo.getDieValue()));
             int[] temp = gameStateInfo.getGameBoard();
             for(int i = 0; i < 57; i++) //setting game board to the pictures
@@ -167,7 +168,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             int whoseTurn = gameStateInfo.getTurn();
             if(whoseTurn == playerNum)
                 {
-                 if(gameStateInfo.getRoll() == true)
+                 if(gameStateInfo.getRoll())
                  {
                      for (int i = 0; i < 57; i++) {
                          this.gameBoard[i].setEnabled(false);
