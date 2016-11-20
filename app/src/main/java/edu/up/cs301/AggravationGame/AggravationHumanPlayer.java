@@ -242,6 +242,13 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         {
             dieImageButton.setImageResource(R.drawable.face6);
         }
+
+        if (checkPieces)
+        {
+            Log.i("does this work", Integer.toString(gameStateInfo.getDieValue()));
+            possibleMoveChecker();
+            checkPieces =false;
+        }
     }//receiveInfo
 
 
@@ -249,9 +256,68 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
     {
         return playerNum;
     }
+/**
+ * possibleMoveChecker -- holds code to call moves but has the correct die value. Called after a player rolls the die
+ * and checks if there are possible moves. Code would be in onClick but the die value needs to be updated first
+ */
+public void possibleMoveChecker()
+{
+    int[] gameBoardCopy = gameStateInfo.getGameBoard();
+    int[][] homeCopy = gameStateInfo.getHomeArray();
+    int[][] startCopy = gameStateInfo.getStartArray();
+    int rollVal = gameStateInfo.getDieValue();
+    cpLi = -1;
+    boolean canImove = false;
+    for (int i = 0; i < 57; i++) {
+        if (gameBoardCopy[i] == playerNum) {
+                    cpLi++;
+                    currentPieceLocations[cpLi] = i;
+                    this.gameBoard[i].setEnabled(true); //enables player's buttons in game board
+                    Log.i("enabled", Integer.toString(i));
+                    if (!canImove) {
+                        canImove = Moves("board", i, false);
+                    }
+                    //callNewMethod which checks the piece & make it's response = some boolean
+
+                }
+            }
+            for (int i = 0; i < 4; i++) //enables player's buttons in start and home array
+            {
+                if (startCopy[playerNum][i] == playerNum) {
+                    this.playerStart[playerNum][i].setEnabled(true);
+                    if (!canImove) {
+                        canImove = Moves("start", i, false);
+                        Log.i("checked", "moves");
+                        }
+                    if (!canImove)
+                    {
+                        Log.i("canIMove is", "false");
+                    }
+
+                }
+                if (homeCopy[playerNum][i] == playerNum) {
+                    this.playerHome[playerNum][i].setEnabled(true);
+                    if (!canImove) {
+                        canImove = Moves("home", i, false);
+                    }
+                }
+            }
+            if (!canImove)
+            {
+                AggravationMovePieceAction move = new AggravationMovePieceAction(this, "skip", -1, -1); //sends empty action
+                game.sendAction(move);
+                Log.i("sent", "blank move");
+            }
+            else
+            {
+                Log.i("possible moves", "exist");
+            }
+
+}
+
 
 /**
- * Moves checks and or enables possible move locations for the givven button
+ * Moves checks and or enables possible move locations for the given button
  */
 public boolean Moves(String board, int pieceLoc, boolean enable) {
     Log.i("clicked", "click");
@@ -265,13 +331,15 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
     //if it is start value piece, checks or enables the possible move spot 0
     if (board.equals("start")) {
-
+        Log.i("in helper1roll Val", Integer.toString(rollVal));
         if (rollVal == 1 || rollVal == 6) //if a one or a 6 & there are pieces to move from start array, enable space
         {
+            Log.i("in helper, roll val", Integer.toString(rollVal));
             if (enable){
                 this.gameBoard[playerNum * 14].setEnabled(true);
             }
             possibleMove = true;
+            Log.i("in helper", "PM is true");
             Log.i("enabled", Integer.toString(playerNum * 14));
             markedButton = pieceLoc; //button the move will be send from
             Log.i("markedButton", Integer.toString(pieceLoc));
@@ -283,6 +351,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
     //if checking a value in the home area, chekcs or enables possible move spot(s)
     if (board.equals("home")) {
+        //need to add move
     }
 
     //if checking a value in the board area, checks or enables possible move spot(s)
@@ -589,8 +658,10 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
      * @param button
      *        the button that was clicked
      */
+    boolean checkPieces = false;
     int markedButton = -1; //holds the most recently pressed player piece button
     int[] currentPieceLocations = new int[4]; //holds locations of player pieces
+    int cpLi; //iterator for current Piece Location
     public void onClick(View button) {
         Log.i("clicked", "click");
         int rollVal = gameStateInfo.getDieValue();
@@ -600,56 +671,20 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         int[][] startCopy = gameStateInfo.getStartArray();
         String boardType = "board";
 
-
-
-        int cpLi = -1; //iterator for current Piece Location
-
         if (button == dieImageButton) { //if the die has been rolled, enable player's buttons
             boolean canImove = false;
             AggravationRollAction roll = new AggravationRollAction(this);
             game.sendAction(roll);
-            rollVal = gameStateInfo.getDieValue();
-            Log.i("rolled die", Integer.toString(rollVal));
-            Log.i("rolled die2", Integer.toString(gameStateInfo.getDieValue()));
-            for (int i = 0; i < 57; i++) {
-                if (gameBoardCopy[i] == playerNum) {
-                    cpLi++;
-                    currentPieceLocations[cpLi] = i;
-                    this.gameBoard[i].setEnabled(true); //enables player's buttons in game board
-                    Log.i("enabled", Integer.toString(i));
-                    if (!canImove) {
-                        canImove = Moves("board", i, false);
-                    }
-                    //callNewMethod which checks the piece & make it's response = some boolean
+            checkPieces = true;
+            return;
 
-                }
-            }
-            for (int i = 0; i < 4; i++) //enables player's buttons in start and home array
-            {
-                if (startCopy[playerNum][i] == playerNum) {
-                    this.playerStart[playerNum][i].setEnabled(true);
-                    if (!canImove) {
-                        canImove = Moves("start", i, false);
-                    }
-                }
-                if (homeCopy[playerNum][i] == playerNum) {
-                    this.playerHome[playerNum][i].setEnabled(true);
-                    if (!canImove) {
-                        canImove = Moves("start", i, false);
-                    }
-                }
-            }
-            if (!canImove)
-            {
-                AggravationMovePieceAction move = new AggravationMovePieceAction(this, "skip", -1, -1); //sends empty action
-                game.sendAction(move);
-                Log.i("sent", "blank move");
-            }
         }
 
 
         else //(NORMAL BUTTONS)
         {
+           Log.i("clicked", "normal button");
+
             Log.i("roll val is ", Integer.toString(rollVal));
             Log.i("PlayerNum", Integer.toString(playerNum));
             boolean enabled = false;
@@ -657,11 +692,18 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                 if (button == playerStart[playerNum][m] && startCopy[playerNum][m] == playerNum) {
                     Moves("start", m, true);
                 }
+                else {
+                    playerStart[playerNum][m].setEnabled(false);
+                }
             }
 
             for (int m = 0; m < 4; m++) {
                 if (button == playerStart[playerNum][m] && startCopy[playerNum][m] == playerNum) {
                     Moves("home", m, true);
+                }
+                else
+                {
+                    playerHome[playerNum][m].setEnabled(false);
                 }
             }
             for (int i = 0; i < 57; i++) {
@@ -669,6 +711,10 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                 {
                     Moves("board", i, true);
 
+                }
+                else
+                {
+                    gameBoard[i].setEnabled(false);
                 }
             }
 
