@@ -22,6 +22,7 @@ public class AggravationLocalGame extends LocalGame {
      */
     private AggravationState officialGameState;
     private AggravationState copyGameState;
+    private int actualRoll = 1;
     public AggravationLocalGame()
     {
         super();
@@ -44,12 +45,6 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
-
-        officialGameState.setRoll(false);//assume that a player cannot roll again
-        Random dieValue = new Random();//dieValue outside of the conditionals
-        int value = dieValue.nextInt(6-1+1) + 1;
-        Log.i("dieVal is ", Integer.toString(value));
-
         int playerNum=getPlayerIdx(action.getPlayer());
         int [] boardCopy = officialGameState.getGameBoard();
         int startCopy[]= officialGameState.getStartArray(playerNum);
@@ -57,6 +52,10 @@ public class AggravationLocalGame extends LocalGame {
 
         if(action instanceof AggravationRollAction)
         {
+            Random dieValue = new Random();//dieValue outside of the conditionals
+            int value = dieValue.nextInt(6-1+1) + 1;
+            actualRoll = value;
+            Log.i("dieVal is ", Integer.toString(value));
             officialGameState.setDieValue(value);
             Log.i("set value LocalGame", Integer.toString(officialGameState.getDieValue()));
             officialGameState.setRoll(false);
@@ -125,7 +124,7 @@ public class AggravationLocalGame extends LocalGame {
 
                 int savedNewIdx=newIdx;
                 if(newIdx<oldIdx){
-                    newIdx=oldIdx+value;
+                    newIdx=oldIdx+actualRoll;
                 }
 
                 //return false if you would be "leapfrogging" one of your own
@@ -201,9 +200,10 @@ public class AggravationLocalGame extends LocalGame {
             }
 
 
-            if(value == 6) //if the player rolled a 6
+            if(actualRoll == 6) //if the player rolled a 6
             {
                 officialGameState.setRoll(true);
+                return true;
             }
         }
         officialGameState.setTurn(playerNum + 1);
