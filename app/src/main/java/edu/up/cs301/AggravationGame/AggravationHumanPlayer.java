@@ -245,7 +245,307 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         return playerNum;
     }
 
+/**
+ * Moves checks and or enables possible move locations for the givven button
+ */
+public boolean Moves(String board, int pieceLoc, boolean enable) {
+    Log.i("clicked", "click");
+    int rollVal = gameStateInfo.getDieValue();
+    int myNum = playerNum;
+    int[] gameBoardCopy = gameStateInfo.getGameBoard();
+    int[][] homeCopy = gameStateInfo.getHomeArray();
+    int[][] startCopy = gameStateInfo.getStartArray();
+    String boardType = "board";
+    boolean possibleMove = false;
 
+    //if it is start value piece, checks or enables the possible move spot 0
+    if (board.equals("start")) {
+
+        if (rollVal == 1 || rollVal == 6) //if a one or a 6 & there are pieces to move from start array, enable space
+        {
+            if (enable){
+                this.gameBoard[playerNum * 14].setEnabled(true);
+            }
+            possibleMove = true;
+            Log.i("enabled", Integer.toString(playerNum * 14));
+            markedButton = pieceLoc; //button the move will be send from
+            Log.i("markedButton", Integer.toString(pieceLoc));
+            boardType = "start";
+
+        }
+
+    }
+
+    //if checking a value in the home area, chekcs or enables possible move spot(s)
+    if (board.equals("home")) {
+    }
+
+    //if checking a value in the board area, checks or enables possible move spot(s)
+    if (board.equals("board"))
+    {
+        int i = pieceLoc;
+        Log.i("button clicked is", Integer.toString(i));
+        if (gameBoardCopy[i] == playerNum) //if the player clicked on its own button
+        {
+            markedButton = i;
+
+            //CASE: roll val on the board
+            if (((i + rollVal) > (playerNum * 14)) && ((i + rollVal) < (55 - playerNum * 14))) //if there is a viable button for player button + roll
+            {
+                if ((i + rollVal) > 55) {
+                    int correctedSpace = rollVal + i - 55; //"over the top space"
+                    if (gameBoardCopy[correctedSpace] != playerNum)//"over the top"
+                    {
+                        if (checkPieceOrder(currentPieceLocations, playerNum, i, correctedSpace)) {
+                            if (enable) {
+                                this.gameBoard[correctedSpace].setEnabled(true);
+                                Log.i("enabledCS1", Integer.toString(correctedSpace));
+                                    }
+                                possibleMove = true;
+                                }
+                            }
+                        }
+                    else if ((i + rollVal) > 55 || (gameBoardCopy[i + rollVal]) != playerNum) {
+                            if ((i + rollVal) > 55) {
+                                int correctedSpace = rollVal + i - 55; //"over the top space"
+                                if (gameBoardCopy[correctedSpace] != playerNum) {
+                                    if (checkPieceOrder(currentPieceLocations, playerNum, i, (correctedSpace))) {
+                                        if (enable) {
+                                            this.gameBoard[correctedSpace].setEnabled(true); //enables that button
+                                            Log.i("enabledCS2", Integer.toString(correctedSpace));
+                                        }
+                                        possibleMove = true;
+                                    }
+                                }
+                            } else if (checkPieceOrder(currentPieceLocations, playerNum, i, (i + rollVal))) {
+                                if (enable) {
+                                    this.gameBoard[i + rollVal].setEnabled(true); //enables that button
+                                    Log.i("enabledcso", Integer.toString(i + rollVal));
+                                }
+                                possibleMove = true;
+                            }
+                        }
+                    }
+
+
+                    //CASE: Potential home array move
+                    { //checks the Home Arrays
+                        int spacesToMove = 55 - 14 * playerNum - i;
+                        if (spacesToMove < 5) {
+                            for (int k = 0; i < 5; i++) { //enables possible buttons in home array
+                                if (homeCopy[playerNum][k + spacesToMove] != playerNum) {
+                                    if (enable) {
+
+                                        playerHome[playerNum][k + spacesToMove].setEnabled(true);
+                                        Log.i("enabledstm", Integer.toString(k + spacesToMove));
+                                    }
+                                    possibleMove = true;
+                                }
+
+                            }
+                        }
+                    }
+
+                    if ((i + rollVal) == (5 + 1) || (i + rollVal) == (19 + 1) || (i + rollVal) == (33 + 1) || (i + rollVal) == (47 + 1)) //if the player can directly land on middle shortcut
+                    {
+                        if (gameBoardCopy[56] != playerNum) {
+                            if (enable) {
+                                this.gameBoard[56].setEnabled(true); //enable middle
+                                Log.i("enabledrv", Integer.toString(56));
+                            }
+                            possibleMove = true;
+                        }
+                    }
+
+                    if (i == 5 || i == 19 || i == 33 || i == 47) //if the player is on a corner shortcut
+                    {
+                        int moveSpace;
+                        if (rollVal == 1 && i + 14 * rollVal < playerNum * 14 + 56) //1 shortcut
+                        {
+                            moveSpace = i + 14 * rollVal;
+                            if (moveSpace > 56) {
+                                moveSpace = moveSpace - 56;
+                            }
+
+                            if (gameBoardCopy[moveSpace] != playerNum) {
+                                if (enable) {
+                                    this.gameBoard[moveSpace].setEnabled(true);
+                                    Log.i("enabledmavespace", Integer.toString(moveSpace));
+                                }
+                                possibleMove = true;
+                            }
+                        }
+                        if (rollVal == 2) {
+                            if (i + 14 * rollVal < playerNum * 14 + 56) //take 2 shortcuts
+                            {
+                                moveSpace = i + 14 * rollVal;
+                                if (moveSpace > 56) {
+                                    moveSpace = moveSpace - 56;
+                                }
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
+                                }
+                            }
+                            if (i + 14 * 1 + 1 < playerNum * 14 + 56) //take 1 shortcut + one step
+                            {
+                                moveSpace = i + 14 * 1 + 1;
+                                if (moveSpace > 56) {
+                                    moveSpace = moveSpace - 56;
+                                }
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
+                                }
+                            }
+                        }
+                        if (rollVal == 3) {
+                            if (i + 14 * rollVal < playerNum * 14 + 56) //take 3 shortcuts
+                            {
+                                moveSpace = i + 14 * rollVal;
+                                if (moveSpace > 56) {
+                                    moveSpace = moveSpace - 56;
+                                }
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
+                                }
+                            }
+                            if (i + 14 * 2 + 1 < playerNum * 14 + 56) //take 2 shortcuts and 1 step
+                            {
+                                moveSpace = i + 14 * 2 + 1;
+                                if (moveSpace > 56) {
+                                    moveSpace = moveSpace - 56;
+                                }
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
+                                }
+                            }
+
+                            if (i + 14 * 1 + 2 < playerNum * 14 + 56) //take 1 shortcuts and 2 steps
+                            {
+                                moveSpace = i + 14 * 1 + 2;
+                                if (moveSpace > 56) {
+                                    moveSpace = moveSpace - 56;
+                                }
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
+                                }
+                            }
+
+
+                        }
+                        if (rollVal > 3) {
+                            if (i + 14 * 3 + (rollVal - 3) < playerNum * 14 + 56) ////3 shortcuts + x step
+                            {
+                                moveSpace = i + 14 * 3 + (rollVal - 3);
+                                if (moveSpace > 56) {
+                                    moveSpace = moveSpace - 56;
+                                }
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
+                                }
+                            }
+
+                            if (i + 14 * 2 + (rollVal - 2) < playerNum * 14 + 56) //take 2 shortcuts and 2 steps
+                            {
+                                moveSpace = i + 14 * 2 + (rollVal - 2);
+                                if (moveSpace > 56) {
+                                    moveSpace = moveSpace - 56;
+                                }
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
+                                }
+                            }
+
+                            if (i + 14 * 1 + (rollVal - 3) < playerNum * 14 + 56) //take 1 shortcuts and 3 steps
+                            {
+                                moveSpace = i + 14 * 1 + (rollVal - 3);
+                                if (moveSpace > 56) {
+                                    moveSpace = moveSpace - 56;
+                                }
+
+                                if (gameBoardCopy[moveSpace] != playerNum) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
+                                }
+                            }
+
+                        }
+                    }
+                    if (i == 56 && rollVal == 1) //if the player is in the middle space
+                    {
+                        if (gameBoardCopy[5] != playerNum) {
+                            if (enable) {
+                                this.gameBoard[5].setEnabled(true);
+                                Log.i("enabled", Integer.toString(5));
+                            }
+                            possibleMove = true;
+                        }
+                        if (gameBoardCopy[19] != playerNum) {
+                            if (enable) {
+                                this.gameBoard[19].setEnabled(true);
+                                Log.i("enabled", Integer.toString(19));
+                            }
+                            possibleMove = true;
+                        }
+                        if (gameBoardCopy[33] != playerNum) {
+                            if (enable) {
+                                this.gameBoard[33].setEnabled(true);
+                                Log.i("enabled", Integer.toString(33));
+                            }
+                            possibleMove = true;
+                        }
+                        if (gameBoardCopy[47] != playerNum) {
+                            if (enable) {
+                                this.gameBoard[47].setEnabled(true);
+                                Log.i("enabled", Integer.toString(47));
+                            }
+                            possibleMove = true;
+                        }
+
+                    }
+
+
+                }
+
+    }
+    return possibleMove;
+}
 
     /**
      * this method checks whether a possible move would move one player's piece ahead of one of his/her
@@ -285,7 +585,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
      *        the button that was clicked
      */
     int markedButton = -1; //holds the most recently pressed player piece button
-
+    int[] currentPieceLocations = new int[4]; //holds locations of player pieces
     public void onClick(View button) {
         Log.i("clicked", "click");
         int rollVal = gameStateInfo.getDieValue();
@@ -296,10 +596,11 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
         String boardType = "board";
 
 
-        int[] currentPieceLocations = new int[4]; //holds locations of player pieces
+
         int cpLi = -1; //iterator for current Piece Location
 
         if (button == dieImageButton) { //if the die has been rolled, enable player's buttons
+            boolean canImove = false;
             AggravationRollAction roll = new AggravationRollAction(this);
             game.sendAction(roll);
             rollVal = gameStateInfo.getDieValue();
@@ -311,6 +612,9 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                     currentPieceLocations[cpLi] = i;
                     this.gameBoard[i].setEnabled(true); //enables player's buttons in game board
                     Log.i("enabled", Integer.toString(i));
+                    if (!canImove) {
+                        canImove = Moves("board", i, false);
+                    }
                     //callNewMethod which checks the piece & make it's response = some boolean
 
                 }
@@ -319,12 +623,22 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             {
                 if (startCopy[playerNum][i] == playerNum) {
                     this.playerStart[playerNum][i].setEnabled(true);
-                    //callMethod
+                    if (!canImove) {
+                        canImove = Moves("start", i, false);
+                    }
                 }
                 if (homeCopy[playerNum][i] == playerNum) {
                     this.playerHome[playerNum][i].setEnabled(true);
-                    //callMethod
+                    if (!canImove) {
+                        canImove = Moves("start", i, false);
+                    }
                 }
+            }
+            if (!canImove)
+            {
+                AggravationMovePieceAction move = new AggravationMovePieceAction(this, "skip", -1, -1); //sends empty action
+                game.sendAction(move);
+                Log.i("sent", "blank move");
             }
         }
 
@@ -336,227 +650,23 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
             boolean enabled = false;
             for (int m = 0; m < 4; m++) {
                 if (button == playerStart[playerNum][m] && startCopy[playerNum][m] == playerNum) {
-                    if (rollVal == 1 || rollVal == 6) //if a one or a 6 & there are pieces to move from start array, enable space
-                    {
-                        this.gameBoard[playerNum * 14].setEnabled(true);
-                        Log.i("enabled", Integer.toString(playerNum * 14));
-                        markedButton = m; //button the move will be send from
-                        Log.i("markedButton", Integer.toString(m));
-                        boardType = "start";
+                    Moves("start", m, true);
+                }
+            }
 
-                    }
+            for (int m = 0; m < 4; m++) {
+                if (button == playerStart[playerNum][m] && startCopy[playerNum][m] == playerNum) {
+                    Moves("home", m, true);
                 }
             }
             for (int i = 0; i < 57; i++) {
                 if (button == this.gameBoard[i]) //finds the button index
                 {
-                    //======take out below and call method with enabling====
-                    Log.i("button clicked is", Integer.toString(i));
-                    if (gameBoardCopy[i] == playerNum) //if the player clicked on its own button
-                    {
-                        markedButton = i;
+                    Moves("board", i, true);
 
-                        //CASE: roll val on the board
-                        if (((i + rollVal) > (playerNum * 14)) && ((i + rollVal) < (55 - playerNum * 14))) //if there is a viable button for player button + roll
-                        {
-                            if ((i + rollVal) > 55) {
-                                int correctedSpace = rollVal + i - 55; //"over the top space"
-                                if (gameBoardCopy[correctedSpace] != playerNum)//"over the top"
-                                {
-                                    if (checkPieceOrder(currentPieceLocations, playerNum, i, correctedSpace)) {
-                                        this.gameBoard[correctedSpace].setEnabled(true);
-                                        Log.i("enabledCS1", Integer.toString(correctedSpace));
-                                    }
-                                }
-                            } else if ((i + rollVal) > 55 || (gameBoardCopy[i + rollVal]) != playerNum) {
-                                if ((i + rollVal) > 55) {
-                                    int correctedSpace = rollVal + i - 55; //"over the top space"
-                                    if (gameBoardCopy[correctedSpace] != playerNum) {
-                                        if (checkPieceOrder(currentPieceLocations, playerNum, i, (correctedSpace))) {
-                                            this.gameBoard[correctedSpace].setEnabled(true); //enables that button
-                                            Log.i("enabledCS2", Integer.toString(correctedSpace));
-                                        }
-                                    }
-                                } else if (checkPieceOrder(currentPieceLocations, playerNum, i, (i + rollVal))) {
-                                    this.gameBoard[i + rollVal].setEnabled(true); //enables that button
-                                    Log.i("enabledcso", Integer.toString(i + rollVal));
-                                }
-                            }
-                        }
-
-
-                        //CASE: Potential home array move
-                        { //checks the Home Arrays
-                            int spacesToMove = 55 - 14 * playerNum - i;
-                            if (spacesToMove < 5) {
-                                for (int k = 0; i < 5; i++) { //enables possible buttons in home array
-                                    if (homeCopy[playerNum][k + spacesToMove] != playerNum) {
-                                        playerHome[playerNum][k + spacesToMove].setEnabled(true);
-                                        Log.i("enabledstm", Integer.toString(k + spacesToMove));
-                                    }
-
-                                }
-                            }
-                        }
-
-                        if ((i + rollVal) == (5 + 1) || (i + rollVal) == (19 + 1) || (i + rollVal) == (33 + 1) || (i + rollVal) == (47 + 1)) //if the player can directly land on middle shortcut
-                        {
-                            if (gameBoardCopy[56] != playerNum) {
-                                this.gameBoard[56].setEnabled(true); //enable middle
-                                Log.i("enabledrv", Integer.toString(56));
-                            }
-                        }
-
-                        if (i == 5 || i == 19 || i == 33 || i == 47) //if the player is on a corner shortcut
-                        {
-                            int moveSpace;
-                            if (rollVal == 1 && i + 14 * rollVal < playerNum * 14 + 56) //1 shortcut
-                            {
-                                moveSpace = i + 14 * rollVal;
-                                if (moveSpace > 56) {
-                                    moveSpace = moveSpace - 56;
-                                }
-
-                                if (gameBoardCopy[moveSpace] != playerNum) {
-                                    this.gameBoard[moveSpace].setEnabled(true);
-                                    Log.i("enabledmavespace", Integer.toString(moveSpace));
-                                }
-                            }
-                            if (rollVal == 2) {
-                                if (i + 14 * rollVal < playerNum * 14 + 56) //take 2 shortcuts
-                                {
-                                    moveSpace = i + 14 * rollVal;
-                                    if (moveSpace > 56) {
-                                        moveSpace = moveSpace - 56;
-                                    }
-
-                                    if (gameBoardCopy[moveSpace] != playerNum) {
-                                        this.gameBoard[moveSpace].setEnabled(true);
-                                        Log.i("enabled", Integer.toString(moveSpace));
-                                    }
-                                }
-                                if (i + 14 * 1 + 1 < playerNum * 14 + 56) //take 1 shortcut + one step
-                                {
-                                    moveSpace = i + 14 * 1 + 1;
-                                    if (moveSpace > 56) {
-                                        moveSpace = moveSpace - 56;
-                                    }
-
-                                    if (gameBoardCopy[moveSpace] != playerNum) {
-                                        this.gameBoard[moveSpace].setEnabled(true);
-                                        Log.i("enabled", Integer.toString(moveSpace));
-                                    }
-                                }
-                            }
-                            if (rollVal == 3) {
-                                if (i + 14 * rollVal < playerNum * 14 + 56) //take 3 shortcuts
-                                {
-                                    moveSpace = i + 14 * rollVal;
-                                    if (moveSpace > 56) {
-                                        moveSpace = moveSpace - 56;
-                                    }
-
-                                    if (gameBoardCopy[moveSpace] != playerNum) {
-                                        this.gameBoard[moveSpace].setEnabled(true);
-                                        Log.i("enabled", Integer.toString(moveSpace));
-                                    }
-                                }
-                                if (i + 14 * 2 + 1 < playerNum * 14 + 56) //take 2 shortcuts and 1 step
-                                {
-                                    moveSpace = i + 14 * 2 + 1;
-                                    if (moveSpace > 56) {
-                                        moveSpace = moveSpace - 56;
-                                    }
-
-                                    if (gameBoardCopy[moveSpace] != playerNum) {
-                                        this.gameBoard[moveSpace].setEnabled(true);
-                                        Log.i("enabled", Integer.toString(moveSpace));
-                                    }
-                                }
-
-                                if (i + 14 * 1 + 2 < playerNum * 14 + 56) //take 1 shortcuts and 2 steps
-                                {
-                                    moveSpace = i + 14 * 1 + 2;
-                                    if (moveSpace > 56) {
-                                        moveSpace = moveSpace - 56;
-                                    }
-                                    if (gameBoardCopy[moveSpace] != playerNum) {
-                                        this.gameBoard[moveSpace].setEnabled(true);
-                                        Log.i("enabled", Integer.toString(moveSpace));
-                                    }
-                                }
-
-
-                            }
-                            if (rollVal > 3) {
-                                if (i + 14 * 3 + (rollVal - 3) < playerNum * 14 + 56) ////3 shortcuts + x step
-                                {
-                                    moveSpace = i + 14 * 3 + (rollVal - 3);
-                                    if (moveSpace > 56) {
-                                        moveSpace = moveSpace - 56;
-                                    }
-
-                                    if (gameBoardCopy[moveSpace] != playerNum) {
-                                        this.gameBoard[moveSpace].setEnabled(true);
-                                        Log.i("enabled", Integer.toString(moveSpace));
-                                    }
-                                }
-
-                                if (i + 14 * 2 + (rollVal - 2) < playerNum * 14 + 56) //take 2 shortcuts and 2 steps
-                                {
-                                    moveSpace = i + 14 * 2 + (rollVal - 2);
-                                    if (moveSpace > 56) {
-                                        moveSpace = moveSpace - 56;
-                                    }
-
-                                    if (gameBoardCopy[moveSpace] != playerNum) {
-                                        this.gameBoard[moveSpace].setEnabled(true);
-                                        Log.i("enabled", Integer.toString(moveSpace));
-                                    }
-                                }
-
-                                if (i + 14 * 1 + (rollVal - 3) < playerNum * 14 + 56) //take 1 shortcuts and 3 steps
-                                {
-                                    moveSpace = i + 14 * 1 + (rollVal - 3);
-                                    if (moveSpace > 56) {
-                                        moveSpace = moveSpace - 56;
-                                    }
-
-                                    if (gameBoardCopy[moveSpace] != playerNum) {
-                                        this.gameBoard[moveSpace].setEnabled(true);
-                                        Log.i("enabled", Integer.toString(moveSpace));
-                                    }
-                                }
-
-                            }
-                        }
-                        if (i == 56 && rollVal == 1) //if the player is in the middle space
-                        {
-                            if (gameBoardCopy[5] != playerNum) {
-                                this.gameBoard[5].setEnabled(true);
-                                Log.i("enabled", Integer.toString(5));
-                            }
-                            if (gameBoardCopy[19] != playerNum) {
-                                this.gameBoard[19].setEnabled(true);
-                                Log.i("enabled", Integer.toString(19));
-                            }
-                            if (gameBoardCopy[33] != playerNum) {
-                                this.gameBoard[33].setEnabled(true);
-                                Log.i("enabled", Integer.toString(33));
-                            }
-                            if (gameBoardCopy[47] != playerNum) {
-                                this.gameBoard[47].setEnabled(true);
-                                Log.i("enabled", Integer.toString(47));
-                            }
-
-                        }
-
-
-                    }
                 }
+            }
 
-
-                //========================================TAKE OUT ABOVE FOR NEW METHOD===========
                 //When the player clicks on an availiable space to make a move
                 for (int k = 0; k < 56; k++) {
                     if (button == this.gameBoard[k] && gameBoardCopy[k] != playerNum) {
@@ -569,16 +679,11 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                     //conditions
                 }
 
-                //WE'RE CHANGING THIS
-                if (markedButton == -1) {
-                    AggravationMovePieceAction move = new AggravationMovePieceAction(this, "skip", -1, -1); //sends empty action
-                    game.sendAction(move);
-                    Log.i("sent", "blank move");
-                }
+
             }
             Log.i("end of", "on click");
         }
-    }
+
 
 
 
