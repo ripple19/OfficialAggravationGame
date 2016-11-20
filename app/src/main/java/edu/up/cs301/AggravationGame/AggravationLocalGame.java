@@ -62,8 +62,6 @@ public class AggravationLocalGame extends LocalGame {
             officialGameState.setRoll(false);
             System.out.println("Roll = " + value);
             Log.i("set value", Integer.toString(value));
-            sendUpdatedStateTo(action.getPlayer());
-            return true;
         }
         else if(action instanceof AggravationMovePieceAction)
         {
@@ -109,8 +107,9 @@ public class AggravationLocalGame extends LocalGame {
                 }
                 officialGameState.setStartArray(playerNum,startCopy);
                 officialGameState.setGameBoard(boardCopy);
-                sendUpdatedStateTo(action.getPlayer());
             }
+
+
             else if (type.equalsIgnoreCase("Board")) {
                 /*Jumping over or landing on an opponent's marbles is permitted.
                 For more on landing on an opponent's marble, see the "Getting Aggravated"
@@ -120,31 +119,13 @@ public class AggravationLocalGame extends LocalGame {
                 marble, and your turn is forfeited.*/
 
 
-                /*Trying to handle home bases
-                * endOfTheLine is the last space before the piece should be moving to the home base*/
-                int endOfTheLine = playerNum*14 -2;
-                if(endOfTheLine==-2){
-                    endOfTheLine=54;
-                }
-                if (newIdx>=endOfTheLine){
-                    int homeCopy[] = officialGameState.getHomeArray(playerNum);
-                    int homeIdx=newIdx-endOfTheLine;
-                    if (homeIdx>3) {
-                        return false;
-                    }
+                /*might want to include something like
+                * if (newidx!=oldidx+value) return false*/
 
-                    /*leapfrog prevention code*/
-                    for(int i = oldIdx+1;i<=homeIdx;i++){
-                        if (homeCopy[i]==playerNum){
-                            return false;
-                        }
-                    }
-                    if (homeCopy[homeIdx]==-1){
-                        boardCopy[oldIdx]=-1;
-                        homeCopy[homeIdx]=playerNum;
-                        sendUpdatedStateTo(action.getPlayer());
 
-                    }
+                int savedNewIdx=newIdx;
+                if(newIdx<oldIdx){
+                    newIdx=oldIdx+value;
                 }
 
                 //return false if you would be "leapfrogging" one of your own
@@ -155,49 +136,81 @@ public class AggravationLocalGame extends LocalGame {
                     }
                 }
 
+
+                /*Trying to handle home bases in this bit
+                * endOfTheLine is the last space before the piece should be moving to the home base
+                * and is always 2 spaces before their starting point
+                * think of it like a finish line*/
+                int endOfTheLine = playerNum*14 - 2;
+                if(endOfTheLine==-2){//should only be relevant to player 0
+                    endOfTheLine=54;
+                }
+
+                /*look to see if your move would take you over the endOfTheLine*/
+                for(int i = oldIdx;i<newIdx;i++){
+                    if(boardCopy[i]==endOfTheLine){
+                        int homeCopy[] = officialGameState.getHomeArray(playerNum);
+                        /*homeIdx is like the newIdx, but w/r/t the home array not the general board*/
+                        int homeIdx=newIdx-endOfTheLine;
+
+                        if (homeIdx>3) {//literal end of the line here
+                            return false;
+                        }
+
+                        /*leapfrog check within home array - if any of the spaces you pass over
+                         in home array are full, return false*/
+                        for(int j = 0;j<=homeIdx;j++){
+                            if (homeCopy[j]==playerNum){
+                                return false;
+                            }
+                        }
+
+                        boardCopy[oldIdx]=-1;
+                        homeCopy[homeIdx]=playerNum;
+                        officialGameState.setHomeArray(playerNum,homeCopy);
+                        break;
+                    }
+                }
+                newIdx=savedNewIdx;//only does anything if the move went over index 0
+
+
+                /*If the desired spot is empty, change the values to reflect the move*/
                 if (boardCopy[newIdx]==-1){
                     boardCopy[oldIdx]=-1;
                     boardCopy[newIdx]=playerNum;
-                    sendUpdatedStateTo(action.getPlayer());
-
                 }
-                else {
-                    int otherPlayerNum=boardCopy[newIdx];
+
+                /*aggravate whoever is in your spot*/
+                else {//aggravating move code - space is not empty and not this player
+                    int otherPlayerNum = boardCopy[newIdx];//whatever value is in the space
+                    int otherStart[] = officialGameState.getStartArray(otherPlayerNum);
                     for (int i=0;i<4;i++){
                         //find first empty space in otherPlayerNum start array
-                        if (officialGameState.getStartArray(otherPlayerNum)[i]==-1){
+                        if (otherStart[i]==-1){
                             //put their piece back in their start array
-                            startCopy[i]=otherPlayerNum;
+                            otherStart[i]=otherPlayerNum;
+                            Log.i("otherPlayerNum",""+otherPlayerNum);
+                            //move piece out of this player's start array
+                            startCopy[oldIdx]=-1;
                             boardCopy[newIdx]=playerNum;
-                            sendUpdatedStateTo(action.getPlayer());
-
+                            officialGameState.setStartArray(otherPlayerNum,otherStart);
                         }
                     }
                 }
+                officialGameState.setGameBoard(boardCopy);
             }
             else if (type.equalsIgnoreCase("Skip")) {
-
+                officialGameState.setGameBoard(boardCopy);//do nothing
             }
 
             if(value == 6) //if the player rolled a 6
             {
-                System.out.println("Roll was a 6.");
                 officialGameState.setRoll(true);
-                sendUpdatedStateTo(action.getPlayer());
-                return true;
-            }
-            else
-            {
-                System.out.println("Roll was not a 6.");
-                int turn = officialGameState.getTurn();
-                officialGameState.setTurn(turn + 1);
-                officialGameState.setRoll(true);
-                sendUpdatedStateTo(action.getPlayer());
-                Log.i("new Player turn", Integer.toString(turn+1));
-                return true;
             }
         }
-        return false;
+        officialGameState.setTurn(playerNum + 1);
+        sendAllUpdatedState();
+        return true;
     }//makeMove
 
     /**
@@ -207,7 +220,7 @@ public class AggravationLocalGame extends LocalGame {
     protected void sendUpdatedStateTo(GamePlayer p) {
         copyGameState = new AggravationState(officialGameState);
         p.sendInfo(copyGameState);
-    }//sendUpdatedSate
+    }//sendUpdatedState
 
     /**
      * Check if the game is over

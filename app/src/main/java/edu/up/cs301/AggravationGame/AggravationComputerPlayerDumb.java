@@ -95,6 +95,10 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                             this, "Board", toMoveFrom, toMoveTo);
                     game.sendAction(movePieceGetOutTheWay);
                 }
+                else {//no pieces to move, so send a skip turn
+                    AggravationMovePieceAction ff = new AggravationMovePieceAction(this,"Skip",0,0);
+                    game.sendAction(ff);
+                }
             }//move a piece
         }
     }//receiveInfo
