@@ -44,7 +44,8 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
             if(gameStateInfo.getRoll()){
                 AggravationRollAction rollAct = new AggravationRollAction(this);
                 game.sendAction(rollAct);
-                Log.i("I", "rolled");
+                return;
+
             }
             else
             {//don't have to roll, so move a piece

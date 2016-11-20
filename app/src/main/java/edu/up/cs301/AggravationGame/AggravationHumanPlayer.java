@@ -672,7 +672,6 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         String boardType = "board";
 
         if (button == dieImageButton) { //if the die has been rolled, enable player's buttons
-            boolean canImove = false;
             AggravationRollAction roll = new AggravationRollAction(this);
             game.sendAction(roll);
             checkPieces = true;
@@ -688,34 +687,56 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
             Log.i("roll val is ", Integer.toString(rollVal));
             Log.i("PlayerNum", Integer.toString(playerNum));
             boolean enabled = false;
-            for (int m = 0; m < 4; m++) {
-                if (button == playerStart[playerNum][m] && startCopy[playerNum][m] == playerNum) {
-                    Moves("start", m, true);
+            int clickedIdx = -99;
+            String boardTypeCheck = "";
+
+            //Searches board for clicked button, and disables all non player(starting precaution)
+            for (int i = 0; i < 57; i++) {
+                if (button == this.gameBoard[i]) //finds the button index
+                {
+                    clickedIdx = i;
+                    boardTypeCheck = "board";
+
                 }
-                else {
+                else if (gameBoardCopy[i] != playerNum) //if it's not a player button, disable
+                {
+                    gameBoard[i].setEnabled(false);
+                }
+            }
+
+            //searches start array for clicked button and disables all non piece buttons
+            for (int m = 0; m < 4; m++) {
+                if (button == playerStart[playerNum][m] )
+                {
+                        if (startCopy[playerNum][m] == playerNum) {
+                            clickedIdx = m;
+                            boardTypeCheck = "start";
+                        }
+                }
+                else if (startCopy[playerNum][m] != playerNum){ //disable if it's not the player's piece
+
                     playerStart[playerNum][m].setEnabled(false);
                 }
             }
 
+            //checks through home array to find button clicked and disables all non player buttons
             for (int m = 0; m < 4; m++) {
-                if (button == playerStart[playerNum][m] && startCopy[playerNum][m] == playerNum) {
-                    Moves("home", m, true);
+                if (button == playerHome[playerNum][m]) {
+                    if (homeCopy[playerNum][m] == playerNum) {
+                        clickedIdx = m;
+                        boardTypeCheck = "home";
+                    }
                 }
-                else
+                else if (homeCopy[playerNum][m] != playerNum) //diable if it's not the player's piece
                 {
                     playerHome[playerNum][m].setEnabled(false);
                 }
             }
-            for (int i = 0; i < 57; i++) {
-                if (button == this.gameBoard[i]) //finds the button index
-                {
-                    Moves("board", i, true);
 
-                }
-                else
-                {
-                    gameBoard[i].setEnabled(false);
-                }
+            if (clickedIdx >-1) //if the button clicked has been found
+            {
+                Moves(boardTypeCheck, clickedIdx, true); //enable possible moves
+                Log.i("enableing","stuff");
             }
 
                 //When the player clicks on an availiable space to make a move

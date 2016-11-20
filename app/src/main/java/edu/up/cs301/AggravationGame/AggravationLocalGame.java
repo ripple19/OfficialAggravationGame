@@ -53,7 +53,7 @@ public class AggravationLocalGame extends LocalGame {
         if(action instanceof AggravationRollAction)
         {
             Random dieValue = new Random();//dieValue outside of the conditionals
-            int value =  6;//dieValue.nextInt(6-1+1) + 1;
+            int value = 1;//dieValue.nextInt(6-1+1) + 1;
             actualRoll = value;
             Log.i("dieVal is ", Integer.toString(value));
             officialGameState.setDieValue(value);
