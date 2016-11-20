@@ -349,10 +349,24 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
     }
 
-    //if checking a value in the home area, chekcs or enables possible move spot(s)
+    //if checking a value in the home area, checks or enables possible move spot(s)
     if (board.equals("home")) {
-        //need to add move
+        int i = pieceLoc;
+        if (i +rollVal > 3)
+        {
+            Log.i("e","can't do that");
+        }
+        else
+        {
+            if (enable) {
+                this.gameBoard[rollVal + i].setEnabled(true);
+                Log.i("enabledhomearray", Integer.toString(rollVal + 1));
+            }
+            possibleMove = true;
+        }
     }
+
+
 
     //if checking a value in the board area, checks or enables possible move spot(s)
     if (board.equals("board"))
@@ -727,7 +741,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         boardTypeCheck = "home";
                     }
                 }
-                else if (homeCopy[playerNum][m] != playerNum) //diable if it's not the player's piece
+                else if (homeCopy[playerNum][m] != playerNum) //disable if it's not the player's piece
                 {
                     playerHome[playerNum][m].setEnabled(false);
                 }
@@ -736,10 +750,10 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
             if (clickedIdx >-1) //if the button clicked has been found
             {
                 Moves(boardTypeCheck, clickedIdx, true); //enable possible moves
-                Log.i("enableing","stuff");
+                Log.i("enabling","stuff");
             }
 
-                //When the player clicks on an availiable space to make a move
+                //When the player clicks on an available space to make a move
                 for (int k = 0; k < 56; k++) {
                     if (button == this.gameBoard[k] && gameBoardCopy[k] != playerNum) {
                         Log.i("k ", Integer.toString(k));
