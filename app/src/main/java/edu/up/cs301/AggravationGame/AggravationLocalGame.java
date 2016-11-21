@@ -168,6 +168,20 @@ public class AggravationLocalGame extends LocalGame {
                 boardCopy[newIdx]=playerNum;
                 officialGameState.setGameBoard(boardCopy);
             }
+            else if (type.equalsIgnoreCase("Shortcut")){
+                boolean exactRoll = false;
+                //if (/*new idx is the center piece*/){
+                    //code to check if its an exact roll
+                    //exactRoll =true;
+                //}
+                //if(/*newIdx is a regular shortcut*/){
+                    //check if exactRoll
+                    //exactRoll=true;
+                //}
+                if(!exactRoll){
+                    return false;
+                }
+            }
             else if (type.equalsIgnoreCase("Skip"))
             {
 
