@@ -33,12 +33,11 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        Log.i("received", "info");
-       if (info instanceof AggravationState) {
+        if (info instanceof AggravationState) {
            gameStateInfo = (AggravationState) info;
 
            if (gameStateInfo.getTurn() == playerNum) {
-               Log.i("my", "turn!");
+               Log.i("my turn player", Integer.toString(playerNum));
                sleep(3000);
                //getRoll returns whether or there is a roll to be made - either the start of a turn or
                //after rolling a 6 and making a valid move

@@ -704,6 +704,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                     boardTypeCheck = "board";
 
                 }
+
                 else if (gameBoardCopy[i] != playerNum) //if it's not a player button, disable
                 {
                     gameBoard[i].setEnabled(false);
@@ -754,6 +755,11 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         {
                             boardType = "Start";
                         }
+                        if (k == 57)
+                        {
+                            boardType = "shortcut";
+                        }
+                        //if ()Owen wants to make every shortcut move say shortcut
                         AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, k);
                         Log.i("sending move board", Integer.toString(markedButton));
                         game.sendAction(move);

@@ -39,7 +39,7 @@ public class AggravationComputerPlayerSmart extends GameComputerPlayer {
             gameStateInfo = (AggravationState) info;
 
             if (gameStateInfo.getTurn() == playerNum) {
-                Log.i("my", "turn!");
+                Log.i("Turn", Integer.toString(playerNum));
                 sleep(3000);
                 //getRoll returns whether or there is a roll to be made - either the start of a turn or
                 //after rolling a 6 and making a valid move
