@@ -719,7 +719,9 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         {
                             boardType = "Start";
                         }
-                        if (k == 57)
+                        if (k == 57) // what I had in mind :
+                            //if ((k==57) || (clickedIdx==5||clickedIdx==19||clickedIdx==33||clickedIdx==47))
+                            //also, k never == 57 because your loop is < not <=, is that intentional? - Owen
                         {
                             boardType = "shortcut";
                         }
@@ -734,6 +736,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                 for (int l = 0; l <4; l++)
                 {
                     if (button == this.playerHome[playerNum][l] && homeCopy[playerNum][l] != playerNum)
+                    //does this check leapfrogs, or just if the space is occupied? -Owen
                     {
                         boardType = "Home";
                         AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, l);
@@ -741,8 +744,6 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         Log.i("sent action", "home");
                     }
                 }
-
-
 
             }
             Log.i("end of", "on click");

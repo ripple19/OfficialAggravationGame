@@ -66,8 +66,7 @@ public class AggravationLocalGame extends LocalGame {
             sendAllUpdatedState();
             return true;
         }
-        else if(action instanceof AggravationMovePieceAction)
-        {
+        else if(action instanceof AggravationMovePieceAction) {
             int newIdx = ((AggravationMovePieceAction) action).newIdx;
             int oldIdx=((AggravationMovePieceAction) action).oldIdx;
             String type = ((AggravationMovePieceAction) action).type;
