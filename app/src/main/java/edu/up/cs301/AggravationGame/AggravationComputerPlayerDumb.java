@@ -54,7 +54,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                    int boardCopy[] = gameStateInfo.getGameBoard();
                    int startIdx=playerNum*14;
 
-
+                    /*This is where a start comes from*/
                    if (value == 6 || value == 1) {
                     /*try to start whenever possible, so look through start array for a piece to move
                     and check the starting space to see if empty or an opponents piece to aggravate*/
@@ -74,18 +74,18 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                    int toMoveFrom = -1;//default value, no -1 idx to confuse with
                    for (int i = startIdx; i < startIdx + 56; i++) {
                        int j = i;
-                       if (j > 56) {//so j always refers to a real index on the board
-                           j = j - 56;
-                       }
+                      while(j>56){j= j-56;}
                     /*found a piece to (try to) move, so set toMoveFrom to that spot*/
                        if (boardCopy[j] == playerNum) {
                            toMoveFrom = j;
                            break;
                        }
                    }
+
                    //find a piece "in the way" of toMoveFrom and reset the loop around that piece
                    //moves the first "in the way" piece it can, so it can start all of its pieces as fast as possible
                    //if toMoveFrom!=-1 that means the previous loop found a space with playerNum as a value and is trying to move it
+                   /*This is where a Board move comes from*/
                    if (toMoveFrom != -1) {
                        for (int i = 1; i <= value; i++) {
                            if (boardCopy[toMoveFrom + i] == playerNum) {
@@ -98,7 +98,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                        movePieceGetOutTheWay = new AggravationMovePieceAction(this, "Board", toMoveFrom, toMoveTo);
                        game.sendAction(movePieceGetOutTheWay);
                    }
-
+                    /*This is where a Skip move comes from*/
                    else {//no pieces to move, so send a skip turn
                        AggravationMovePieceAction ff = new AggravationMovePieceAction(this, "Skip", 0, 0);
                        game.sendAction(ff);

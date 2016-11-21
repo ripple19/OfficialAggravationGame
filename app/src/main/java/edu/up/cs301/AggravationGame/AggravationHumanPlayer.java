@@ -60,7 +60,6 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
     public AggravationHumanPlayer(String name) {
         super(name);
         gameStateInfo = new AggravationState();
-
     }
 
     /**

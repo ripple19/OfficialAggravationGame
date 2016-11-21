@@ -70,7 +70,6 @@ public class AggravationLocalGame extends LocalGame {
         }
         else if(action instanceof AggravationMovePieceAction)
         {
-
             int newIdx = ((AggravationMovePieceAction) action).newIdx;
             int oldIdx=((AggravationMovePieceAction) action).oldIdx;
             String type = ((AggravationMovePieceAction) action).type;
@@ -78,6 +77,9 @@ public class AggravationLocalGame extends LocalGame {
             if (playerNum==0){
                 endOfTheLine = 54;
             }
+            int otherPlayerNum=0;
+            int otherStart[]=null;
+
             if (type.equalsIgnoreCase("Start")) {
                 newIdx=playerNum*14;//safety net-if a starting move is somehow passed with an index that isn't the start space
                 if(boardCopy[newIdx]!= -1){//the new index is occupied
@@ -85,14 +87,13 @@ public class AggravationLocalGame extends LocalGame {
                         return false;//not a valid move, they have to move out of the way
                     }
                     else {//aggravating move code - occupied by another player
-                        int otherPlayerNum = boardCopy[newIdx];//whatever value is in the space
-                        int otherStart[] = officialGameState.getStartArray(otherPlayerNum);
+                        otherPlayerNum = boardCopy[newIdx];//whatever value is in the space
+                        otherStart = officialGameState.getStartArray(otherPlayerNum);
                         for (int i=0;i<4;i++){
                             //find first empty space in otherPlayerNum start array
                             if (otherStart[i]==-1){
                                 //put their piece "back" in their start array
                                 otherStart[i]=otherPlayerNum;
-                                officialGameState.setStartArray(otherPlayerNum,otherStart);
                                 Log.i("otherPlayerNum",""+otherPlayerNum);
                                 break;
                             }
@@ -101,9 +102,8 @@ public class AggravationLocalGame extends LocalGame {
                 }
                 //out with the old, in with the new
                 startCopy[oldIdx]=-1;
-                officialGameState.setStartArray(playerNum,startCopy);
                 boardCopy[newIdx]=playerNum;
-                officialGameState.setGameBoard(boardCopy);
+
             }
             /* Call your move a "Home" move if you are moving TO the home array
             * from the board or within the home array itself - Owen
@@ -135,7 +135,7 @@ public class AggravationLocalGame extends LocalGame {
                     homeCopy[oldIdx]=-1;
                 }
                 homeCopy[newIdx]=playerNum;
-                officialGameState.setGameBoard(boardCopy);
+
                 officialGameState.setHomeArray(playerNum,homeCopy);
             }
 
@@ -159,14 +159,13 @@ public class AggravationLocalGame extends LocalGame {
                 /*If the desired spot is not empty, it is another player*/
                 if (boardCopy[newIdx]!=-1){
                     //aggravating move code
-                    int otherPlayerNum = boardCopy[newIdx];//whatever value is in the space
-                    int otherStart[] = officialGameState.getStartArray(otherPlayerNum);
+                    otherPlayerNum = boardCopy[newIdx];//whatever value is in the space
+                    otherStart = officialGameState.getStartArray(otherPlayerNum);
                     for (int i=0;i<4;i++){
                         //find first empty space in otherPlayerNum start array
                         if (otherStart[i]==-1){
                             //put their piece "back" in their start array
                             otherStart[i]=otherPlayerNum;
-                            officialGameState.setStartArray(otherPlayerNum,otherStart);
                             Log.i("otherPlayerNum",""+otherPlayerNum);
                             break;
                         }
@@ -175,7 +174,7 @@ public class AggravationLocalGame extends LocalGame {
                 //out with the old, in with the new
                 boardCopy[oldIdx]=-1;
                 boardCopy[newIdx]=playerNum;
-                officialGameState.setGameBoard(boardCopy);
+
             }
 
                 /* the 4 shortcut spaces are 5, 19, 33, and 47
@@ -220,12 +219,11 @@ public class AggravationLocalGame extends LocalGame {
                             && (boardCopy[57]!=playerNum)){
 
                         if(boardCopy[57]!=-1){//aggravation copypaste
-                            int otherPlayerNum = boardCopy[newIdx];
-                            int otherStart[] = officialGameState.getStartArray(otherPlayerNum);
+                            otherPlayerNum = boardCopy[newIdx];
+                            otherStart = officialGameState.getStartArray(otherPlayerNum);
                             for (int i=0;i<4;i++){
                                 if (otherStart[i]==-1){
                                     otherStart[i]=otherPlayerNum;
-                                    officialGameState.setStartArray(otherPlayerNum,otherStart);
                                     break;
                                 }
                             }
@@ -286,12 +284,11 @@ public class AggravationLocalGame extends LocalGame {
                     }
 
                     if (boardCopy[newIdx]!=-1){//aggravation copypasta
-                        int otherPlayerNum = boardCopy[newIdx];
-                        int otherStart[] = officialGameState.getStartArray(otherPlayerNum);
+                        otherPlayerNum = boardCopy[newIdx];
+                        otherStart = officialGameState.getStartArray(otherPlayerNum);
                         for (int i=0;i<4;i++){
                             if (otherStart[i]==-1){
                                 otherStart[i]=otherPlayerNum;
-                                officialGameState.setStartArray(otherPlayerNum,otherStart);
                                 break;
                             }
                         }
@@ -299,7 +296,6 @@ public class AggravationLocalGame extends LocalGame {
                     //out with the old, in with the new
                     boardCopy[oldIdx]=-1;
                     boardCopy[newIdx]=playerNum;
-                    officialGameState.setGameBoard(boardCopy);
                 }
             }
 
@@ -309,7 +305,13 @@ public class AggravationLocalGame extends LocalGame {
             {
                 //99% sure we can leave this blank since we don't want it to do anything - Owen
             }
-            //after any actual move is made, someone has to roll
+
+            //setStart and setGameBoard were redundant, being the same in every case so I moved them here
+            //makeMove doesn't set anything official before this point, it just modifies copies
+            officialGameState.setStartArray(playerNum,startCopy);
+            officialGameState.setStartArray(otherPlayerNum,otherStart);
+            officialGameState.setGameBoard(boardCopy);
+            //(only)after any actual move is made, someone has to roll
             officialGameState.setRoll(true);
         }
 
