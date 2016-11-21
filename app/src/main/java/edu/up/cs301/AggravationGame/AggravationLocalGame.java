@@ -307,7 +307,7 @@ public class AggravationLocalGame extends LocalGame {
             * but are afraid of commitment */
             else if (type.equalsIgnoreCase("Skip"))
             {
-                //99% sure we can take this out safely since we don't want it to do anything - Owen
+                //99% sure we can leave this blank since we don't want it to do anything - Owen
             }
             //after any actual move is made, someone has to roll
             officialGameState.setRoll(true);
@@ -321,8 +321,8 @@ public class AggravationLocalGame extends LocalGame {
         // so makeMove can't return true prematurely. Between this and the synchronization thing I think I probably fixed
         // the roll problem. Bear that in mind when the rest of the code I added inevitably fucks everything up - Owen
         if(actualRoll != 6) {
-            Log.i("changed turn to ",Integer.toString(playerNum +1));
             officialGameState.setTurn(playerNum + 1);
+            Log.i("changed turn to ",Integer.toString(officialGameState.getTurn()));
         }
         else System.out.println("Roll was a 6.");
 
@@ -363,7 +363,7 @@ public class AggravationLocalGame extends LocalGame {
                 return ("Player "+i+" Wins!");
             }
             else {
-                counts[i] = 0;//reset the count
+                counts[i] = 0;
             }
         }
         return null;
