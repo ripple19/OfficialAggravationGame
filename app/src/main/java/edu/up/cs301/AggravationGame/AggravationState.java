@@ -75,7 +75,7 @@ public class AggravationState extends GameState {
 
     public void setTurn(int playerNum)
     {
-        if (playerNum > 3) //if local game tries to set the player turn to 4 make it player 0's turn
+        if (playerNum == 4) //if local game tries to set the player turn to 4 make it player 0's turn
         {
             playerTurn = 0;
         }

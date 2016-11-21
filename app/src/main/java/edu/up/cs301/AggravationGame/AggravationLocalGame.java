@@ -23,7 +23,7 @@ public class AggravationLocalGame extends LocalGame {
 
     private AggravationState officialGameState;
     private AggravationState copyGameState;
-    private int actualRoll;
+    private int actualRoll = 0;
     public AggravationLocalGame()
     {
         super();
@@ -48,7 +48,7 @@ public class AggravationLocalGame extends LocalGame {
     protected boolean makeMove(GameAction action) {
             //^^^^^^^^^^^^//ask Vegdahl about this in particular - Owen
 
-        int playerNum=getPlayerIdx(action.getPlayer());
+        int playerNum= officialGameState.getTurn();
         int boardCopy[] = officialGameState.getGameBoard();
         int startCopy[]= officialGameState.getStartArray(playerNum);
         int homeCopy[] = officialGameState.getHomeArray(playerNum);
@@ -58,21 +58,27 @@ public class AggravationLocalGame extends LocalGame {
             Random dieValue = new Random();//dieValue outside of the conditionals
             int value = dieValue.nextInt(6) + 1; //"As a mathematician," I took out the +1-1 b/c why would it be there? - Owen
             actualRoll = value;
-            Log.i("dieVal is ", Integer.toString(value));
+            //Log.i("dieVal is ", Integer.toString(value));
             officialGameState.setDieValue(value);
-            Log.i("set value LocalGame", Integer.toString(officialGameState.getDieValue()));
+            //Log.i("set value LocalGame", Integer.toString(officialGameState.getDieValue()));
             officialGameState.setRoll(false);
-            System.out.println("Roll = " + value);
-            Log.i("set value", Integer.toString(value));
-            //took these two lines out because I think they were causing the thread problems - Owen
-            //sendAllUpdatedState();
-            //return true;
+            officialGameState.setTurn(playerNum);
+            //System.out.println("Roll = " + value);
+            synchronized (action) {
+                officialGameState.setDieValue(value);
+                //Log.i("set value LocalGame", Integer.toString(officialGameState.getDieValue()));
+                officialGameState.setRoll(false);
+                officialGameState.setTurn(playerNum);
+                sendAllUpdatedState();
+            }
+            return true;
         }
         else if(action instanceof AggravationMovePieceAction)
         {
             int newIdx = ((AggravationMovePieceAction) action).newIdx;
             int oldIdx=((AggravationMovePieceAction) action).oldIdx;
             String type = ((AggravationMovePieceAction) action).type;
+            playerNum = officialGameState.getTurn();
             int endOfTheLine = playerNum*14 -2;//farthest any player should get around the board
             if (playerNum==0){
                 endOfTheLine = 54;
@@ -94,7 +100,7 @@ public class AggravationLocalGame extends LocalGame {
                             if (otherStart[i]==-1){
                                 //put their piece "back" in their start array
                                 otherStart[i]=otherPlayerNum;
-                                Log.i("otherPlayerNum",""+otherPlayerNum);
+                                //Log.i("otherPlayerNum",""+otherPlayerNum);
                                 officialGameState.setStartArray(otherPlayerNum,otherStart);
                                 break;
                             }
@@ -166,7 +172,7 @@ public class AggravationLocalGame extends LocalGame {
                         if (otherStart[i]==-1){
                             //put their piece "back" in their start array
                             otherStart[i]=otherPlayerNum;
-                            Log.i("otherPlayerNum",""+otherPlayerNum);
+                            //Log.i("otherPlayerNum",""+otherPlayerNum);
                             officialGameState.setStartArray(otherPlayerNum,otherStart);
                             break;
                         }
@@ -312,7 +318,6 @@ public class AggravationLocalGame extends LocalGame {
             //makeMove doesn't set anything official before this point, it just modifies copies
             officialGameState.setGameBoard(boardCopy);
             //(only)after any actual move is made, someone has to roll
-            officialGameState.setRoll(true);
         }
 
         //if the player *didn't* roll a 6 - I moved this outside
@@ -322,15 +327,30 @@ public class AggravationLocalGame extends LocalGame {
         // for any given move. I've also made sure that every other return statement is a return false,
         // so makeMove can't return true prematurely. Between this and the synchronization thing I think I probably fixed
         // the roll problem. Bear that in mind when the rest of the code I added inevitably fucks everything up - Owen
-        if(actualRoll != 6) {
-            officialGameState.setTurn(playerNum + 1);
-            Log.i("changed turn to ",Integer.toString(officialGameState.getTurn()));
+        if(actualRoll == 6)
+        {
+            synchronized (action) {
+                officialGameState.setTurn(officialGameState.getTurn());
+                officialGameState.setRoll(true);
+            }
+            synchronized (action) {
+                sendAllUpdatedState();
+            }
+            return true;
         }
-        else System.out.println("Roll was a 6.");
+        else
+        {
 
-        //last 2 lines aren't anywhere else anymore
-        sendAllUpdatedState();
-        return true;
+            synchronized (action) {
+                officialGameState.setTurn(officialGameState.getTurn() + 1);
+                officialGameState.setRoll(true);
+            }
+            synchronized (action) {
+                sendAllUpdatedState();
+            }
+            return true;
+        }
+
     }//makeMove
 
     /**
@@ -338,7 +358,7 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-        Log.i("player run in sendSta", Integer.toString(officialGameState.getTurn()));
+        //Log.i("player run in sendSta", Integer.toString(officialGameState.getTurn()));
         copyGameState = new AggravationState(officialGameState);
         p.sendInfo(copyGameState);
     }//sendUpdatedState

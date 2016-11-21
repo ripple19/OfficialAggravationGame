@@ -36,22 +36,24 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
         if (info instanceof AggravationState) {
            gameStateInfo = (AggravationState) info;
 
-           if (gameStateInfo.getTurn() == playerNum) {
-               Log.i("my turn player", Integer.toString(playerNum));
-               sleep(3000);
+           if (this.playerNum == gameStateInfo.getTurn()) {
+               Log.i("my turn player", Integer.toString(this.playerNum));
                //getRoll returns whether or there is a roll to be made - either the start of a turn or
                //after rolling a 6 and making a valid move
                if (gameStateInfo.getRoll()) {
+                   sleep(2000);
+                   System.out.println("I rolled!");
                    AggravationRollAction rollAct = new AggravationRollAction(this);
                    game.sendAction(rollAct);
                }
 
 
-               else {//don't have to roll, so move a piece
+               else if(gameStateInfo.getRoll() == false)
+               {//don't have to roll, so move a piece
                    int value = gameStateInfo.getDieValue();
-                   int startCopy[] = gameStateInfo.getStartArray(playerNum);
+                   int startCopy[] = gameStateInfo.getStartArray(this.playerNum);
                    int boardCopy[] = gameStateInfo.getGameBoard();
-                   int startIdx=playerNum*14;
+                   int startIdx=this.playerNum*14;
 
                     /*This is where a start comes from*/
                    if (value == 6 || value == 1) {
@@ -59,13 +61,14 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                     and check the starting space to see if empty or an opponents piece to aggravate*/
                        for (int j = 0; j < 4; j++) {
                         /*playerNum *14 is where player starts based on index*/
-                           if (startCopy[j] == playerNum && boardCopy[startIdx] != playerNum) {
+                           if (startCopy[j] == this.playerNum && boardCopy[startIdx] != this.playerNum) {
                              /*Send local game the starting move*/
                                AggravationMovePieceAction startPiece =
                                        new AggravationMovePieceAction(this, "Start", j, startIdx);
                                game.sendAction(startPiece);
                                return;
                            }
+
                        }
                    }
 
@@ -75,7 +78,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                        int j = i;
                       while(j>56){j= j-56;}
                     /*found a piece to (try to) move, so set toMoveFrom to that spot*/
-                       if (boardCopy[j] == playerNum) {
+                       if (boardCopy[j] == this.playerNum) {
                            toMoveFrom = j;
                            break;
                        }
@@ -87,7 +90,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                    /*This is where a Board move comes from*/
                    if (toMoveFrom != -1) {
                        for (int i = 1; i <= value; i++) {
-                           if (boardCopy[toMoveFrom + i] == playerNum) {
+                           if (boardCopy[toMoveFrom + i] == this.playerNum) {
                                toMoveFrom = +i;//move from the idx of the piece blocking you, instead
                                i = 1;//reset the loop
                            }
