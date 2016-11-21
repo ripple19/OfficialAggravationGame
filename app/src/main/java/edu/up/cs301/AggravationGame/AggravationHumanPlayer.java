@@ -5,10 +5,8 @@ import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameInfo;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
@@ -83,66 +81,67 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
     @Override
     public void receiveInfo(GameInfo info) {
 
-        synchronized (info) {
+
             if (info instanceof AggravationState) {
                 gameStateInfo = (AggravationState) info;
-                Log.i("rollVal Recieve Info", Integer.toString(gameStateInfo.getDieValue()));
+                Log.i("rollVal Receive Info", Integer.toString(gameStateInfo.getDieValue()));
                 int[] temp = gameStateInfo.getGameBoard();
-                for (int i = 0; i < 57; i++) //setting game board to the pictures
-                {
+                synchronized (this) {
+                    for (int i = 0; i < 57; i++) //setting game board to the pictures
+                    {
 
-                    if (temp[i] == -1) {
-                        if (i == 5 || i == 19 || i == 33 || i == 47 || i == 56) {
-                            this.gameBoard[i].setBackgroundResource(R.mipmap.shortcut);
-                            continue;
+                        if (temp[i] == -1) {
+                            if (i == 5 || i == 19 || i == 33 || i == 47 || i == 56) {
+                                this.gameBoard[i].setBackgroundResource(R.mipmap.shortcut);
+                                continue;
+                            }
+                            this.gameBoard[i].setBackgroundResource(R.mipmap.gamesquare);
+                        } else if (temp[i] == 0) {
+                            this.gameBoard[i].setBackgroundResource(R.mipmap.playerzeropiece);
+                        } else if (temp[i] == 1) {
+                            this.gameBoard[i].setBackgroundResource(R.mipmap.playeronepiece);
+                        } else if (temp[i] == 2) {
+                            this.gameBoard[i].setBackgroundResource(R.mipmap.playertwopiece);
+                        } else if (temp[i] == 3) {
+                            this.gameBoard[i].setBackgroundResource(R.mipmap.playerthreepiece);
                         }
-                        this.gameBoard[i].setBackgroundResource(R.mipmap.gamesquare);
-                    } else if (temp[i] == 0) {
-                        this.gameBoard[i].setBackgroundResource(R.mipmap.playerzeropiece);
-                    } else if (temp[i] == 1) {
-                        this.gameBoard[i].setBackgroundResource(R.mipmap.playeronepiece);
-                    } else if (temp[i] == 2) {
-                        this.gameBoard[i].setBackgroundResource(R.mipmap.playertwopiece);
-                    } else if (temp[i] == 3) {
-                        this.gameBoard[i].setBackgroundResource(R.mipmap.playerthreepiece);
+                    }
+                    int tempStart[][] = gameStateInfo.getStartArray(); //temporary array that holds the start array integers of the game state
+                    for (int i = 0; i < 4; i++) { //this runs through and looks at the integers in the game state array and changes the image buttons to reflect them
+                        for (int j = 0; j < 4; j++) {
+                            if (tempStart[i][j] == -1) {
+                                this.playerStart[i][j].setBackgroundResource(R.mipmap.gamesquare);
+                            } else if (tempStart[i][j] == 0) {
+                                this.playerStart[i][j].setBackgroundResource(R.mipmap.playerzeropiece);
+                            } else if (tempStart[i][j] == 1) {
+                                this.playerStart[i][j].setBackgroundResource(R.mipmap.playeronepiece);
+                            } else if (tempStart[i][j] == 2) {
+                                this.playerStart[i][j].setBackgroundResource(R.mipmap.playertwopiece);
+                            } else if (tempStart[i][j] == 3) {
+                                this.playerStart[i][j].setBackgroundResource(R.mipmap.playerthreepiece);
+                            }
+
+                        }
+                    }
+                    int tempHome[][] = gameStateInfo.getHomeArray();//temporary array that holds the home array integers of the game state
+                    for (int i = 0; i < 4; i++)//this runs through and looks at the integers in the game state's home array and changes the image buttons to reflect
+                    {
+                        for (int j = 0; j < 4; j++) {
+                            if (tempHome[i][j] == -1) {
+                                this.playerHome[i][j].setBackgroundResource(R.mipmap.homesquare);
+                            } else if (tempHome[i][j] == 0) {
+                                this.playerHome[i][j].setBackgroundResource(R.mipmap.playerzeropiece);
+                            } else if (tempHome[i][j] == 1) {
+                                this.playerHome[i][j].setBackgroundResource(R.mipmap.playeronepiece);
+                            } else if (tempHome[i][j] == 2) {
+                                this.playerHome[i][j].setBackgroundResource(R.mipmap.playertwopiece);
+                            } else if (tempHome[i][j] == 3) {
+                                this.playerHome[i][j].setBackgroundResource(R.mipmap.playerthreepiece);
+                            }
+
+                        }
                     }
                 }
-                int tempStart[][] = gameStateInfo.getStartArray(); //temporary array that holds the start array integers of the game state
-                for (int i = 0; i < 4; i++) { //this runs through and looks at the integers in the game state array and changes the image buttons to reflect them
-                    for (int j = 0; j < 4; j++) {
-                        if (tempStart[i][j] == -1) {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.gamesquare);
-                        } else if (tempStart[i][j] == 0) {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playerzeropiece);
-                        } else if (tempStart[i][j] == 1) {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playeronepiece);
-                        } else if (tempStart[i][j] == 2) {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playertwopiece);
-                        } else if (tempStart[i][j] == 3) {
-                            this.playerStart[i][j].setBackgroundResource(R.mipmap.playerthreepiece);
-                        }
-
-                    }
-                }
-                int tempHome[][] = gameStateInfo.getHomeArray();//temporary array that holds the home array integers of the game state
-                for (int i = 0; i < 4; i++)//this runs through and looks at the integers in the game state's home array and changes the image buttons to reflect
-                {
-                    for (int j = 0; j < 4; j++) {
-                        if (tempHome[i][j] == -1) {
-                            this.playerHome[i][j].setBackgroundResource(R.mipmap.homesquare);
-                        } else if (tempHome[i][j] == 0) {
-                            this.playerHome[i][j].setBackgroundResource(R.mipmap.playerzeropiece);
-                        } else if (tempHome[i][j] == 1) {
-                            this.playerHome[i][j].setBackgroundResource(R.mipmap.playeronepiece);
-                        } else if (tempHome[i][j] == 2) {
-                            this.playerHome[i][j].setBackgroundResource(R.mipmap.playertwopiece);
-                        } else if (tempHome[i][j] == 3) {
-                            this.playerHome[i][j].setBackgroundResource(R.mipmap.playerthreepiece);
-                        }
-
-                    }
-                }
-
                 int whoseTurn = gameStateInfo.getTurn();
                 if (whoseTurn == playerNum) {
                     if (gameStateInfo.getRoll()) {
@@ -214,7 +213,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                 checkPieces = false;
             }
         }//receiveInfo
-    }
+
 
     public int getPlayerNum()
     {

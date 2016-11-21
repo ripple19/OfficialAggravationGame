@@ -59,18 +59,11 @@ public class AggravationLocalGame extends LocalGame {
             int value = dieValue.nextInt(6) + 1; //"As a mathematician," I took out the +1-1 b/c why would it be there? - Owen
             actualRoll = value;
             //Log.i("dieVal is ", Integer.toString(value));
+            //System.out.println("Roll = " + value);
             officialGameState.setDieValue(value);
             //Log.i("set value LocalGame", Integer.toString(officialGameState.getDieValue()));
             officialGameState.setRoll(false);
-            officialGameState.setTurn(playerNum);
-            //System.out.println("Roll = " + value);
-            synchronized (action) {
-                officialGameState.setDieValue(value);
-                //Log.i("set value LocalGame", Integer.toString(officialGameState.getDieValue()));
-                officialGameState.setRoll(false);
-                officialGameState.setTurn(playerNum);
-                sendAllUpdatedState();
-            }
+            sendAllUpdatedState();
             return true;
         }
         else if(action instanceof AggravationMovePieceAction)
@@ -217,15 +210,15 @@ public class AggravationLocalGame extends LocalGame {
                 * you land on a shortcut immediately before hitting the middle spot, so you see that it's
                 * landing on the center by an exact count, then makes sure neither that spot nor the center spot
                 * is the player's piece (leapfrog check), then it aggravates if someone's there - Owen */
-                if (newIdx==57) {
+                if (newIdx==56) {
                     //oneOff is the shortcut spot right before the middle reached by exact count
                     int oneOff = oldIdx+actualRoll-1;
 
                     if ((oneOff==5||oneOff==19||oneOff==33||oneOff==47)
                             && (boardCopy[oneOff]!= playerNum)
-                            && (boardCopy[57]!=playerNum)){
+                            && (boardCopy[56]!=playerNum)){
 
-                        if(boardCopy[57]!=-1){//aggravation copypaste
+                        if(boardCopy[56]!=-1){//aggravation copypaste
                             otherPlayerNum = boardCopy[newIdx];
                             otherStart = officialGameState.getStartArray(otherPlayerNum);
                             for (int i=0;i<4;i++){
@@ -329,25 +322,16 @@ public class AggravationLocalGame extends LocalGame {
         // the roll problem. Bear that in mind when the rest of the code I added inevitably fucks everything up - Owen
         if(actualRoll == 6)
         {
-            synchronized (action) {
-                officialGameState.setTurn(officialGameState.getTurn());
-                officialGameState.setRoll(true);
-            }
-            synchronized (action) {
-                sendAllUpdatedState();
-            }
+            officialGameState.setTurn(officialGameState.getTurn());
+            officialGameState.setRoll(true);
+            sendAllUpdatedState();
             return true;
         }
         else
         {
-
-            synchronized (action) {
-                officialGameState.setTurn(officialGameState.getTurn() + 1);
-                officialGameState.setRoll(true);
-            }
-            synchronized (action) {
-                sendAllUpdatedState();
-            }
+            officialGameState.setTurn(officialGameState.getTurn() + 1);
+            officialGameState.setRoll(true);
+            sendAllUpdatedState();
             return true;
         }
 
