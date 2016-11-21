@@ -360,7 +360,7 @@ public class AggravationLocalGame extends LocalGame {
                 }
             }
             if (counts[i]==4){
-                return ("Player "+i+" Wins!");
+                return ("Player "+(i+1)+" Wins!");
             }
             else {
                 counts[i] = 0;
