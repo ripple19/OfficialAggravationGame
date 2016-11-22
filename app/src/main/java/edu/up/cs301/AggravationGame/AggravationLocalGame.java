@@ -136,7 +136,7 @@ public class AggravationLocalGame extends LocalGame {
                             return false;
                         }
                     }
-
+                    //
                     //check the home array for leapfrogs
                     for(int i=0;i<=newIdx;i++){
                         if (homeCopy[i]==playerNum){
