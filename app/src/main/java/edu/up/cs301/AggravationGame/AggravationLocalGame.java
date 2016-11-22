@@ -347,15 +347,15 @@ public class AggravationLocalGame extends LocalGame {
 
             //setStart and setGameBoard were redundant, being the same in every case so I moved them here
             //makeMove doesn't set anything official before this point, it just modifies copies
-            officialGameState.setGameBoard(boardCopy);
 
             //(only)after any actual move is made, someone has to roll
             //increment the turn whenever the roll isn't a 6
-            if (actualRoll > 0)
+            if (actualRoll != 6)
             {
-                //officialGameState.setTurn(officialGameState.getTurn()+1);
+                officialGameState.setTurn(officialGameState.getTurn()+1);
             }
             officialGameState.setRoll(true);
+            officialGameState.setGameBoard(boardCopy);
         }
         else if(action instanceof AggravationNewGameAction)
         {

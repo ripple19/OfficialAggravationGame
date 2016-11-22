@@ -70,22 +70,19 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                     and check the starting space to see if empty or an opponents piece to aggravate*/
                         for (int j = 0; j < 4; j++) {
                             if (startCopy[j] == this.playerNum && boardCopy[startIdx] != this.playerNum) {
-                                moveType="Start";
-                                toMoveFrom=j;
-                                toMoveTo=startIdx;
-                                /*AggravationMovePieceAction startPiece =
+                                AggravationMovePieceAction startPiece =
                                         new AggravationMovePieceAction(this, "Start", j, startIdx);
                                 game.sendAction(startPiece);
-                                return;*/
+                                return;
                             }
                         }
                     }
                     //check to see if there even is a piece on the board the CPU can look to move
 
                     for(int i=0;i<56; i++) {
-                        int j= i+startIdx;
+                        int j= i;//+startIdx;
 
-                        if(j>56) j-=56;
+                        //if(j>56) j-=56;
 
                         if (boardCopy[j] == playerNum){
                             toMoveFrom = j;
@@ -101,7 +98,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
 
                     if (toMoveFrom != -9) {//if toMoveFrom found a piece to move on the boardCopy[]
-                        for (int i = 1; i < officialRoll; i++) {
+                        for (int i = 1; i <= officialRoll; i++) {
                             if (boardCopy[toMoveFrom + i] == this.playerNum) {
                                 toMoveFrom=+i;//move from the idx of the piece blocking you that you found at toMoveFrom+i
                                 i = 1;//reset the loop at 1, so it doesn't get stuck on itself.
@@ -112,7 +109,10 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
 
                         int endOfTheLine=startIdx-2;
-                        if(this.playerNum==0) endOfTheLine=54;
+                        if(this.playerNum==0)
+                        {
+                            endOfTheLine=54;
+                        }
 
 
                         if (toMoveTo>endOfTheLine) {
@@ -121,10 +121,10 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                         }
                         Log.i("toMoveTo is", toMoveTo+"");
 
-                        /*AggravationMovePieceAction movePieceGetOutTheWay;
+                        AggravationMovePieceAction movePieceGetOutTheWay;
                         movePieceGetOutTheWay = new AggravationMovePieceAction(this, "Board", toMoveFrom, toMoveTo);
                         game.sendAction(movePieceGetOutTheWay);
-                        Log.i("Action was sent?","h");*/
+                        Log.i("Action was sent?","h");
                     }
 
                     //no pieces to move, so send a skip turn
