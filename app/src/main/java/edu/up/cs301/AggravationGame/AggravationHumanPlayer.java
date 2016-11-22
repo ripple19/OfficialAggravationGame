@@ -32,15 +32,22 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
     private ImageButton[] gameBoard = new ImageButton[57];
     private ImageButton[][] playerStart = new ImageButton[4][4];
     private ImageButton[][] playerHome = new ImageButton[4][4];
-    private int[] gameBoardIDS = {R.id.GameBoard0,R.id.GameBoard1,R.id.GameBoard2,R.id.GameBoard3,R.id.GameBoard4,R.id.GameBoard5,
-            R.id.GameBoard6,R.id.GameBoard7,R.id.GameBoard8,R.id.GameBoard9,R.id.GameBoard10,R.id.GameBoard11,R.id.GameBoard12,R.id.GameBoard13,
-            R.id.GameBoard14,R.id.GameBoard15,R.id.GameBoard16,R.id.GameBoard17,R.id.GameBoard18,R.id.GameBoard19,
-            R.id.GameBoard20,R.id.GameBoard21,R.id.GameBoard22,R.id.GameBoard23,R.id.GameBoard24,R.id.GameBoard25,R.id.GameBoard26,
-            R.id.GameBoard27,R.id.GameBoard28,R.id.GameBoard29,R.id.GameBoard30,R.id.GameBoard31,R.id.GameBoard32,R.id.GameBoard33,
-            R.id.GameBoard34,R.id.GameBoard35,R.id.GameBoard36,R.id.GameBoard37,R.id.GameBoard38,R.id.GameBoard39,R.id.GameBoard40,
-            R.id.GameBoard41,R.id.GameBoard42,R.id.GameBoard43,R.id.GameBoard44,R.id.GameBoard45,R.id.GameBoard46,R.id.GameBoard47,
-            R.id.GameBoard48,R.id.GameBoard49,R.id.GameBoard50,R.id.GameBoard51,R.id.GameBoard52,R.id.GameBoard53,R.id.GameBoard54,R.id.GameBoard55,
-            R.id.GameBoard56};
+    private int[] gameBoardIDS = {R.id.GameBoard0,
+            R.id.GameBoard1, R.id.GameBoard2, R.id.GameBoard3, R.id.GameBoard4,
+            R.id.GameBoard5, R.id.GameBoard6, R.id.GameBoard7, R.id.GameBoard8,
+            R.id.GameBoard9, R.id.GameBoard10,R.id.GameBoard11,R.id.GameBoard12,
+            R.id.GameBoard13,R.id.GameBoard14,R.id.GameBoard15,R.id.GameBoard16,
+            R.id.GameBoard17,R.id.GameBoard18,R.id.GameBoard19,R.id.GameBoard20,
+            R.id.GameBoard21,R.id.GameBoard22,R.id.GameBoard23,R.id.GameBoard24,
+            R.id.GameBoard25,R.id.GameBoard26,R.id.GameBoard27,R.id.GameBoard28,
+            R.id.GameBoard29,R.id.GameBoard30,R.id.GameBoard31,R.id.GameBoard32,
+            R.id.GameBoard33,R.id.GameBoard34,R.id.GameBoard35,R.id.GameBoard36,
+            R.id.GameBoard37,R.id.GameBoard38,R.id.GameBoard39,R.id.GameBoard40,
+            R.id.GameBoard41,R.id.GameBoard42,R.id.GameBoard43,R.id.GameBoard44,
+            R.id.GameBoard45,R.id.GameBoard46,R.id.GameBoard47,R.id.GameBoard48,
+            R.id.GameBoard49,R.id.GameBoard50,R.id.GameBoard51,R.id.GameBoard52,
+            R.id.GameBoard53,R.id.GameBoard54,R.id.GameBoard55,R.id.GameBoard56
+    };
     private int[] playerStartIDS = {R.id.Start00,R.id.Start01,R.id.Start02,R.id.Start03,R.id.Start10,R.id.Start11,R.id.Start12,
             R.id.Start13,R.id.Start20,R.id.Start21,R.id.Start22,R.id.Start23,R.id.Start30,R.id.Start31,R.id.Start32,R.id.Start33};
     private int[] playerHomeIDS = {R.id.Home00,R.id.Home01,R.id.Home02,R.id.Home03,R.id.Home10,R.id.Home11,R.id.Home12,

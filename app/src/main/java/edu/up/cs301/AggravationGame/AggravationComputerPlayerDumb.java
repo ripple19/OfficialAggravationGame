@@ -15,6 +15,8 @@ import edu.up.cs301.game.infoMsg.GameInfo;
  */
 public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
+    private int officialRoll=0;
+
     private AggravationState gameStateInfo; //the copy of the game state
 
     /* *
@@ -48,13 +50,13 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                 }
                 else {//don't have to roll, so move a piece
 
-                    int value = gameStateInfo.getDieValue();
+                    officialRoll = gameStateInfo.getDieValue();
                     int startCopy[] = gameStateInfo.getStartArray(this.playerNum);
                     int boardCopy[] = gameStateInfo.getGameBoard();
                     int startIdx = this.playerNum * 14;
 
                     /*This is where a start comes from*/
-                    if (value == 6 || value == 1) {
+                    if (officialRoll == 6 || officialRoll == 1) {
                     /*try to start whenever possible, so look through start array for a piece to move
                     and check the starting space to see if empty or an opponents piece to aggravate*/
                         for (int j = 0; j < 4; j++) {
@@ -70,7 +72,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                     }
 
                     //check to see if there even is a piece on the board the CPU can look to move
-                    int toMoveFrom = -1;//default value, no -1 idx to confuse with
+                    int toMoveFrom = -1;//default officialRoll, no -1 idx to confuse with
                     for (int i = startIdx; i < startIdx + 56; i++) {
                         int j = i;
                         while (j > 56) {
@@ -86,16 +88,16 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
                         //find a piece "in the way" of toMoveFrom and reset the loop around that piece
                         //moves the first "in the way" piece it can, so it can start all of its pieces as fast as possible
-                        //if toMoveFrom!=-1 that means the previous loop found a space with playerNum as a value and is trying to move it
+                        //if toMoveFrom!=-1 that means the previous loop found a space with playerNum as a officialRoll and is trying to move it
                         /*This is where a Board move comes from*/
                         if (toMoveFrom != -1) {
-                            for (int i = 1; i <= value; i++) {
+                            for (int i = 0; i <= officialRoll; i++) {
                                 if (boardCopy[toMoveFrom + i] == this.playerNum) {
                                     toMoveFrom = +i;//move from the idx of the piece blocking you, instead
                                     i = 1;//reset the loop
                                 }
                             }
-                            int toMoveTo = toMoveFrom + value;
+                            int toMoveTo = toMoveFrom + officialRoll;
                             Log.i("To Move to equals", toMoveTo+"");
                             AggravationMovePieceAction movePieceGetOutTheWay;
                             movePieceGetOutTheWay = new AggravationMovePieceAction(this, "Board", toMoveFrom, toMoveTo);
