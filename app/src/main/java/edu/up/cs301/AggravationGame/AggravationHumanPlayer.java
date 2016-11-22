@@ -410,6 +410,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         }
 
                         if (gameBoardCopy[moveSpace] != playerNum) {
+
                             if (enable) {
                                 this.gameBoard[moveSpace].setEnabled(true);
                                 Log.i("enabledmovespace", Integer.toString(moveSpace));
@@ -719,7 +720,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         {
                             boardType = "Start";
                         }
-                        if (k == 57) // what I had in mind :
+                        if (k == 56 || (k != rollVal + markedButton)) // what I had in mind :
                             //if ((k==57) || (clickedIdx==5||clickedIdx==19||clickedIdx==33||clickedIdx==47))
                             //also, k never == 57 because your loop is < not <=, is that intentional? - Owen
                         {
