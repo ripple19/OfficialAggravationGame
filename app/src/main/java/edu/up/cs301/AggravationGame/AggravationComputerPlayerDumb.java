@@ -36,14 +36,14 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
         if (info instanceof AggravationState) {
             gameStateInfo = (AggravationState) info;
             if (this.playerNum == gameStateInfo.getTurn()) {
-                sleep(1000);
+                sleep(1); //CHANGED FROM 1000
                 Log.i("my turn player", Integer.toString(this.playerNum));
                 //getRoll returns whether or there is a roll to be made - either the start of a turn or
                 //after rolling a 6 and making a valid move
                 if (gameStateInfo.getRoll()) {
                     AggravationRollAction rollAct = new AggravationRollAction(this);
                     game.sendAction(rollAct);
-                    sleep(2000);
+                    sleep(1); //CHANGED FROM 2000
                     System.out.println("I rolled!");
                 }
                 else {//don't have to roll, so move a piece

@@ -410,12 +410,14 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         }
 
                         if (gameBoardCopy[moveSpace] != playerNum) {
+                            if (checkPieceOrderShortcut(currentPieceLocations, playerNum, i, moveSpace)){
 
                             if (enable) {
                                 this.gameBoard[moveSpace].setEnabled(true);
                                 Log.i("enabledmovespace", Integer.toString(moveSpace));
                             }
                             possibleMove = true;
+                        }
                         }
                     }
                     if (rollVal == 2) {
@@ -427,11 +429,13 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                             }
 
                             if (gameBoardCopy[moveSpace] != playerNum) {
-                                if (enable) {
-                                    this.gameBoard[moveSpace].setEnabled(true);
-                                    Log.i("enabled", Integer.toString(moveSpace));
+                                if (checkPieceOrderShortcut(currentPieceLocations, playerNum, i, moveSpace)) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
                                 }
-                                possibleMove = true;
                             }
                         }
                         if (i + 14 * 1 + 1 < playerNum * 14 + 56) //take 1 shortcut + one step
@@ -459,11 +463,13 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                             }
 
                             if (gameBoardCopy[moveSpace] != playerNum) {
-                                if (enable) {
-                                    this.gameBoard[moveSpace].setEnabled(true);
-                                    Log.i("enabled", Integer.toString(moveSpace));
+                                if (checkPieceOrderShortcut(currentPieceLocations, playerNum, i, moveSpace)) {
+                                    if (enable) {
+                                        this.gameBoard[moveSpace].setEnabled(true);
+                                        Log.i("enabled", Integer.toString(moveSpace));
+                                    }
+                                    possibleMove = true;
                                 }
-                                possibleMove = true;
                             }
                         }
                         if (i + 14 * 2 + 1 < playerNum * 14 + 56) //take 2 shortcuts and 1 step
@@ -621,6 +627,32 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         return true;
     }
 
+    //makes sure a piece can't skip another shortcut piece (checklocations but for shorctuts)
+    public boolean checkPieceOrderShortcut(int []pieceLocations, int playerNum, int startMove, int endMove)
+    {
+        int [] pieceLocNew = new int[4];
+        for (int i = 0; i<4;i++)
+        {
+            pieceLocNew[i] = pieceLocations[i] + playerNum*14;
+        }
+        int startMove1 = startMove + playerNum*14;
+        int endMove1 = endMove + playerNum*14;
+
+        for (int i = 0; i<4; i++) {
+            if (pieceLocations[i] == 5 || pieceLocations[i] == 19 ||
+                    pieceLocations[i] == 33 || pieceLocations[i] == 47)
+            {
+                if (pieceLocations[i] != startMove)
+                {
+                    if (startMove1 < pieceLocNew[i] && endMove1 > pieceLocNew[i])
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
     /**
      * this method gets called when the user clicks the die or a button space. It
      * creates a new AggravationRollAction or AggravationMovePieceAction and sends it to the game,
@@ -718,17 +750,19 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         Log.i("markedButton", Integer.toString(markedButton));
                         if (k == playerNum*14)
                         {
-                            boardType = "Start";
+                            boardType = "Start"; //
                         }
-                        if (k == 56 || (k != rollVal + markedButton)) // what I had in mind :
-                            //if ((k==57) || (clickedIdx==5||clickedIdx==19||clickedIdx==33||clickedIdx==47))
-                            //also, k never == 57 because your loop is < not <=, is that intentional? - Owen
+                        if (k == 56 || markedButton == 5 || markedButton ==19 || markedButton ==33 ||markedButton ==47)                            //if ((k==57) || (clickedIdx==5||clickedIdx==19||clickedIdx==33||clickedIdx==47))
                         {
                             boardType = "shortcut";
+
                         }
                         //if ()Owen wants to make every shortcut move say shortcut
                         AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, k);
                         Log.i("sending move board", Integer.toString(markedButton));
+                        Log.i("move is boardType", boardType);
+                        Log.i("from space", Integer.toString(markedButton));
+                        Log.i("to space", Integer.toString(k));
                         game.sendAction(move);
                     }
                     //conditions

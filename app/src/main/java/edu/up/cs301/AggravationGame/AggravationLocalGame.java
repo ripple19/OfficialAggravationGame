@@ -47,7 +47,7 @@ public class AggravationLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
             //^^^^^^^^^^^^//ask Vegdahl about this in particular - Owen
-
+Log.i("got to", "makeMove");
         int playerNum= officialGameState.getTurn();
         int boardCopy[] = officialGameState.getGameBoard();
         int startCopy[]= officialGameState.getStartArray(playerNum);
@@ -66,6 +66,7 @@ public class AggravationLocalGame extends LocalGame {
             return true;
         }
         else if(action instanceof AggravationMovePieceAction) {
+            Log.i("action is ", "type move piece");
             int newIdx = ((AggravationMovePieceAction) action).newIdx;
             int oldIdx=((AggravationMovePieceAction) action).oldIdx;
             String type = ((AggravationMovePieceAction) action).type;
@@ -78,6 +79,7 @@ public class AggravationLocalGame extends LocalGame {
             int otherStart[];
 
             if (type.equalsIgnoreCase("Start")) {
+                Log.i("in", "start");
                 newIdx=playerNum*14;//safety net-if a starting move is somehow passed with an index that isn't the start space
                 if(boardCopy[newIdx]!= -1){//the new index is occupied
                     if (boardCopy[newIdx]==playerNum) {//the player occupies their own start spot
