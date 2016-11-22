@@ -220,7 +220,7 @@ Log.i("got to", "makeMove");
                     if ((oneOff==5||oneOff==19||oneOff==33||oneOff==47)
                             && (oneOff==oldIdx||boardCopy[oneOff]!= playerNum)
                             && (boardCopy[56]!=playerNum)){
-
+                            Log.i("one off location", "here" );
                         if(boardCopy[56]!=-1){//aggravation copypaste
                             otherPlayerNum = boardCopy[newIdx];
                             otherStart = officialGameState.getStartArray(otherPlayerNum);
@@ -281,7 +281,7 @@ Log.i("got to", "makeMove");
                 else {//if you can, check for leapfrog and aggravations from the shortcut you left from
                     //ideally, since every move has such similar leapfrog/aggravation code, I would be able to
                     //move this bit outside of the "type" cases. Not important for functionality yet though - Owen
-
+                    Log.i("second place", "here");
                     for (int i=lastShortcut;i<=newIdx;i++){//leapfrog check
                         if (boardCopy[i] == playerNum)
                             return false;
