@@ -332,12 +332,10 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
     //if checking a value in the home area, checks or enables possible move spot(s)
     if (board.equals("home")) {
         int i = pieceLoc;
-        if (i + rollVal > 3) {
-            Log.i("e", "can't do that");
-        } else {
+        if (i + rollVal <4) {
             if (enable) {
                 this.gameBoard[rollVal + i].setEnabled(true);
-                Log.i("enabledhomearray", Integer.toString(rollVal + 1));
+                Log.i("enabledhomearray", Integer.toString(rollVal + i));
             }
             possibleMove = true;
         }
