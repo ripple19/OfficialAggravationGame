@@ -143,16 +143,18 @@ public class AggravationLocalGame extends LocalGame {
             else if (type.equalsIgnoreCase("Board")) {
                 //return false if you would be "leapfrogging" one of your own
                 //Should never happen with CPU
-                if (oldIdx <56) {
+                if (oldIdx < 56) {
                     for (int i = oldIdx + 1; i <= newIdx; i++) {
                         if (boardCopy[i] == playerNum) {
+                            Log.i("Stuck in here?","h");
                             return false;
                         }
                     }
                 }
-                if (oldIdx+actualRoll>endOfTheLine || newIdx>endOfTheLine){//if you're moving past the end, you should have made a "home" move
-                    return false;
-                }
+               // if (oldIdx+actualRoll>endOfTheLine || newIdx>endOfTheLine){//if you're moving past the end, you should have made a "home" move
+               //     Log.i("Stuck in here?","maybe");
+                //    return false;
+              //  }
                 /*If the desired spot is not empty, it is another player*/
                 if (boardCopy[newIdx]!=-1){
                     //aggravating move code
@@ -170,6 +172,7 @@ public class AggravationLocalGame extends LocalGame {
                     }
                 }
                 //out with the old, in with the new
+                Log.i("Computer got ", "here");
                 boardCopy[oldIdx]=-1;
                 boardCopy[newIdx]=playerNum;
 

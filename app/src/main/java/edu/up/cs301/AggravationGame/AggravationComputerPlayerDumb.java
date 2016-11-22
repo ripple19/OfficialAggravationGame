@@ -36,7 +36,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
         if (info instanceof AggravationState) {
             gameStateInfo = (AggravationState) info;
             if (this.playerNum == gameStateInfo.getTurn()) {
-                sleep(2000);
+                sleep(1000);
                 Log.i("my turn player", Integer.toString(this.playerNum));
                 //getRoll returns whether or there is a roll to be made - either the start of a turn or
                 //after rolling a 6 and making a valid move
@@ -96,9 +96,11 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                                 }
                             }
                             int toMoveTo = toMoveFrom + value;
+                            Log.i("To Move to equals", toMoveTo+"");
                             AggravationMovePieceAction movePieceGetOutTheWay;
                             movePieceGetOutTheWay = new AggravationMovePieceAction(this, "Board", toMoveFrom, toMoveTo);
                             game.sendAction(movePieceGetOutTheWay);
+                            Log.i("Action was sent?","h");
                         }
                         /*This is where a Skip move comes from*/
                         else {//no pieces to move, so send a skip turn
