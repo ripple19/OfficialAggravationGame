@@ -774,10 +774,10 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         {
                             boardType = "Start"; //
                         }
-                        if (k == 56 || markedButton == 5 || markedButton ==19 || markedButton ==33 ||markedButton ==47)                            //if ((k==57) || (clickedIdx==5||clickedIdx==19||clickedIdx==33||clickedIdx==47))
+                        if (k == 56 || markedButton == 5 || markedButton ==19 || markedButton ==33 ||markedButton ==47
+                                && (markedButton + gameStateInfo.getDieValue() !=  k))
                         {
                             boardType = "shortcut";
-
                         }
                         //if ()Owen wants to make every shortcut move say shortcut
                         AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, k);
