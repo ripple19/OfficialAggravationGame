@@ -4,6 +4,7 @@ import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameInfo;
+import edu.up.cs301.game.infoMsg.IllegalMoveInfo;
 
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
     private ImageButton dieImageButton = null;
     private TextView yourTurn;
     private TextView rollView;
+    private TextView illegalMove;
     private Button newGameButton;
     private AggravationState gameStateInfo;  // holds copy of the game state
 
@@ -89,9 +91,14 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
     @Override
     public void receiveInfo(GameInfo info) {
+        if(info instanceof IllegalMoveInfo)
+        {
+            illegalMove.setText("Illegal Move.");
+        }
 
 
             if (info instanceof AggravationState) {
+                illegalMove.setText("Legal Move.");
                 gameStateInfo = (AggravationState) info;
                 Log.i("rollVal Receive Info", Integer.toString(gameStateInfo.getDieValue()));
                 int[] temp = gameStateInfo.getGameBoard();
@@ -832,6 +839,8 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
  */
     public void setAsGui(GameMainActivity activity) {
 
+
+
         // remember the activity
         myActivity = activity;
 
@@ -843,6 +852,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         this.rollView = (TextView)activity.findViewById(R.id.rollView);
         this.dieImageButton = (ImageButton)activity.findViewById(R.id.RollButton);
         this.newGameButton = (Button)activity.findViewById(R.id.newGameButton);
+        this.illegalMove=(TextView) activity.findViewById(R.id.illegalMove);
         newGameButton.setOnClickListener(this);
         Log.i("HERE","HERE");
         dieImageButton.setOnClickListener(this);

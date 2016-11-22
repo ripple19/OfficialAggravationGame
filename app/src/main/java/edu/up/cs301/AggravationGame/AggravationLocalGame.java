@@ -53,6 +53,7 @@ public class AggravationLocalGame extends LocalGame {
         int startCopy[]= officialGameState.getStartArray(playerNum);
         int homeCopy[] = officialGameState.getHomeArray(playerNum);
 
+
         if(action instanceof AggravationRollAction) {
             if(officialGameState.getTurn()!=playerNum) return false; //safety net
             Random dieValue = new Random();//dieValue outside of the conditionals
@@ -99,6 +100,7 @@ public class AggravationLocalGame extends LocalGame {
                                 otherStart[i]=otherPlayerNum;
                                 //Log.i("otherPlayerNum",""+otherPlayerNum);
                                 officialGameState.setStartArray(otherPlayerNum,otherStart);
+                                Log.i("at "+newIdx,"Player "+playerNum+" aggravated"+otherPlayerNum);
                                 break;
                             }
                         }
@@ -124,31 +126,36 @@ public class AggravationLocalGame extends LocalGame {
                 if(newIdx>3) return false;
 
                 //the move is coming from the outside
-                if(oldIdx>3){
-                    fromOuterSpace = true;
+                if(oldIdx>3)fromOuterSpace = true;
 
+                //out with the old, in with the new
+                if(fromOuterSpace){
                     //check for a leapfrog in the spaces leading up to the end
                     for(int i = oldIdx+1;i<=endOfTheLine;i++){
                         if (boardCopy[i]==playerNum){
                             return false;
                         }
                     }
-                }
 
-                //check for a leapfrog in the home array
-                for(int i = oldIdx+1;i<=newIdx;i++){
-                    if (homeCopy[i]==playerNum){
-                        return false;
+                    //check the home array for leapfrogs
+                    for(int i=0;i<=newIdx;i++){
+                        if (homeCopy[i]==playerNum){
+                            return false;
+                        }
                     }
-                }
-
-                //out with the old, in with the new
-                if(fromOuterSpace){
+                    //empty oldIdx
                     boardCopy[oldIdx]=-1;
                 }
                 else{
+                    //check for a leapfrog in the home array
+                    for(int i = oldIdx+1;i<=newIdx;i++){
+                        if (homeCopy[i]==playerNum){
+                            return false;
+                        }
+                    }
                     homeCopy[oldIdx]=-1;
                 }
+
                 homeCopy[newIdx]=playerNum;
                 officialGameState.setHomeArray(playerNum,homeCopy);
             }
@@ -183,6 +190,7 @@ public class AggravationLocalGame extends LocalGame {
                             otherStart[i]=otherPlayerNum;
 
                             officialGameState.setStartArray(otherPlayerNum,otherStart);
+                            Log.i("at "+newIdx,"Player "+playerNum+" aggravated"+otherPlayerNum);
                             break;
                         }
                     }
@@ -190,6 +198,8 @@ public class AggravationLocalGame extends LocalGame {
 
                 //out with the old, in with the new
                 Log.i("Computer got ", "here");
+                Log.i("Old Index", oldIdx+"");
+                Log.i("New Index", newIdx+"");
                 boardCopy[oldIdx]=-1;
                 boardCopy[newIdx]=playerNum;
             }
@@ -252,6 +262,7 @@ public class AggravationLocalGame extends LocalGame {
                                 if (otherStart[i]==-1){
                                     otherStart[i]=otherPlayerNum;
                                     officialGameState.setStartArray(otherPlayerNum,otherStart);
+                                    Log.i("at "+newIdx,"Player "+playerNum+" aggravated"+otherPlayerNum);
                                     break;
                                 }
                             }
@@ -320,6 +331,7 @@ public class AggravationLocalGame extends LocalGame {
                             if (otherStart[i]==-1){
                                 otherStart[i]=otherPlayerNum;
                                 officialGameState.setStartArray(otherPlayerNum,otherStart);
+                                Log.i("at "+newIdx,"Player "+playerNum+" aggravated"+otherPlayerNum);
                                 break;
                             }
                         }
@@ -348,6 +360,8 @@ public class AggravationLocalGame extends LocalGame {
             {
                 officialGameState.setTurn(officialGameState.getTurn()+1);
             }
+            officialGameState.setHomeArray(playerNum,homeCopy);
+            officialGameState.setStartArray(playerNum,startCopy);
             officialGameState.setRoll(true);
             officialGameState.setGameBoard(boardCopy);
         }
