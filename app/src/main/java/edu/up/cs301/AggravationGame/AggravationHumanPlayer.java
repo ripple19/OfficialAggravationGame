@@ -393,12 +393,25 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
                 if ((i + rollVal) > 55 && (i + rollVal) < (55 + 4)) {
                     if (homeCopy[playerNum][rollVal - (55 - i)] != playerNum) {
-                        if (enable) {
+                        boolean canDoThis = true;
+                        for (int j = 0; j < 4; j++) //checks to make sure it's not leapfrogging a piece already there
+                        {
+                            if (j <= rollVal - (55 - i)) //only the spaces before the possible move space
+                            {
+                                if (homeCopy[playerNum][j] == playerNum) {
+                                    canDoThis = false;
+                                }
+                            }
 
-                            playerHome[playerNum][rollVal - (55 - i)].setEnabled(true);
-                            Log.i("enabledstm", Integer.toString(rollVal - (55 - i)));
                         }
-                        possibleMove = true;
+                        if (canDoThis) {
+                            if (enable) {
+
+                                playerHome[playerNum][rollVal - (55 - i)].setEnabled(true);
+                                Log.i("enabledstm", Integer.toString(rollVal - (55 - i)));
+                            }
+                            possibleMove = true;
+                        }
                     }
 
                 }
@@ -782,7 +795,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         Log.i("sending move board", Integer.toString(markedButton));
                         Log.i("move is boardType", boardType);
                         Log.i("from space", Integer.toString(markedButton));
-                        Log.i("to space", Integer.toString(k));
+                        Log.i("to space ", Integer.toString(k));
                         game.sendAction(move);
                     }
                     //conditions
