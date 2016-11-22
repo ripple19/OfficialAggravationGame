@@ -63,7 +63,6 @@ public class AggravationLocalGame extends LocalGame {
             officialGameState.setDieValue(value);
             //Log.i("set value LocalGame", Integer.toString(officialGameState.getDieValue()));
             officialGameState.setRoll(false);
-            sendAllUpdatedState();
             return true;
         }
         else if(action instanceof AggravationMovePieceAction) {
@@ -323,14 +322,12 @@ public class AggravationLocalGame extends LocalGame {
         {
             officialGameState.setTurn(officialGameState.getTurn());
             officialGameState.setRoll(true);
-            sendAllUpdatedState();
             return true;
         }
         else
         {
             officialGameState.setTurn(officialGameState.getTurn() + 1);
             officialGameState.setRoll(true);
-            sendAllUpdatedState();
             return true;
         }
 
