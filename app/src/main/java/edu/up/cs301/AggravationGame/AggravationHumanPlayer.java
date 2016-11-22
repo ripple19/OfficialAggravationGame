@@ -692,9 +692,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
         else //(NORMAL BUTTONS)
         {
-           Log.i("clicked", "normal button");
-
-            Log.i("roll val is ", Integer.toString(rollVal));
+             Log.i("roll val is ", Integer.toString(rollVal));
             Log.i("PlayerNum", Integer.toString(playerNum));
             boolean enabled = false;
             int clickedIdx = -99;
