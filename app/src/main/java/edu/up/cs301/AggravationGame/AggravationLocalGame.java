@@ -46,17 +46,17 @@ public class AggravationLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
-            //^^^^^^^^^^^^//ask Vegdahl about this in particular - Owen
-Log.i("got to", "makeMove");
+
+        Log.i("got to", "makeMove");
         int playerNum= officialGameState.getTurn();
         int boardCopy[] = officialGameState.getGameBoard();
         int startCopy[]= officialGameState.getStartArray(playerNum);
         int homeCopy[] = officialGameState.getHomeArray(playerNum);
 
-
         if(action instanceof AggravationRollAction) {
+            if(officialGameState.getTurn()!=playerNum) return false; //safety net
             Random dieValue = new Random();//dieValue outside of the conditionals
-            int value = dieValue.nextInt(6) + 1; //"As a mathematician," I took out the +1-1 b/c why would it be there? - Owen
+            int value = dieValue.nextInt(6)+1;
             actualRoll = value;
             //Log.i("dieVal is ", Integer.toString(value));
             //System.out.println("Roll = " + value);
@@ -65,26 +65,30 @@ Log.i("got to", "makeMove");
             officialGameState.setRoll(false);
             return true;
         }
+
+
         else if(action instanceof AggravationMovePieceAction) {
             Log.i("action is ", "type move piece");
             int newIdx = ((AggravationMovePieceAction) action).newIdx;
             int oldIdx=((AggravationMovePieceAction) action).oldIdx;
             String type = ((AggravationMovePieceAction) action).type;
             playerNum = officialGameState.getTurn();
+
             int endOfTheLine = playerNum*14 -2;//farthest any player should get around the board
-            if (playerNum==0){
-                endOfTheLine = 54;
-            }
-            int otherPlayerNum=0;
+            if (playerNum==0) endOfTheLine = 54;
+
+            int otherPlayerNum;
             int otherStart[];
 
             if (type.equalsIgnoreCase("Start")) {
                 Log.i("in", "start");
                 newIdx=playerNum*14;//safety net-if a starting move is somehow passed with an index that isn't the start space
                 if(boardCopy[newIdx]!= -1){//the new index is occupied
-                    if (boardCopy[newIdx]==playerNum) {//the player occupies their own start spot
-                        return false;//not a valid move, they have to move out of the way
-                    }
+
+                    //the player occupies their own start spot
+                    //not a valid move, they have to move out of the way
+                    if (boardCopy[newIdx]==playerNum) return false;
+
                     else {//aggravating move code - occupied by another player
                         otherPlayerNum = boardCopy[newIdx];//whatever value is in the space
                         otherStart = officialGameState.getStartArray(otherPlayerNum);
@@ -100,33 +104,44 @@ Log.i("got to", "makeMove");
                         }
                     }
                 }
+
                 //out with the old, in with the new
                 startCopy[oldIdx]=-1;
                 boardCopy[newIdx]=playerNum;
                 officialGameState.setStartArray(playerNum,startCopy);
             }
+
             /* Call your move a "Home" move if you are moving TO the home array
             * from the board or within the home array itself - Owen
             */
             else if (type.equalsIgnoreCase("Home")){
-                boolean fromOuterSpace=false;//"outer space" being the board array
-                if(newIdx>3){//should only be needed for CPU players, since there aren't any buttons
-                    //the move could take you out of bounds of the home array
-                    return false;
-                }
-                if(oldIdx>3){//the move is coming from the outside
+
+                //"outer space" being the board array
+                boolean fromOuterSpace=false;
+
+                //should only be needed for CPU players, since there aren't any buttons
+                //the move could take you out of bounds of the home array
+                if(newIdx>3) return false;
+
+                //the move is coming from the outside
+                if(oldIdx>3){
                     fromOuterSpace = true;
-                    for(int i = oldIdx+1;i<=endOfTheLine;i++){//check for a leapfrog in the spaces leading up to the end
+
+                    //check for a leapfrog in the spaces leading up to the end
+                    for(int i = oldIdx+1;i<=endOfTheLine;i++){
                         if (boardCopy[i]==playerNum){
                             return false;
                         }
                     }
                 }
-                for(int i = oldIdx+1;i<=newIdx;i++){//check for a leapfrog in the home array
+
+                //check for a leapfrog in the home array
+                for(int i = oldIdx+1;i<=newIdx;i++){
                     if (homeCopy[i]==playerNum){
                         return false;
                     }
                 }
+
                 //out with the old, in with the new
                 if(fromOuterSpace){
                     boardCopy[oldIdx]=-1;
@@ -143,41 +158,39 @@ Log.i("got to", "makeMove");
             * and are actually TAKING a shortcut / cutting something short, call it a "Board" move
             - Owen */
             else if (type.equalsIgnoreCase("Board")) {
+
                 //return false if you would be "leapfrogging" one of your own
                 //Should never happen with CPU
                 if (oldIdx < 56) {
                     for (int i = oldIdx + 1; i <= newIdx; i++) {
-                        if (boardCopy[i] == playerNum) {
-                            Log.i("Stuck in here?","h");
-                            return false;
-                        }
+                        if (boardCopy[i] == playerNum) return false;
                     }
                 }
-               // if (oldIdx+actualRoll>endOfTheLine || newIdx>endOfTheLine){//if you're moving past the end, you should have made a "home" move
-               //     Log.i("Stuck in here?","maybe");
-                //    return false;
-              //  }
+
                 /*If the desired spot is not empty, it is another player*/
                 if (boardCopy[newIdx]!=-1){
+
                     //aggravating move code
                     otherPlayerNum = boardCopy[newIdx];//whatever value is in the space
                     otherStart = officialGameState.getStartArray(otherPlayerNum);
                     for (int i=0;i<4;i++){
+
                         //find first empty space in otherPlayerNum start array
                         if (otherStart[i]==-1){
+
                             //put their piece "back" in their start array
                             otherStart[i]=otherPlayerNum;
-                            //Log.i("otherPlayerNum",""+otherPlayerNum);
+
                             officialGameState.setStartArray(otherPlayerNum,otherStart);
                             break;
                         }
                     }
                 }
+
                 //out with the old, in with the new
                 Log.i("Computer got ", "here");
                 boardCopy[oldIdx]=-1;
                 boardCopy[newIdx]=playerNum;
-
             }
 
                 /* the 4 shortcut spaces are 5, 19, 33, and 47
@@ -202,26 +215,30 @@ Log.i("got to", "makeMove");
              * */
             else if (type.equalsIgnoreCase("Shortcut")) {
 
+                if (oldIdx==56 && actualRoll!=1) return false; //need to roll a 1 to leave the center
+
                 //canCutThere -"Can you take a shortcut there?" for validity of move,
-                // last shortcut is an idx for leapfrogging purposes
+                // last shortcut is an idx for taking counter-leapfrog measures
                 boolean canCutThere = false;
                 int lastShortcut=0;
 
-                /*the middle space stuff has more code than I'd like,
-                * the 3 line if-statement really hurts my aesthetic.
-                * basically, if you're trying to move to the middle spot, it makes sure that
+                /*basically, if you're trying to move to the middle spot, it makes sure that
                 * you land on a shortcut space 1 count before hitting the middle spot,
                 * so you see that it's landing on the center by an exact count, then makes sure neither that spot nor the center spot
                 * is the player's piece (leapfrog check), then it aggravates if someone's there - Owen */
-                if (newIdx==56) {
-                    //oneOff is the shortcut spot right before the middle reached by exact count
+                if (newIdx==56) {//special case for center square move
+
+                    //oneOff is the shortcut spot right before the middle, reached by exact count
                     int oneOff = oldIdx+actualRoll-1;
 
-                    if ((oneOff==5||oneOff==19||oneOff==33||oneOff==47)
-                            && (oneOff==oldIdx||boardCopy[oneOff]!= playerNum)
-                            && (boardCopy[56]!=playerNum)){
+                    //landing by exact count, and not overcrowding
+                    if ((oneOff==5||oneOff==19||oneOff==33||oneOff==47) && (boardCopy[56]!=playerNum)){
 
-                        if(boardCopy[56]!=-1){//aggravation copypaste
+                        //not leapfrogging the oneOff space
+                        if(boardCopy[oneOff]==playerNum && actualRoll!=1) return false;
+
+                        //aggravation copypasta
+                        if(boardCopy[56]!=-1){
                             otherPlayerNum = boardCopy[newIdx];
                             otherStart = officialGameState.getStartArray(otherPlayerNum);
                             for (int i=0;i<4;i++){
@@ -238,36 +255,34 @@ Log.i("got to", "makeMove");
                 /*moving from any of the 4 possible shortcut spaces,
                 * check the given newIdx with every possible valid point you can move to
                 * you're allowed to loop around as many times as you want on the shortcut spaces, apparently,
-                * and if this works like it does in my head that should be totally fine - Owen*/
-                if (oldIdx==5||oldIdx==19||oldIdx==33||oldIdx==47){
+                * and if this works like it does in my head that should be totally fine - Owen
+                * changed to else-if because center square code should be handled before this*/
+                else if (oldIdx==5||oldIdx==19||oldIdx==33||oldIdx==47){
                     for(int i = 0; i<=actualRoll;i++){
 
-                        //valid is a valid new index
+                        //valid is a valid new index - if you aren't sitting on any other
+                        // shortcut squares, there is a unique valid move per the value of the roll,
+                        // plus a move where you don't leave the shortcut spaces
                         //yes I did mean 13 not 14 check my work the i distributes - Owen
                         int valid = oldIdx+actualRoll+(13*i);
 
                         //keep it on the board
                         //while loop since we want it to stay relative to the 56 square board
-                        while (valid>56) {
-                            valid=valid-56;
-                        }
-                        //I feel like my algebra is questionable, but I don't see any reason this wouldn't work
-                        //valid = oldIdx+actualRoll+(13*i)
-                        //oldIdx+14*i = the index of the furthest shortcut reached before
-                        //leaving shortcut space for the main board
-                        //so lastShortcut = oldIdx + 14*i = valid - actualRoll + i
-                        //since valid is decremented I put in terms of valid - Owen
-
+                        while (valid>56) valid-=56;
 
                         //special leapfrog check, breaks the loop before validating
                         //a newIdx if you have another piece on that shortcut space
                         //don't need to keep it relative to the 56, since it would break before
                         //i got greater than 3, if it was going to break
-                        if(i!=0 && boardCopy[oldIdx+14*i]==playerNum) break;
+                        if(i>0 && boardCopy[oldIdx+14*i]==playerNum) break;
 
+                        //oldIdx+14*i = the index of the furthest shortcut reached before
+                        //leaving shortcut space for the main board
+                        //so lastShortcut = oldIdx + 14*i = valid - actualRoll + i
+                        //since valid is decremented above, I put in terms of valid - Owen
 
                         //if the newIdx matches with a valid spot, you can take the
-                        // short cut you asked for and break the loop early
+                        // short cut you asked for and break the loop without checking the rest
                         if(valid == newIdx) {
                             lastShortcut = valid-actualRoll+i;
                             canCutThere = true;
@@ -275,19 +290,22 @@ Log.i("got to", "makeMove");
                         }
                     }
                 }
-                else return false;//don't make a shortcut move if you aren't moving from a shortcut space
 
-                if(!canCutThere) return false;//if you don't match with any of the possible valid moves
-                else {//if you can, check for leapfrog and aggravations from the shortcut you left from
-                    //ideally, since every move has such similar leapfrog/aggravation code, I would be able to
-                    //move this bit outside of the "type" cases. Not important for functionality yet though - Owen
+                //don't make a shortcut move if you aren't moving from a shortcut space
+                else return false;
 
-                    for (int i=lastShortcut;i<=newIdx;i++){//leapfrog check
-                        if (boardCopy[i] == playerNum)
-                            return false;
+                //if you can, check for leapfrog and aggravations from the shortcut you left from
+                //ideally, since every move has such similar leapfrog/aggravation code, I would be able to
+                //move this bit outside of the "type" cases. Not important for functionality yet though - Owen
+                if (canCutThere) {
+
+                    //leapfrog check
+                    for (int i=lastShortcut;i<=newIdx;i++) {
+                        if (boardCopy[i] == playerNum) return false;
                     }
 
-                    if (boardCopy[newIdx]!=-1){//aggravation copypasta
+                    //aggravation copypasta
+                    if (boardCopy[newIdx]!=-1){
                         otherPlayerNum = boardCopy[newIdx];
                         otherStart = officialGameState.getStartArray(otherPlayerNum);
                         for (int i=0;i<4;i++){
@@ -298,31 +316,34 @@ Log.i("got to", "makeMove");
                             }
                         }
                     }
+
                     //out with the old, in with the new
                     boardCopy[oldIdx]=-1;
                     boardCopy[newIdx]=playerNum;
                 }
-            }
+
+                //if you don't match with any of the possible valid moves
+                else return false;
+            }//shortcut
 
             /*Label a move "skip" if you want to make a move,
-            * but are afraid of commitment */
-            else if (type.equalsIgnoreCase("Skip")) {
-                //99% sure we can leave this blank since we don't want it to do anything - Owen
-            }
+            * but you're afraid of the commitment */
+            else if (type.equalsIgnoreCase("Skip")){/**/}
 
             //setStart and setGameBoard were redundant, being the same in every case so I moved them here
             //makeMove doesn't set anything official before this point, it just modifies copies
             officialGameState.setGameBoard(boardCopy);
-            //(only)after any actual move is made, someone has to roll
-        }
 
-        //if the player *didn't* roll a 6 - I moved this outside
-        // to the same scope as the other "return true" statement and cleaned it up a bit
-        // there was also an extra 2 lines at the end of "RollAction" - I think
-        // part of our problem was that we called "sendAllUpdatedState" at least twice
-        // for any given move. I've also made sure that every other return statement is a return false,
-        // so makeMove can't return true prematurely. Between this and the synchronization thing I think I probably fixed
-        // the roll problem. Bear that in mind when the rest of the code I added inevitably fucks everything up - Owen
+            //(only)after any actual move is made, someone has to roll
+            //increment the turn whenever the roll isn't a 6
+            if (actualRoll!=6) officialGameState.setTurn(officialGameState.getTurn()+1);
+            officialGameState.setRoll(true);
+        }
+        return true;
+        /* Shortened this and moved it up for scope reasons - we had it setting roll to true outside the scope of
+        the roll, where it set it to false. So following through the code, we had set roll to
+        false after getting a roll, checked to see if it was a 6, then set it true either way and returned.
+        If I'm misunderstanding something feel free to change it back
         if(actualRoll == 6)
         {
             officialGameState.setTurn(officialGameState.getTurn());
@@ -334,8 +355,7 @@ Log.i("got to", "makeMove");
             officialGameState.setTurn(officialGameState.getTurn() + 1);
             officialGameState.setRoll(true);
             return true;
-        }
-
+        }*/
     }//makeMove
 
     /**
@@ -359,75 +379,13 @@ Log.i("got to", "makeMove");
     protected String checkIfGameOver() {
         int[] counts = new int[4];
         int[][] homeCopy = officialGameState.getHomeArray();
-
+        String winMessage=null;
         for(int i=0;i<4;i++){
-            for(int j=0;j<4;j++){
-                if (homeCopy[i][j]==i){
-                    counts[i]++;
-                }
-            }
-            if (counts[i]==4){
-                return ("Player "+(i+1)+" Wins!");
-            }
-            else {
-                counts[i] = 0;
-            }
+            for(int j=0;j<4;j++)
+                if (homeCopy[i][j]==i) counts[i]++;
+            if (counts[i]==4) winMessage="Player "+(i+1)+" Wins!";
+            else counts[i] = 0;
         }
-        return null;
-
-        /* I left the other method here in case you wanted it back, I wasn't trying to be
-        passive aggressive or anything it was just an easy fix - Owen
-
-
-        int countZeroPiece = 0;
-        int countOnePiece = 0;
-        int countTwoPiece = 0;
-        int countThreePiece = 0;
-
-        for(int i = 0;i < 4; i++)
-        {
-            int[][] tempGameOver = officialGameState.getHomeArray();
-            if(tempGameOver[0][i] == 0)
-            {
-                countZeroPiece++;
-            }
-        }
-        for(int i = 0;i < 4; i++)
-        {
-            int[][] tempGameOver = officialGameState.getHomeArray();
-            if(tempGameOver[1][i] == 0)
-            {
-                countOnePiece++;
-            }
-        }
-        for(int i = 0;i < 4; i++)
-        {
-            int[][] tempGameOver = officialGameState.getHomeArray();
-            if(tempGameOver[2][i] == 0)
-            {
-                countTwoPiece++;
-            }
-        }
-        for(int i = 0;i < 4; i++)
-        {
-            int[][] tempGameOver = officialGameState.getHomeArray();
-            if(tempGameOver[3][i] == 0)
-            {
-                countThreePiece++;
-            }
-        }
-        if(countZeroPiece==4){
-            return "Player 0 Wins!";
-        }
-        if(countOnePiece==4){
-            return "Player 1 Wins!";
-        }
-        if(countTwoPiece==4){
-            return "Player 2 Wins!";
-        }
-        if(countThreePiece==4){
-            return "Player 3 Wins!";
-        }
-        return null;*/
+        return winMessage;
     }
 }// class AggravationLocalGame
