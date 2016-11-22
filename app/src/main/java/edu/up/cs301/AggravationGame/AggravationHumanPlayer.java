@@ -268,7 +268,7 @@ public void possibleMoveChecker()
 
                 }
             }
-            for (int i = 0; i < 4; i++) //enables player's buttons in start and home array
+            for (int i = 0; i < 4; i++) //checks buttons in start and home array
             {
                 if (startCopy[playerNum][i] == playerNum) {
                     this.playerStart[playerNum][i].setEnabled(true);
@@ -339,6 +339,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
     //if checking a value in the home area, checks or enables possible move spot(s)
     if (board.equals("home")) {
         int i = pieceLoc;
+        Log.i("pieceLoc is ", Integer.toString(pieceLoc));
         if (i + rollVal <4) {
             if (enable) {
                 this.gameBoard[rollVal + i].setEnabled(true);
@@ -358,7 +359,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
             markedButton = i;
 
             //CASE: roll val on the board
-            if (((i + rollVal) > (playerNum * 14)) && ((i + rollVal) < (55 - playerNum * 14))) //if there is a viable button for player button + roll
+            if (((i + rollVal) > (playerNum * 14)) && ((i + rollVal) < (56 - playerNum * 14))) //if there is a viable button for player button + roll
             {
                 if ((i + rollVal) > 55) {
                     int correctedSpace = rollVal + i - 55; //"over the top space"
@@ -367,7 +368,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         if (checkPieceOrder(currentPieceLocations, playerNum, i, correctedSpace)) {
                             if (enable) {
                                 this.gameBoard[correctedSpace].setEnabled(true);
-                                Log.i("enabledCS1", Integer.toString(correctedSpace));
+                                Log.i("enabled CS1", Integer.toString(correctedSpace));
                             }
                             possibleMove = true;
                         }
@@ -735,7 +736,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
             //Searches board for clicked button, and disables all non player(starting precaution)
             for (int i = 0; i < 57; i++) {
-                if (button == this.gameBoard[i]) //finds the button index
+                if (button == this.gameBoard[i] && gameBoardCopy[i] == playerNum) //finds the button index
                 {
                     clickedIdx = i;
                     boardTypeCheck = "board";
@@ -777,10 +778,12 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                 }
             }
 
-            if (clickedIdx >-1) //if the button clicked has been found
+            if (clickedIdx >-1)//if the button clicked has been found
             {
+
+                Log.i("enabling board type",boardTypeCheck);
+                Log.i("for position", Integer.toString(clickedIdx));
                 Moves(boardTypeCheck, clickedIdx, true); //enable possible moves
-                Log.i("enabling","stuff");
             }
 
                 //When the player clicks on an available space to make a move
@@ -811,7 +814,6 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                 for (int l = 0; l <4; l++)
                 {
                     if (button == this.playerHome[playerNum][l] && homeCopy[playerNum][l] != playerNum)
-                    //does this check leapfrogs, or just if the space is occupied? -Owen
                     {
                         boardType = "Home";
                         AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, l);
