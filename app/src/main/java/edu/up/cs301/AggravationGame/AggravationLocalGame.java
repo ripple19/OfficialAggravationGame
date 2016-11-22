@@ -210,15 +210,15 @@ Log.i("got to", "makeMove");
                 /*the middle space stuff has more code than I'd like,
                 * the 3 line if-statement really hurts my aesthetic.
                 * basically, if you're trying to move to the middle spot, it makes sure that
-                * you land on a shortcut immediately before hitting the middle spot, so you see that it's
-                * landing on the center by an exact count, then makes sure neither that spot nor the center spot
+                * you land on a shortcut space 1 count before hitting the middle spot,
+                * so you see that it's landing on the center by an exact count, then makes sure neither that spot nor the center spot
                 * is the player's piece (leapfrog check), then it aggravates if someone's there - Owen */
                 if (newIdx==56) {
                     //oneOff is the shortcut spot right before the middle reached by exact count
                     int oneOff = oldIdx+actualRoll-1;
 
                     if ((oneOff==5||oneOff==19||oneOff==33||oneOff==47)
-                            && (boardCopy[oneOff]!= playerNum)
+                            && (oneOff==oldIdx||boardCopy[oneOff]!= playerNum)
                             && (boardCopy[56]!=playerNum)){
 
                         if(boardCopy[56]!=-1){//aggravation copypaste
@@ -250,26 +250,26 @@ Log.i("got to", "makeMove");
                         //while loop since we want it to stay relative to the 56 square board
                         while (valid>56) {
                             valid=valid-56;
-                            //I feel like my algebra is questionable, but I don't see any reason this wouldn't work
-                            //valid = oldIdx+actualRoll+(13*i)
-                            //oldIdx+14*i = the index of the furthest shortcut reached before
-                            //leaving shortcut space for the main board
-                            //so lastShortcut = oldIdx + 14*i = valid - actualRoll + i
-                            //since valid is decremented I put in terms of valid - Owen
-                            lastShortcut = valid-actualRoll+i;
                         }
+                        //I feel like my algebra is questionable, but I don't see any reason this wouldn't work
+                        //valid = oldIdx+actualRoll+(13*i)
+                        //oldIdx+14*i = the index of the furthest shortcut reached before
+                        //leaving shortcut space for the main board
+                        //so lastShortcut = oldIdx + 14*i = valid - actualRoll + i
+                        //since valid is decremented I put in terms of valid - Owen
+
 
                         //special leapfrog check, breaks the loop before validating
                         //a newIdx if you have another piece on that shortcut space
                         //don't need to keep it relative to the 56, since it would break before
                         //i got greater than 3, if it was going to break
-                        if(i!=0 && boardCopy[oldIdx+14*i]==playerNum)
-                            break;
+                        if(i!=0 && boardCopy[oldIdx+14*i]==playerNum) break;
 
 
                         //if the newIdx matches with a valid spot, you can take the
                         // short cut you asked for and break the loop early
                         if(valid == newIdx) {
+                            lastShortcut = valid-actualRoll+i;
                             canCutThere = true;
                             break;
                         }

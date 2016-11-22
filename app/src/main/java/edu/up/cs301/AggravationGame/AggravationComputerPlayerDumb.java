@@ -73,9 +73,9 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
                     //check to see if there even is a piece on the board the CPU can look to move
                     int toMoveFrom = -1;//default officialRoll, no -1 idx to confuse with
-                    for (int i = startIdx; i < startIdx + 56; i++) {
-                        int j = i;
-                        while (j > 56) {
+                    for (int i = 0; i < 56; i++) {
+                        int j = i + startIdx;
+                        while (j > 56) {//keeps j on the board
                             j = j - 56;
                         }
                         /*found a piece to (try to) move, so set toMoveFrom to that spot*/
@@ -85,16 +85,16 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                         }
                     }
                     Log.i("toMoveFrom is"," "+toMoveFrom);
-
                         //find a piece "in the way" of toMoveFrom and reset the loop around that piece
                         //moves the first "in the way" piece it can, so it can start all of its pieces as fast as possible
-                        //if toMoveFrom!=-1 that means the previous loop found a space with playerNum as a officialRoll and is trying to move it
+                        //if toMoveFrom!=-1, that means the previous loop found a space with playerNum as a officialRoll and is trying to move it
                         /*This is where a Board move comes from*/
-                        if (toMoveFrom != -1) {
+                        if (toMoveFrom != -1) {//if to move from found a piece to move
                             for (int i = 0; i <= officialRoll; i++) {
                                 if (boardCopy[toMoveFrom + i] == this.playerNum) {
-                                    toMoveFrom = +i;//move from the idx of the piece blocking you, instead
-                                    i = 1;//reset the loop
+                                    toMoveFrom=+i;//move from the idx of the piece blocking you that you found at toMoveFrom+i
+                                    i = 1;//reset the loop at 1, so it doesn't get stuck on itself.
+                                        // if this doesn't fix the problem, idk why it can't find its first piece.
                                 }
                             }
                             int toMoveTo = toMoveFrom + officialRoll;
