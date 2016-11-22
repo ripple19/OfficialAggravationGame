@@ -236,8 +236,8 @@ public class AggravationLocalGame extends LocalGame {
                     Log.i("Oneoff = ", oneOff+"");
 
                     //landing by exact count, and not overcrowding
-                    if (oneOff == 5){//||oneOff==19||oneOff==33||oneOff==47) && (boardCopy[56]!=playerNum)){
-                        Log.i("Getting in if statement", "");
+                    if ((oneOff == 5||oneOff==19||oneOff==33||oneOff==47) && (boardCopy[56]!=playerNum)){
+                            Log.i("Getting in if statement", "");
                         //not leapfrogging the oneOff space
                         if(boardCopy[oneOff]==playerNum && actualRoll!=1)
                         {
@@ -255,13 +255,6 @@ public class AggravationLocalGame extends LocalGame {
                                     break;
                                 }
                             }
-                        }
-                        else if(boardCopy[56] == -1)
-                        {
-                            Log.i("Getting in here?", "");
-                            boardCopy[56] = officialGameState.getTurn();
-                            boardCopy[oldIdx] = -1;
-                            officialGameState.setGameBoard(boardCopy);
                         }
                     }
                     Log.i("Skipping?","");
@@ -289,7 +282,7 @@ public class AggravationLocalGame extends LocalGame {
                         //a newIdx if you have another piece on that shortcut space
                         //don't need to keep it relative to the 56, since it would break before
                         //i got greater than 3, if it was going to break
-                        if(i>0 && boardCopy[oldIdx+14*i]==playerNum) break;
+                        if(i>0 && i<3&& boardCopy[oldIdx+14*i]==playerNum) break;
 
                         //oldIdx+14*i = the index of the furthest shortcut reached before
                         //leaving shortcut space for the main board
@@ -332,13 +325,14 @@ public class AggravationLocalGame extends LocalGame {
                         }
                     }
 
-                    //out with the old, in with the new
-                    boardCopy[oldIdx]=-1;
-                    boardCopy[newIdx]=playerNum;
+
                 }
+                else return false;
+                //out with the old, in with the new
 
                 //if you don't match with any of the possible valid moves
-                else return false;
+                boardCopy[oldIdx]=-1;
+                boardCopy[newIdx]=playerNum;
             }//shortcut
 
             /*Label a move "skip" if you want to make a move,
@@ -350,7 +344,7 @@ public class AggravationLocalGame extends LocalGame {
 
             //(only)after any actual move is made, someone has to roll
             //increment the turn whenever the roll isn't a 6
-            if (actualRoll != 6)
+            if (actualRoll !=6)
             {
                 officialGameState.setTurn(officialGameState.getTurn()+1);
             }

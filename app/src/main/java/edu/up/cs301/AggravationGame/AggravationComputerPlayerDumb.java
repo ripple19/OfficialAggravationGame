@@ -115,7 +115,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                         }
 
 
-                        if (toMoveTo>endOfTheLine) {
+                        if (toMoveTo>endOfTheLine && toMoveFrom<endOfTheLine) {
                             toMoveTo-=endOfTheLine;
                             moveType="Home";
                         }
