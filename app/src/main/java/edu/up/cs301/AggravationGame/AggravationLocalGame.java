@@ -161,6 +161,7 @@ public class AggravationLocalGame extends LocalGame {
 
                 //return false if you would be "leapfrogging" one of your own
                 //Should never happen with CPU
+                Log.i("Making a board", " action");
                 if (oldIdx < 56) {
                     for (int i = oldIdx + 1; i <= newIdx; i++) {
                         if (boardCopy[i] == playerNum) return false;
@@ -216,7 +217,8 @@ public class AggravationLocalGame extends LocalGame {
             else if (type.equalsIgnoreCase("Shortcut")) {
 
                 if (oldIdx==56 && actualRoll!=1) return false; //need to roll a 1 to leave the center
-
+                Log.i("Old Index", oldIdx+"");
+                Log.i("New Index", newIdx+"");
                 //canCutThere -"Can you take a shortcut there?" for validity of move,
                 // last shortcut is an idx for taking counter-leapfrog measures
                 boolean canCutThere = false;
@@ -226,16 +228,21 @@ public class AggravationLocalGame extends LocalGame {
                 * you land on a shortcut space 1 count before hitting the middle spot,
                 * so you see that it's landing on the center by an exact count, then makes sure neither that spot nor the center spot
                 * is the player's piece (leapfrog check), then it aggravates if someone's there - Owen */
-                if (newIdx==56) {//special case for center square move
+                if (newIdx==56) {
+                    //special case for center square move
 
                     //oneOff is the shortcut spot right before the middle, reached by exact count
                     int oneOff = oldIdx+actualRoll-1;
+                    Log.i("Oneoff = ", oneOff+"");
 
                     //landing by exact count, and not overcrowding
-                    if ((oneOff==5||oneOff==19||oneOff==33||oneOff==47) && (boardCopy[56]!=playerNum)){
-
+                    if (oneOff == 5){//||oneOff==19||oneOff==33||oneOff==47) && (boardCopy[56]!=playerNum)){
+                        Log.i("Getting in if statement", "");
                         //not leapfrogging the oneOff space
-                        if(boardCopy[oneOff]==playerNum && actualRoll!=1) return false;
+                        if(boardCopy[oneOff]==playerNum && actualRoll!=1)
+                        {
+                            return false;
+                        }
 
                         //aggravation copypasta
                         if(boardCopy[56]!=-1){
@@ -249,7 +256,15 @@ public class AggravationLocalGame extends LocalGame {
                                 }
                             }
                         }
+                        else if(boardCopy[56] == -1)
+                        {
+                            Log.i("Getting in here?", "");
+                            boardCopy[56] = officialGameState.getTurn();
+                            boardCopy[oldIdx] = -1;
+                            officialGameState.setGameBoard(boardCopy);
+                        }
                     }
+                    Log.i("Skipping?","");
                 }
 
                 /*moving from any of the 4 possible shortcut spaces,
@@ -336,9 +351,38 @@ public class AggravationLocalGame extends LocalGame {
 
             //(only)after any actual move is made, someone has to roll
             //increment the turn whenever the roll isn't a 6
-            if (actualRoll!=6) officialGameState.setTurn(officialGameState.getTurn()+1);
+            if (actualRoll > 0)
+            {
+                //officialGameState.setTurn(officialGameState.getTurn()+1);
+            }
             officialGameState.setRoll(true);
         }
+        else if(action instanceof AggravationNewGameAction)
+        {
+            officialGameState.setTurn(0);
+            officialGameState.setRoll(true);
+            officialGameState.setDieValue(0);
+            int[][] playerStart = new int [4][4];
+            int[][] playerHome = new int [4][4];
+            int[] gameBoard = new int[57];
+            for (int i = 0; i<4; i++) //assuming 4 players right now
+            {
+                for (int j= 0; j<4; j++) //the space number
+                {
+                    playerStart[i][j] = i;//start with full start array
+                    playerHome[i][j] = -1;    //homes is empty
+                }
+            }
+            //sets gameboard to empty
+            for (int k = 0; k<57; k++) //ASSUMING 57 SQUARES-- might be wrong
+            {
+                gameBoard[k] = -1;
+            }
+            officialGameState.setStartArray(playerStart);
+            officialGameState.setHomeArray(playerHome);
+            officialGameState.setGameBoard(gameBoard);
+        }
+
         return true;
         /* Shortened this and moved it up for scope reasons - we had it setting roll to true outside the scope of
         the roll, where it set it to false. So following through the code, we had set roll to

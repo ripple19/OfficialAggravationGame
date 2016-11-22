@@ -959,9 +959,18 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
+        <Button
+            android:text="New Game"
+            android:id="@+id/newGameButton"
+            android:layout_weight="1"
+            android:layout_height="80dp"
+            android:layout_width="80dp"
+            android:background="#aaccee" />
+
         <Space
-            android:layout_width="210dp"
-            android:layout_height="30dp" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="133dp" />
 
         <TextView
             android:layout_width="wrap_content"

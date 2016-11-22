@@ -7,6 +7,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
@@ -27,6 +28,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
     private ImageButton dieImageButton = null;
     private TextView yourTurn;
     private TextView rollView;
+    private Button newGameButton;
     private AggravationState gameStateInfo;  // holds copy of the game state
 
     private ImageButton[] gameBoard = new ImageButton[57];
@@ -93,7 +95,12 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                 gameStateInfo = (AggravationState) info;
                 Log.i("rollVal Receive Info", Integer.toString(gameStateInfo.getDieValue()));
                 int[] temp = gameStateInfo.getGameBoard();
-                synchronized (this) {
+
+
+                    if(gameStateInfo.getRoll() == true || gameStateInfo.getRoll() == false)
+                    {
+                        this.newGameButton.setEnabled(true);
+                    }
                     for (int i = 0; i < 57; i++) //setting game board to the pictures
                     {
 
@@ -186,15 +193,18 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                     rollView.setText("Roll!");
                 }
                 if (whoseTurn == playerNum && gameStateInfo.getRoll() == false) {
-                    rollView.setText("You Just Rolled! Move a Piece!");
+                    rollView.setText("You Just Rolled! \n Move a Piece!");
                 }
 
 
-            }
+
             // else
             // {
             // flash(Color.RED,100);
             //}
+            if (gameStateInfo.getDieValue() == 0) {
+                dieImageButton.setImageResource(R.mipmap.zeroroll);
+             }
             if (gameStateInfo.getDieValue() == 1) {
                 dieImageButton.setImageResource(R.drawable.face1);
             }
@@ -673,6 +683,13 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
     int[] currentPieceLocations = new int[4]; //holds locations of player pieces
     int cpLi; //iterator for current Piece Location
     public void onClick(View button) {
+        if(button == newGameButton)
+        {
+            AggravationNewGameAction newGame = new AggravationNewGameAction(this);
+            game.sendAction(newGame);
+            Log.i("New Game Button", " Clicked");
+            return;
+        }
         Log.i("clicked", "click");
         int rollVal = gameStateInfo.getDieValue();
         int myNum = playerNum;
@@ -814,6 +831,8 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         this.yourTurn = (TextView)activity.findViewById(R.id.yourTurn);
         this.rollView = (TextView)activity.findViewById(R.id.rollView);
         this.dieImageButton = (ImageButton)activity.findViewById(R.id.RollButton);
+        this.newGameButton = (Button)activity.findViewById(R.id.newGameButton);
+        newGameButton.setOnClickListener(this);
         Log.i("HERE","HERE");
         dieImageButton.setOnClickListener(this);
         Log.i("die image button", "created");
