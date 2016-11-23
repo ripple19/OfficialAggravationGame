@@ -98,7 +98,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
 
             if (info instanceof AggravationState) {
-                illegalMove.setText("Legal Move.");
+                illegalMove.setText("");
                 gameStateInfo = (AggravationState) info;
                 Log.i("rollVal Receive Info", Integer.toString(gameStateInfo.getDieValue()));
                 int[] temp = gameStateInfo.getGameBoard();
@@ -149,7 +149,22 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                     {
                         for (int j = 0; j < 4; j++) {
                             if (tempHome[i][j] == -1) {
-                                this.playerHome[i][j].setBackgroundResource(R.mipmap.homesquare);
+                                if(i == 0)
+                                {
+                                    this.playerHome[i][j].setBackgroundResource(R.mipmap.greensquarehome);
+                                }
+                                if(i == 1)
+                                {
+                                    this.playerHome[i][j].setBackgroundResource(R.mipmap.pinksquarehome);
+                                }
+                                if(i == 2)
+                                {
+                                    this.playerHome[i][j].setBackgroundResource(R.mipmap.redsquarehome);
+                                }
+                                if(i == 3)
+                                {
+                                    this.playerHome[i][j].setBackgroundResource(R.mipmap.greysquarehome);
+                                }
                             } else if (tempHome[i][j] == 0) {
                                 this.playerHome[i][j].setBackgroundResource(R.mipmap.playerzeropiece);
                             } else if (tempHome[i][j] == 1) {
@@ -343,7 +358,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         if (i + rollVal <4) {
             if (enable) {
                 this.gameBoard[rollVal + i].setEnabled(true);
-                Log.i("enabledhomearray", Integer.toString(rollVal + i));
+                Log.i("enabledhomearray", Integer.toString(rollVal + i)); //enables...but a move piece action is not sent
             }
             possibleMove = true;
         }
@@ -365,7 +380,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                     int correctedSpace = rollVal + i - 55; //"over the top space"
                     if (gameBoardCopy[correctedSpace] != playerNum)//"over the top"
                     {
-                        if (checkPieceOrder(currentPieceLocations, playerNum, i, correctedSpace)) {
+                        if (checkPieceOrder(currentPieceLocations, playerNum, i, correctedSpace)) { //right here is where it needs to be fixed
                             if (enable) {
                                 this.gameBoard[correctedSpace].setEnabled(true);
                                 Log.i("enabled CS1", Integer.toString(correctedSpace));
@@ -655,7 +670,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         }
         int startMove1 = startMove + playerNum*14;
         int endMove1 = endMove + playerNum*14;
-        for (int j = 0; j<4; j++)
+        for (int j = 0; j<4; j++) //something in here is wrong
         {
             if (pieceLocations[j]!= startMove1 && pieceLocations[j] > startMove1 && pieceLocations[j] <endMove1)
             { return false;}
@@ -811,7 +826,8 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                     //conditions
                 }
 
-                for (int l = 0; l <4; l++)
+                for (int l = 0; l <4; l++) //Moving in home doesn't get in here...So if I roll a one and try to move something in my home base...it enables
+                     //the correct button I need to move to, but it never sends the action
                 {
                     if (button == this.playerHome[playerNum][l] && homeCopy[playerNum][l] != playerNum)
                     {

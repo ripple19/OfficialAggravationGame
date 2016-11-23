@@ -120,7 +120,8 @@ public class AggravationLocalGame extends LocalGame {
 
                 //"outer space" being the board array
                 boolean fromOuterSpace=false;
-
+                Log.i("Old Index", oldIdx+"");
+                Log.i("New Index", newIdx+"");
                 //should only be needed for CPU players, since there aren't any buttons
                 //the move could take you out of bounds of the home array
                 if(newIdx>3) return false;
@@ -356,12 +357,10 @@ public class AggravationLocalGame extends LocalGame {
 
             //(only)after any actual move is made, someone has to roll
             //increment the turn whenever the roll isn't a 6
-            if (actualRoll !=6)
+            if (actualRoll != 6)
             {
                 officialGameState.setTurn(officialGameState.getTurn()+1);
             }
-            officialGameState.setHomeArray(playerNum,homeCopy);
-            officialGameState.setStartArray(playerNum,startCopy);
             officialGameState.setRoll(true);
             officialGameState.setGameBoard(boardCopy);
         }
