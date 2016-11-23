@@ -49,7 +49,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
 
             if(gameStateInfo.getTurn()==this.playerNum) {
-                sleep(25); //CHANGED FROM 2550
+                sleep(255); //CHANGED FROM 2550
                 Log.i("my turn player", Integer.toString(this.playerNum));
 
                 //getRoll returns whether or there is a roll to be made - either the start of a turn or
