@@ -109,17 +109,21 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                                     {
                                         tempToMoveFrom+=y;
                                         toMoveFrom = tempToMoveFrom;
-                                        i = 0;
                                         break;
                                     }
                                 }
 
                             }
+                            if(toMoveFrom + i > 56) //TEMPORARY
+                            {
+                                toMoveFrom = 49;
+                            }
                             if (boardCopy[toMoveFrom + i] == this.playerNum) {
                                 Log.i("There was a block","");
                                 toMoveFrom+=i;
+                                i = 0;
                                 //move from the idx of the piece blocking you that you found at toMoveFrom+i
-                                i = 0;//reset the loop at 1, so it doesn't get stuck on itself.
+                                //reset the loop at 1, so it doesn't get stuck on itself.
                                 // if this doesn't fix the problem, idk why it can't find its first piece.
                             }
                         }

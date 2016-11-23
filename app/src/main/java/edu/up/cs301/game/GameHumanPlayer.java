@@ -21,15 +21,15 @@ import android.view.View;
 
 /**
  * class GameHumanPlayer
- * 
+ *
  * is an abstract base class for a player that is controlled by a human. For any
  * particular game, a subclass should be created that can display the current
  * game state and responds to user commands.
- * 
+ *
  * @author Steven R. Vegdahl
  * @author Andrew Nuxoll
  * @version July 2013
- * 
+ *
  */
 public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 	/**
@@ -46,26 +46,26 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param name the name of the player
 	 */
 
 	public GameHumanPlayer(String name) {
 		// set the name via the argument
 
-			this.name = name;
+		this.name = name;
 
-		
+
 		// mark game as not being over
 		this.gameOver = false;
-		
+
 		// get new handler for this thread
 		this.myHandler = new Handler();
 	}
-	
+
 	/**
 	 * Returns this object's game timer
-	 * 
+	 *
 	 * @return this object's game timer.
 	 */
 	protected final GameTimer getTimer() {
@@ -79,14 +79,14 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 		// send the message to the player
 		sendInfo(new TimerInfo(timer));
 	}
-	
+
 	/**
 	 * Returns the GUI's top object; used for flashing.
-	 * 
+	 *
 	 * @return the GUI's top object.
 	 */
 	public abstract View getTopView();
-	
+
 	/**
 	 * Start's the GUI's thread, setting up handler.
 	 */
@@ -94,7 +94,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 		// Don't need to do anything since I'm already looping
 		// and have a handler.
 	}
-	
+
 	/**
 	 * perform any initialization that needs to be done after the player
 	 * knows what their game-position and opponents' names are.
@@ -102,15 +102,15 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 	protected void initAfterReady() {
 		// by default, we do nothing
 	}
-	
+
 	/**
 	 * Sets this player as the one attached to the GUI. Saves the
 	 * activity, then invokes subclass-specific method.
 	 */
 	public final void gameSetAsGui(GameMainActivity a) {
 
-			myActivity = a;
-			setAsGui(a);
+		myActivity = a;
+		setAsGui(a);
 
 	}
 
@@ -128,12 +128,12 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 	 * Public Methods
 	 * --------------------------------------------------------------------
 	 */
-	
+
 	/**
 	 * Flashes the background of the GUI--typically indicating that some kind
 	 * of error occurred. Caveat: if multiple flash calls overlap, the prior one
 	 * will take precedence. 
-	 * 
+	 *
 	 * @param color
 	 * 			the color to flash
 	 * @param duration
@@ -143,31 +143,31 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 		// get the top view, ignoring if null
 		View top = this.getTopView();
 		if (top == null) return;
-		
+
 		// save the original background color; set the new background
 		// color
 		int savedColor = getBackgroundColor(top);
 		top.setBackgroundColor(color);
-		
+
 		// set up a timer event to set the background color back to
 		// the original.
 		myHandler.postDelayed(new Unflasher(savedColor), duration);
 	}
-	
+
 	/**
 	 * helper-class to finish a "flash.
-	 * 
+	 *
 	 */
 	private class Unflasher implements Runnable {
-		
+
 		// the original color
 		private int oldColor;
-		
+
 		// constructor
 		public Unflasher(int oldColor) {
 			this.oldColor = oldColor;
 		}
-		
+
 		// method to run at the appropriate time: sets background color
 		// back to the original
 		public void run() {
@@ -176,7 +176,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 			top.setBackgroundColor(oldColor);
 		}
 	}
-	
+
 	/**
 	 * helper-method to get the background color of a view
 	 * @param v
@@ -186,24 +186,24 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 	 * 			or "transparent" if the color could not be deduced
 	 */
 	private static int getBackgroundColor(View v) {
-		 int color = Color.TRANSPARENT;
-         Drawable background = v.getBackground();
-         if (background instanceof ColorDrawable) {
-             color = ((ColorDrawable) background).getColor();
-         }
-         return color;
+		int color = Color.TRANSPARENT;
+		Drawable background = v.getBackground();
+		if (background instanceof ColorDrawable) {
+			color = ((ColorDrawable) background).getColor();
+		}
+		return color;
 	}
 
 	/**
 	 * Sends a 'state' object to the game's thread.
-	 * 
+	 *
 	 * @param info
 	 * 		the information object to send
 	 */
 	public void sendInfo(GameInfo info) {
-		// if handler somehow does not exit, ignore
-		if (myHandler == null) { Log.d("Info", "oh, no, no handler!!!"); return; }
-		
+		// wait until handler is there
+		while (myHandler == null) Thread.yield();
+
 		// post message to the handler
 		Log.d("sendInfo", "about to post");
 		myHandler.post(new MyRunnable(info));
@@ -212,13 +212,13 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 
 	/**
 	 * Callback method, called when player gets a message
-	 * 
+	 *
 	 * @param info
 	 * 		the message
 	 */
 	public abstract void receiveInfo(GameInfo info);
 
-	
+
 	/**
 	 * Helper-class that runs the on the GUI's main thread when
 	 * there is a message to the player.
@@ -226,21 +226,21 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 	private class MyRunnable implements Runnable {
 		// the message to send to the player
 		private GameInfo myInfo;
-		
+
 		// constructor
 		public MyRunnable(GameInfo info) {
 			myInfo = info;
 		}
-		
+
 		// the run method, which is run in the main GUI thread
 		public void run() {
-			
+
 			// if the game is over, just tell the activity that the game is over
 			if (gameOver) {
 				myActivity.setGameOver(true);
 				return;
 			}
-			
+
 			if (game == null) {
 				// game has not been bound: the only thing we're looking for is
 				// BindGameInfo object; ignore everything else
@@ -249,7 +249,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 					BindGameInfo bgs = (BindGameInfo)myInfo;
 					game = bgs.getGame(); // set the game
 					playerNum = bgs.getPlayerNum(); // set our player id
-					
+
 					// respond to the game, telling it our name
 					game.sendAction(new MyNameIsAction(GameHumanPlayer.this, name));
 				}
@@ -259,29 +259,29 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 				// ignore everything else
 				if (myInfo instanceof StartGameInfo) {
 					Log.i("GameHumanPlayer", "notification to start game");
-					
+
 					// update our player-name array
 					allPlayerNames = ((StartGameInfo)myInfo).getPlayerNames();
 
 					// perform game-specific initialization
 					initAfterReady();
-					
+
 					// tell the game we're ready to play the game
 					game.sendAction(new ReadyAction(GameHumanPlayer.this));
 				}
 			}
 			else if (myInfo instanceof GameOverInfo) {
 				// if we're being notified the game is over, finish up
-				
+
 				// perform the "gave over" behavior--by default, to show pop-up message
 				gameIsOver(((GameOverInfo)myInfo).getMessage());
-				
+
 				// if our activity is non-null (which it should be), mark the activity as over
 				if (myActivity != null) myActivity.setGameOver(true);
-				
+
 				// acknowledge to the game that the game is over
 				game.sendAction(new GameOverAckAction(GameHumanPlayer.this));
-				
+
 				// set our instance variable, to indicate the game as over
 				gameOver = true;
 			}
@@ -303,10 +303,10 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 			}
 		}
 	}
-	
+
 	/**
 	 * callback method--called when we are notified that the game is over
-	 * 
+	 *
 	 * @param msg
 	 * 		the "game over" message sent by the game
 	 */
@@ -315,21 +315,21 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 		// the game's result
 		MessageBox.popUpMessage(msg, myActivity);
 	}
-	
+
 	/**
 	 * Tells whether this class requires a GUI to run
-	 * 
+	 *
 	 * @return true, since this player needs to be running as a GUI
 	 */
 	public final boolean requiresGui() {
 		return true;
 	}
-	
+
 	/**
 	 * Tells whether this class supports the running in a GUI
-	 * 
+	 *
 	 * @return true, since this player actually needs to be running as a GUI
-	 */	
+	 */
 	public final boolean supportsGui() {
 		return true;
 	}
