@@ -45,14 +45,10 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
             int toMoveFrom=-9;
             int toMoveTo=-9;
             String moveType ="Board";
-            boolean areWeThereYet=false;
             int homeCopy[]=((AggravationState) info).getHomeArray(playerNum);
-            int endOfTheLine=startIdx-2;
 
-            if(gameStateInfo.getTurn()!=this.playerNum) {
-                sleep(50); //if it's not your turn, give the other players some time to take their turns
-            }  //SLEEP CHANGED FROM 500
-            else {
+
+            if(gameStateInfo.getTurn()==this.playerNum) {
                 sleep(25); //CHANGED FROM 2550
                 Log.i("my turn player", Integer.toString(this.playerNum));
 
@@ -64,6 +60,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                     sleep(50); //CHANGED FROM 500
                     System.out.println("I rolled!");
                 }
+
                 //don't have to roll, so move a piece
                 else {
                     /*This is where a start move comes from*/
@@ -79,8 +76,8 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                             }
                         }
                     }
-                    //check to see if there even is a piece on the board the CPU can look to move
 
+                    //check to see if there even is a piece on the board the CPU can look to move
                     for(int i=0;i<56; i++) {
                         int j= i+startIdx;
 
@@ -94,17 +91,18 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
                     Log.i("toMoveFrom is"," "+toMoveFrom);
 
-                        //find a piece "in the way" of toMoveFrom and reset the loop around that piece
-                        //moves the first "in the way" piece it can, so it can start all of its pieces as fast as possible
-                        //if toMoveFrom!=-9, that means the previous loop found a space with playerNum as a officialRoll and is trying to move it
-                        /*This is where a Board move comes from*/
+                    //find a piece "in the way" of toMoveFrom and reset the loop around that piece
+                    //moves the first "in the way" piece it can, so it can start all of its pieces as fast as possible
+                    //if toMoveFrom!=-9, that means the previous loop found a space with playerNum as a officialRoll and is trying to move it
+                    /*This is where a Board move comes from*/
 
 
-                    if (toMoveFrom != -9) {//if toMoveFrom found a piece to move on the boardCopy[]
+                    if (toMoveFrom != -9) {//if toMoveFrom found a piece to move on the boardCopy[] / is not its default value
 
                         int j=0;
                         int maybeMoveFrom=toMoveFrom;
-                        //looks for blocks, and moves the pieces in a "daisy chain"
+                        //looks for pieces blocking the desired more, and moves the pieces in a "daisy chain"
+                        //if the cpu is giving you problems it's not here, this loop is good
                         while (j<officialRoll){
                             maybeMoveFrom=maybeMoveFrom+1; //"can I move from here? How about here? etc"
                             if(maybeMoveFrom> 55) maybeMoveFrom -= 56;
@@ -119,29 +117,41 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
                         Log.i("toMoveFrom is"," "+toMoveFrom);
                         toMoveTo = toMoveFrom + officialRoll;
+                        int endOfTheLine=startIdx-2;
                         if(toMoveTo > 55) toMoveTo -=56;
-
-
                         if(this.playerNum==0) endOfTheLine=54;
+                        Log.i("endOfTheLine is"," "+endOfTheLine);
 
-                        if (toMoveTo>endOfTheLine && toMoveFrom<=endOfTheLine) {
-                            toMoveTo=toMoveTo-endOfTheLine-1;//note to self: why -1? -Owen
 
-                            Log.i("toMoveTo is", toMoveTo+"");
-                            if (toMoveTo>3) {
-                                moveType = "Skip";
-                            }
-
-                            else
-                            {
+                        //if the move from would roll across the end of the line, chance toMoveTo to reflect that
+                        //since it is now a home move
+                        //if this works I'm never changing it because it fits my aesthetic perfectly
+                        for(int i=toMoveFrom;i<=toMoveFrom+officialRoll;i++){
+                            if(i==endOfTheLine){
                                 moveType="Home";
-                                for (int i = 1; i <= toMoveTo; i++) {
-                                    if (homeCopy[i] == playerNum) {
-                                        moveType = "Skip";
-                                    }
+                                toMoveTo=toMoveTo-endOfTheLine-1;
+                                break;
+                            }
+                        }
+                        if(moveType.equalsIgnoreCase("Home")) {
+                            if (toMoveTo > 3) moveType = "Skip";
+                            else {
+                                for (int i = 0; i <= toMoveTo; i++) {
+                                    if (homeCopy[i] == playerNum) moveType = "Skip";
                                 }
                             }
                         }
+                        //THIS IS WHERE THE PROBLEMS LIVE - Owen
+                        //if your move takes you over theEndOfTheLine, and from a point before/= to it,
+                        //you're making a move into your home array
+                        /*if (toMoveTo>endOfTheLine && toMoveFrom<=endOfTheLine) {
+                            toMoveTo=toMoveTo-endOfTheLine-1;//note to self: why -1? -Owen  }*/
+
+
+
+
+
+
 
 
 
