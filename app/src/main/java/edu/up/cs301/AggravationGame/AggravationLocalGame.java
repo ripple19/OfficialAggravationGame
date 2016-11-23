@@ -47,11 +47,13 @@ public class AggravationLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-        Log.i("got to", "makeMove");
+        Log.i("got to", "make Move");
         int playerNum= officialGameState.getTurn();
         int boardCopy[] = officialGameState.getGameBoard();
         int startCopy[]= officialGameState.getStartArray(playerNum);
         int homeCopy[] = officialGameState.getHomeArray(playerNum);
+
+
 
         if(action instanceof AggravationRollAction) {
             if(officialGameState.getTurn()!=playerNum) return false; //safety net

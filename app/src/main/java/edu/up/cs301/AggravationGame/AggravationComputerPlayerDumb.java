@@ -50,10 +50,10 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
             int endOfTheLine=startIdx-2;
 
             if(gameStateInfo.getTurn()!=this.playerNum) {
-                sleep(500); //if it's not your turn, give the other players some time to take their turns
+                sleep(50); //if it's not your turn, give the other players some time to take their turns
             }  //SLEEP CHANGED FROM 500
             else {
-                sleep(2550); //CHANGED FROM 2550
+                sleep(25); //CHANGED FROM 2550
                 Log.i("my turn player", Integer.toString(this.playerNum));
 
                 //getRoll returns whether or there is a roll to be made - either the start of a turn or
@@ -61,7 +61,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                 if (gameStateInfo.getRoll()) {
                     AggravationRollAction rollAct = new AggravationRollAction(this);
                     game.sendAction(rollAct);
-                    sleep(500); //CHANGED FROM 500
+                    sleep(50); //CHANGED FROM 500
                     System.out.println("I rolled!");
                 }
                 //don't have to roll, so move a piece
@@ -125,17 +125,25 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                         if(this.playerNum==0) endOfTheLine=54;
 
                         if (toMoveTo>endOfTheLine && toMoveFrom<=endOfTheLine) {
-                            toMoveTo-=(endOfTheLine);
-                            if (toMoveTo>3)moveType= "Skip";
-                            else moveType="Home";
-                            for (int i=1;i<=toMoveTo;i++){
-                                if (homeCopy[i]==playerNum){
-                                    moveType= "Skip";
+                            toMoveTo=toMoveTo-endOfTheLine-1;//note to self: why -1? -Owen
+
+                            Log.i("toMoveTo is", toMoveTo+"");
+                            if (toMoveTo>3) {
+                                moveType = "Skip";
+                            }
+
+                            else
+                            {
+                                moveType="Home";
+                                for (int i = 1; i <= toMoveTo; i++) {
+                                    if (homeCopy[i] == playerNum) {
+                                        moveType = "Skip";
+                                    }
                                 }
                             }
                         }
 
-                        Log.i("toMoveTo is", toMoveTo+"");
+
 
                         /*AggravationMovePieceAction movePieceGetOutTheWay;
                         movePieceGetOutTheWay = new AggravationMovePieceAction(this, "Board", toMoveFrom, toMoveTo);

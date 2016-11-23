@@ -201,8 +201,7 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                         {
                             for (int j = 0; j < 4; j++) {
                                 this.playerHome[i][j].setEnabled(false);
-                                Log.i("set to false on  player", Integer.toString(i));
-                                Log.i("index", Integer.toString(j));
+
 
                                                             }
                         }
@@ -380,7 +379,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
             possibleMove = true;
             Log.i("return possibleMove", "true");
         }
-
+        markedButton = pieceLoc;
         for (int z = 0; z<4; z++) {
             if (playerHome[0][z].isEnabled()) {
                 Log.i("clickable space", Integer.toString(z));
@@ -420,6 +419,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
             }
                 else if (checkPieceOrder(currentPieceLocations, playerNum, i, (i + rollVal))) {
                     if (i + rollVal < 55 && gameBoardCopy[i + rollVal] != playerNum) {
+                        Log.i("got here","e");
                         if (enable) {
                             this.gameBoard[i + rollVal].setEnabled(true); //enables that button
                             Log.i("enabled cso", Integer.toString(i + rollVal));
@@ -818,6 +818,8 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                     AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, l);
                     game.sendAction(move);
                     Log.i("sent action", "home");
+                    Log.i("from space", Integer.toString(markedButton));
+                    Log.i("to space", Integer.toString(l));
                 }
             }
 
