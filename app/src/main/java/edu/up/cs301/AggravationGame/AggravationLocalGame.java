@@ -53,7 +53,6 @@ public class AggravationLocalGame extends LocalGame {
         int startCopy[]= officialGameState.getStartArray(playerNum);
         int homeCopy[] = officialGameState.getHomeArray(playerNum);
 
-
         if(action instanceof AggravationRollAction) {
             if(officialGameState.getTurn()!=playerNum) return false; //safety net
             Random dieValue = new Random();//dieValue outside of the conditionals
@@ -350,7 +349,9 @@ public class AggravationLocalGame extends LocalGame {
 
             /*Label a move "skip" if you want to make a move,
             * but you're afraid of the commitment */
-            else if (type.equalsIgnoreCase("Skip")){/**/}
+            else if (type.equalsIgnoreCase("Skip")){
+                actualRoll=0;
+            }
 
             //setStart and setGameBoard were redundant, being the same in every case so I moved them here
             //makeMove doesn't set anything official before this point, it just modifies copies

@@ -16,7 +16,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 public class AggravationComputerPlayerSmart extends GameComputerPlayer {
 
     private AggravationState gameStateInfo; //the copy of the game state
-
+    private int officialRoll=0;
 
 
     /* *
@@ -34,40 +34,40 @@ public class AggravationComputerPlayerSmart extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        Log.i("received", "info");
         if (info instanceof AggravationState) {
-            gameStateInfo = (AggravationState) info;
 
-            if (gameStateInfo.getTurn() == playerNum) {
-                Log.i("Turn", Integer.toString(playerNum));
-                sleep(3000);
+            gameStateInfo = (AggravationState) info;
+            officialRoll = gameStateInfo.getDieValue();
+            int startCopy[] = gameStateInfo.getStartArray(this.playerNum);
+            int boardCopy[] = gameStateInfo.getGameBoard();
+            int startIdx = this.playerNum * 14;
+            int toMoveFrom=-9;
+            int toMoveTo=-9;
+            String moveType ="Board";
+
+            if(gameStateInfo.getTurn()!=this.playerNum) {
+                sleep(50); //if it's not your turn, give the other players some time to take their turns
+            }  //SLEEP CHANGED FROM 1000
+            else {
+                sleep(55); //CHANGED FROM 2000
+                Log.i("my turn player", Integer.toString(this.playerNum));
+
                 //getRoll returns whether or there is a roll to be made - either the start of a turn or
                 //after rolling a 6 and making a valid move
                 if (gameStateInfo.getRoll()) {
                     AggravationRollAction rollAct = new AggravationRollAction(this);
                     game.sendAction(rollAct);
+                    sleep(50); //CHANGED FROM 1000
+                    System.out.println("I rolled!");
                 }
-
-
-                else {//don't have to roll, so move a piece
-                    int value = gameStateInfo.getDieValue();
-                    int startCopy[] = gameStateInfo.getStartArray(playerNum);
-                    int boardCopy[] = gameStateInfo.getGameBoard();
-                    int startIdx=playerNum*14;
-                    int[] targetAcquired = boardCopy;
-                    /*idea: set certain values in the target array to 0, like shortcuts, the home array,
-                    and opponent pieces, then loop through to see if any of the CPU's pieces can move to
-                    any of those places - maybe priority aggravate->shortcut->home?
-                    should add that if you have a piece in the center get it out as soon as
-                    you roll a 1, stuff like that
-                    */
-                    if (value == 6 || value == 1) {
+                //don't have to roll, so move a piece
+                else {
+                    /*This is where a start move comes from*/
+                    if (officialRoll == 6 || officialRoll == 1) {
                     /*try to start whenever possible, so look through start array for a piece to move
                     and check the starting space to see if empty or an opponents piece to aggravate*/
                         for (int j = 0; j < 4; j++) {
-                        /*playerNum *14 is where player starts based on index*/
-                            if (startCopy[j] == playerNum && boardCopy[startIdx] != playerNum) {
-                             /*Send local game the starting move*/
+                            if (startCopy[j] == this.playerNum && boardCopy[startIdx] != this.playerNum) {
                                 AggravationMovePieceAction startPiece =
                                         new AggravationMovePieceAction(this, "Start", j, startIdx);
                                 game.sendAction(startPiece);
@@ -75,43 +75,70 @@ public class AggravationComputerPlayerSmart extends GameComputerPlayer {
                             }
                         }
                     }
-
                     //check to see if there even is a piece on the board the CPU can look to move
-                    int toMoveFrom = -1;//default value, no -1 idx to confuse with
-                    for (int i = startIdx; i < startIdx + 56; i++) {
-                        int j = i;
-                        if (j > 56) {//so j always refers to a real index on the board
-                            j = j - 56;
-                        }
-                    /*found a piece to (try to) move, so set toMoveFrom to that spot*/
-                        if (boardCopy[j] == playerNum) {
+
+                    for(int i=0;i<56; i++) {
+                        int j= i+startIdx;
+
+                        if(j>55) j-=56;
+
+                        if (boardCopy[j] == playerNum){
                             toMoveFrom = j;
                             break;
                         }
                     }
+
+                    Log.i("toMoveFrom is"," "+toMoveFrom);
+
                     //find a piece "in the way" of toMoveFrom and reset the loop around that piece
                     //moves the first "in the way" piece it can, so it can start all of its pieces as fast as possible
-                    //if toMoveFrom!=-1 that means the previous loop found a space with playerNum as a value and is trying to move it
-                    if (toMoveFrom != -1) {
-                        for (int i = 1; i <= value; i++) {
-                            if (boardCopy[toMoveFrom + i] == playerNum) {
-                                toMoveFrom = +i;//move from the idx of the piece blocking you, instead
-                                i = 1;//reset the loop
+                    //if toMoveFrom!=-9, that means the previous loop found a space with playerNum as a officialRoll and is trying to move it
+                        /*This is where a Board move comes from*/
+
+
+                    if (toMoveFrom != -9) {//if toMoveFrom found a piece to move on the boardCopy[]
+                        int j=0;
+                        int maybeMoveFrom=toMoveFrom;
+                        while (j<officialRoll){
+                            maybeMoveFrom=maybeMoveFrom+1; //"can I move from here? How about here? etc"
+                            if(maybeMoveFrom> 55) maybeMoveFrom -= 56;
+                            Log.i("maybeMoveFrom ="," "+maybeMoveFrom);
+                            if (boardCopy[maybeMoveFrom] == this.playerNum) {
+                                Log.i("There was a block","");
+                                toMoveFrom=maybeMoveFrom;
+                                j = 0;
                             }
+                            else j++;
                         }
-                        int toMoveTo = toMoveFrom + value;
-                        AggravationMovePieceAction movePieceGetOutTheWay;
+
+                        Log.i("toMoveFrom is"," "+toMoveFrom);
+                        toMoveTo = toMoveFrom + officialRoll;
+                        if(toMoveTo > 55) toMoveTo -=56;
+
+                        int endOfTheLine=startIdx-2;
+                        if(this.playerNum==0) endOfTheLine=54;
+
+                        if (toMoveTo>endOfTheLine && toMoveFrom<=endOfTheLine) {
+                            toMoveTo-=(endOfTheLine);
+                            moveType="Home";
+                        }
+                        Log.i("toMoveTo is", toMoveTo+"");
+
+                        /*AggravationMovePieceAction movePieceGetOutTheWay;
                         movePieceGetOutTheWay = new AggravationMovePieceAction(this, "Board", toMoveFrom, toMoveTo);
-                        game.sendAction(movePieceGetOutTheWay);
+                        game.sendAction(movePieceGetOutTheWay);*/
+                        Log.i("Action was sent?","h");
                     }
 
-                    else {//no pieces to move, so send a skip turn
-                        AggravationMovePieceAction ff = new AggravationMovePieceAction(this, "Skip", 0, 0);
-                        game.sendAction(ff);
-                    }
+                    //no pieces to move, so send a skip turn
+                    if (toMoveTo==-9) moveType="Skip";
+
+                    AggravationMovePieceAction movePieceGetOutTheWay;
+                    movePieceGetOutTheWay = new AggravationMovePieceAction(this, moveType, toMoveFrom, toMoveTo);
+                    game.sendAction(movePieceGetOutTheWay);
                 }//move a piece
             }
-        }
+        }//receiveInfo
     }//receiveInfo
 }
 

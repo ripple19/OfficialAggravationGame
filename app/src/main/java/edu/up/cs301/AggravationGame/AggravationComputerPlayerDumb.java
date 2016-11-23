@@ -45,6 +45,9 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
             int toMoveFrom=-9;
             int toMoveTo=-9;
             String moveType ="Board";
+            boolean areWeThereYet=false;
+            int homeCopy[]=((AggravationState) info).getHomeArray(playerNum);
+            int endOfTheLine=startIdx-2;
 
             if(gameStateInfo.getTurn()!=this.playerNum) {
                 sleep(500); //if it's not your turn, give the other players some time to take their turns
@@ -81,7 +84,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                     for(int i=0;i<56; i++) {
                         int j= i+startIdx;
 
-                        if(j>55) j-=55;
+                        if(j>55) j-=56;
 
                         if (boardCopy[j] == playerNum){
                             toMoveFrom = j;
@@ -93,59 +96,45 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
                         //find a piece "in the way" of toMoveFrom and reset the loop around that piece
                         //moves the first "in the way" piece it can, so it can start all of its pieces as fast as possible
-                        //if toMoveFrom!=-1, that means the previous loop found a space with playerNum as a officialRoll and is trying to move it
+                        //if toMoveFrom!=-9, that means the previous loop found a space with playerNum as a officialRoll and is trying to move it
                         /*This is where a Board move comes from*/
 
 
                     if (toMoveFrom != -9) {//if toMoveFrom found a piece to move on the boardCopy[]
-                        for (int i = 1; i <= officialRoll; i++) {
-                            if(toMoveFrom + i > 55)
-                            {
-                                int stillToIterate = officialRoll - i;
-                                int tempToMoveFrom = 0;
-                                for(int y = 0;y <= stillToIterate;y++)
-                                {
-                                    if(boardCopy[y] == this.playerNum)
-                                    {
-                                        tempToMoveFrom+=y;
-                                        toMoveFrom = tempToMoveFrom;
-                                        break;
-                                    }
-                                }
 
-                            }
-                            if(toMoveFrom + i > 56) //TEMPORARY
-                            {
-                                toMoveFrom = 49;
-                            }
-                            if (boardCopy[toMoveFrom + i] == this.playerNum) {
+                        int j=0;
+                        int maybeMoveFrom=toMoveFrom;
+                        //looks for blocks, and moves the pieces in a "daisy chain"
+                        while (j<officialRoll){
+                            maybeMoveFrom=maybeMoveFrom+1; //"can I move from here? How about here? etc"
+                            if(maybeMoveFrom> 55) maybeMoveFrom -= 56;
+                            Log.i("maybeMoveFrom ="," "+maybeMoveFrom);
+                            if (boardCopy[maybeMoveFrom] == this.playerNum) {
                                 Log.i("There was a block","");
-                                toMoveFrom+=i;
-                                i = 0;
-                                //move from the idx of the piece blocking you that you found at toMoveFrom+i
-                                //reset the loop at 1, so it doesn't get stuck on itself.
-                                // if this doesn't fix the problem, idk why it can't find its first piece.
+                                toMoveFrom=maybeMoveFrom;
+                                j = 0;
                             }
+                            else j++;
                         }
+
                         Log.i("toMoveFrom is"," "+toMoveFrom);
                         toMoveTo = toMoveFrom + officialRoll;
-                        if(toMoveTo > 55)
-                        {
-                            toMoveTo -=56;
-                        }
+                        if(toMoveTo > 55) toMoveTo -=56;
 
 
-                        int endOfTheLine=startIdx-2;
-                        if(this.playerNum==0)
-                        {
-                            endOfTheLine=54;
-                        }
-
+                        if(this.playerNum==0) endOfTheLine=54;
 
                         if (toMoveTo>endOfTheLine && toMoveFrom<=endOfTheLine) {
-                            toMoveTo-=(endOfTheLine+1);
-                            moveType="Home";
+                            toMoveTo-=(endOfTheLine);
+                            if (toMoveTo>3)moveType= "Skip";
+                            else moveType="Home";
+                            for (int i=1;i<=toMoveTo;i++){
+                                if (homeCopy[i]==playerNum){
+                                    moveType= "Skip";
+                                }
+                            }
                         }
+
                         Log.i("toMoveTo is", toMoveTo+"");
 
                         /*AggravationMovePieceAction movePieceGetOutTheWay;
@@ -155,7 +144,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                     }
 
                     //no pieces to move, so send a skip turn
-                    if (toMoveTo==-9) moveType="Skip";
+                    if (toMoveFrom==-9) moveType="Skip";
 
                     AggravationMovePieceAction movePieceGetOutTheWay;
                     movePieceGetOutTheWay = new AggravationMovePieceAction(this, moveType, toMoveFrom, toMoveTo);
