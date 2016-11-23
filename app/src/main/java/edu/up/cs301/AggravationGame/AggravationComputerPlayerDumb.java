@@ -126,7 +126,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                         //if the move from would roll across the end of the line, chance toMoveTo to reflect that
                         //since it is now a home move
                         //if this works I'm never changing it because it fits my aesthetic perfectly
-                        for(int i=toMoveFrom;i<=toMoveFrom+officialRoll;i++){
+                        for(int i=toMoveFrom;i<toMoveFrom+officialRoll;i++){
                             if(i==endOfTheLine){
                                 moveType="Home";
                                 toMoveTo=toMoveTo-endOfTheLine-1;

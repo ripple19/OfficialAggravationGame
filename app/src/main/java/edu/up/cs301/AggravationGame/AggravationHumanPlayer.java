@@ -299,6 +299,16 @@ public void possibleMoveChecker()
 
                 }
             }
+    if (cpLi <3)
+    {
+
+        Log.i("cpLi is ", Integer.toString(cpLi));
+        for (int i= cpLi; i<3; i++)
+        {
+            cpLi++;
+            currentPieceLocations[cpLi] = -999;
+        }
+    }
             for (int i = 0; i < 4; i++) //checks buttons in start and home array
             {
                 if (startCopy[playerNum][i] == playerNum) {
@@ -318,6 +328,7 @@ public void possibleMoveChecker()
                     if (!canImove) {
                         canImove = Moves("home", i, false);
                     }
+                    if (!canImove){Log.i("homesays", "move poss");}
                 }
             }
             if (!canImove)
@@ -371,7 +382,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
     if (board.equals("home")) {
         int i = pieceLoc;
         Log.i("pieceLoc is ", Integer.toString(pieceLoc));
-        if (i + rollVal <4) {
+        if (i + rollVal <4 && homeCopy[playerNum][i + rollVal] != playerNum) {
             if (enable) {
                 this.playerHome[playerNum][rollVal + i].setEnabled(true);
                 Log.i("enabledhomearray", Integer.toString(rollVal + i));
@@ -380,12 +391,6 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
             Log.i("return possibleMove", "true");
         }
         markedButton = pieceLoc;
-        for (int z = 0; z<4; z++) {
-            if (playerHome[0][z].isEnabled()) {
-                Log.i("clickable space", Integer.toString(z));
-            }
-        }
-
         return possibleMove; //returning here because if it's in the home array that is all we need to check
     }
 
@@ -665,11 +670,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
 
             }
-        for (int z = 0; z<4; z++) {
-            if (playerHome[0][z].isEnabled()) {
-                Log.i("clickable space Moves", Integer.toString(z));
-            }
-        }
+
 
         }
 
@@ -699,6 +700,10 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         int endMove1 = endMove + playerNum*14;
         for (int j = 0; j<4; j++) //something in here is wrong
         {
+            Log.i("start is ", Integer.toString(startMove1));
+            Log.i("endMOve is", Integer.toString(endMove1));
+            Log.i("checking on piece", Integer.toString(pieceLocations[j]));
+
             Log.i("inside", "checkPieceOrder");
             if (pieceLocations[j]!= startMove1 && pieceLocations[j] > startMove1 && pieceLocations[j] <endMove1)
             { Log.i("no move", "here");
@@ -808,8 +813,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                 //conditions
             }
 
-            for (int l = 0; l <4; l++) //Moving in home doesn't get in here...So if I roll a one and try to move something in my home base...it enables
-            //the correct button I need to move to, but it never sends the action
+            for (int l = 0; l <4; l++)
             {
                 Log.i("got into l ", "loop");
                 if (button == this.playerHome[playerNum][l] && homeCopy[playerNum][l] != playerNum)
@@ -874,11 +878,6 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                 Log.i("enabling board type",boardTypeCheck);
                 Log.i("for position", Integer.toString(clickedIdx));
                 if (Moves(boardTypeCheck, clickedIdx, true))
-                    for (int z = 0; z<4; z++) {
-                        if (playerHome[0][z].isEnabled()) {
-                            Log.i("clickable space1", Integer.toString(z));
-                        }
-                    }
                 {Log.i("move is ", "true");} //enable possible moves for that clicked piece
 
             }
