@@ -434,9 +434,16 @@ public class AggravationLocalGame extends LocalGame {
         for(int i=0;i<4;i++){
             for(int j=0;j<4;j++)
                 if (homeCopy[i][j]==i) counts[i]++;
-            if (counts[i]==4) winMessage="Player "+(i+1)+" Wins!";
+            if (counts[i]==4)
+            {
+                AggravationNewGameAction ag = new AggravationNewGameAction( players[0]);
+                sendAction(ag);
+                winMessage="Player "+(i+1)+" Wins!";
+            }
             else counts[i] = 0;
         }
+
         return winMessage;
     }
+
 }// class AggravationLocalGame

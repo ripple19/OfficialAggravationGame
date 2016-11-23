@@ -48,9 +48,9 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
 
             if(gameStateInfo.getTurn()!=this.playerNum) {
                 sleep(500); //if it's not your turn, give the other players some time to take their turns
-            }  //SLEEP CHANGED FROM 1000
+            }  //SLEEP CHANGED FROM 500
             else {
-                sleep(550); //CHANGED FROM 2000
+                sleep(2550); //CHANGED FROM 2550
                 Log.i("my turn player", Integer.toString(this.playerNum));
 
                 //getRoll returns whether or there is a roll to be made - either the start of a turn or
@@ -58,7 +58,7 @@ public class AggravationComputerPlayerDumb extends GameComputerPlayer {
                 if (gameStateInfo.getRoll()) {
                     AggravationRollAction rollAct = new AggravationRollAction(this);
                     game.sendAction(rollAct);
-                    sleep(500); //CHANGED FROM 1000
+                    sleep(500); //CHANGED FROM 500
                     System.out.println("I rolled!");
                 }
                 //don't have to roll, so move a piece

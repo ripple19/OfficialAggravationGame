@@ -91,6 +91,13 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
 
     @Override
     public void receiveInfo(GameInfo info) {
+        Log.i("here", "recieveInfo");
+        for (int z = 0; z<4; z++) {
+            if (playerHome[0][z].isEnabled()) {
+                Log.i("clickable spacerI", Integer.toString(z));
+            }
+        }
+
         if(info instanceof IllegalMoveInfo)
         {
             illegalMove.setText("Illegal Move.");
@@ -194,7 +201,10 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                         {
                             for (int j = 0; j < 4; j++) {
                                 this.playerHome[i][j].setEnabled(false);
-                            }
+                                Log.i("set to false on  player", Integer.toString(i));
+                                Log.i("index", Integer.toString(j));
+
+                                                            }
                         }
                         this.dieImageButton.setEnabled(true);
 
@@ -251,7 +261,14 @@ public class AggravationHumanPlayer extends GameHumanPlayer implements OnClickLi
                 possibleMoveChecker();
                 checkPieces = false;
             }
-        }//receiveInfo
+
+        for (int z = 0; z<4; z++) {
+            if (playerHome[0][z].isEnabled()) {
+                Log.i("clickable spaceri2", Integer.toString(z));
+            }
+        }
+
+    }//receiveInfo
 
 
     public int getPlayerNum()
@@ -357,11 +374,20 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         Log.i("pieceLoc is ", Integer.toString(pieceLoc));
         if (i + rollVal <4) {
             if (enable) {
-                this.gameBoard[rollVal + i].setEnabled(true);
-                Log.i("enabledhomearray", Integer.toString(rollVal + i)); //enables...but a move piece action is not sent
+                this.playerHome[playerNum][rollVal + i].setEnabled(true);
+                Log.i("enabledhomearray", Integer.toString(rollVal + i));
             }
             possibleMove = true;
+            Log.i("return possibleMove", "true");
         }
+
+        for (int z = 0; z<4; z++) {
+            if (playerHome[0][z].isEnabled()) {
+                Log.i("clickable space", Integer.toString(z));
+            }
+        }
+
+        return possibleMove; //returning here because if it's in the home array that is all we need to check
     }
 
 
@@ -373,10 +399,12 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         {
             markedButton = i;
 
-            //CASE: roll val on the board
-            if (((i + rollVal) > (playerNum * 14)) && ((i + rollVal) < (56 - playerNum * 14))) //if there is a viable button for player button + roll
+            //CASE: roll val on the board //WILL NEED TO CHANGE FOR NETWORK PLAY>>>> address 56
+            if (((i + rollVal) > (55 - (playerNum * 14) + 4))) //if there is a viable button for player button + roll
             {
-                if ((i + rollVal) > 55) {
+                Log.i(".", "got inside :(....");
+                if ((i + rollVal) > 55 && ((rollVal + i) - 14 * playerNum) < 54) { //player other than 0 is moving "over the top" legally
+                    Log.i("inside loop non player", "one");
                     int correctedSpace = rollVal + i - 55; //"over the top space"
                     if (gameBoardCopy[correctedSpace] != playerNum)//"over the top"
                     {
@@ -388,22 +416,13 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                             possibleMove = true;
                         }
                     }
-                } else if ((i + rollVal) > 55 || (gameBoardCopy[i + rollVal]) != playerNum) {
-                    if ((i + rollVal) > 55) {
-                        int correctedSpace = rollVal + i - 55; //"over the top space"
-                        if (gameBoardCopy[correctedSpace] != playerNum) {
-                            if (checkPieceOrder(currentPieceLocations, playerNum, i, (correctedSpace))) {
-                                if (enable) {
-                                    this.gameBoard[correctedSpace].setEnabled(true); //enables that button
-                                    Log.i("enabledCS2", Integer.toString(correctedSpace));
-                                }
-                                possibleMove = true;
-                            }
-                        }
-                    } else if (checkPieceOrder(currentPieceLocations, playerNum, i, (i + rollVal))) {
+                }
+            }
+                else if (checkPieceOrder(currentPieceLocations, playerNum, i, (i + rollVal))) {
+                    if (i + rollVal < 55 && gameBoardCopy[i + rollVal] != playerNum) {
                         if (enable) {
                             this.gameBoard[i + rollVal].setEnabled(true); //enables that button
-                            Log.i("enabledcso", Integer.toString(i + rollVal));
+                            Log.i("enabled cso", Integer.toString(i + rollVal));
                         }
                         possibleMove = true;
                     }
@@ -411,18 +430,22 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
             }
 
 
+
+
             //CASE: Potential home array move
             { //checks the Home Arrays
 
-                if ((i + rollVal) > 55 && (i + rollVal) < (55 + 4)) {
-                    if (homeCopy[playerNum][rollVal - (55 - i)] != playerNum) {
+                if ((i + rollVal) > 54 && (i + rollVal) < (54 + 5)) {
+                    Log.i("trying to enable", "home");
+                    if (homeCopy[playerNum][rollVal - (54 - i )-1] != playerNum) {
                         boolean canDoThis = true;
                         for (int j = 0; j < 4; j++) //checks to make sure it's not leapfrogging a piece already there
                         {
-                            if (j <= rollVal - (55 - i)) //only the spaces before the possible move space
+                            if (j <= rollVal - (54 - i)-1) //only the spaces before the possible move space
                             {
                                 if (homeCopy[playerNum][j] == playerNum) {
                                     canDoThis = false;
+                                    Log.i("not enable", "can't skip ownpiece");
                                 }
                             }
 
@@ -430,8 +453,8 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         if (canDoThis) {
                             if (enable) {
 
-                                playerHome[playerNum][rollVal - (55 - i)].setEnabled(true);
-                                Log.i("enabledstm", Integer.toString(rollVal - (55 - i)));
+                                playerHome[playerNum][rollVal - (54 - i)-1].setEnabled(true);
+                                Log.i("enabledstm", Integer.toString(rollVal - (54 - i)-1));
                             }
                             possibleMove = true;
                         }
@@ -642,14 +665,18 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
 
             }
+        for (int z = 0; z<4; z++) {
+            if (playerHome[0][z].isEnabled()) {
+                Log.i("clickable space Moves", Integer.toString(z));
+            }
+        }
 
         }
 
-    }
+
     return possibleMove;
 }
-
-    /**
+     /**
      * this method checks whether a possible move would move one player's piece ahead of one of his/her
      * pieces. If it would, returns false (illegal move). Otherwise returns true.
      *
@@ -672,9 +699,12 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
         int endMove1 = endMove + playerNum*14;
         for (int j = 0; j<4; j++) //something in here is wrong
         {
+            Log.i("inside", "checkPieceOrder");
             if (pieceLocations[j]!= startMove1 && pieceLocations[j] > startMove1 && pieceLocations[j] <endMove1)
-            { return false;}
+            { Log.i("no move", "here");
+                return false;}
         }
+        Log.i("true","move away!");
         return true;
     }
 
@@ -716,7 +746,17 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
     int markedButton = -1; //holds the most recently pressed player piece button
     int[] currentPieceLocations = new int[4]; //holds locations of player pieces
     int cpLi; //iterator for current Piece Location
+
     public void onClick(View button) {
+        Log.i("Start", "onClick");
+
+        int rollVal = gameStateInfo.getDieValue();
+        int myNum = playerNum;
+        int[] gameBoardCopy = gameStateInfo.getGameBoard();
+        int[][] homeCopy = gameStateInfo.getHomeArray();
+        int[][] startCopy = gameStateInfo.getStartArray();
+        String boardType = "board";
+
         if(button == newGameButton)
         {
             AggravationNewGameAction newGame = new AggravationNewGameAction(this);
@@ -725,12 +765,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
             return;
         }
         Log.i("clicked", "click");
-        int rollVal = gameStateInfo.getDieValue();
-        int myNum = playerNum;
-        int[] gameBoardCopy = gameStateInfo.getGameBoard();
-        int[][] homeCopy = gameStateInfo.getHomeArray();
-        int[][] startCopy = gameStateInfo.getStartArray();
-        String boardType = "board";
+
 
         if (button == dieImageButton) { //if the die has been rolled, enable player's buttons
             AggravationRollAction roll = new AggravationRollAction(this);
@@ -743,13 +778,50 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
         else //(NORMAL BUTTONS)
         {
-             Log.i("roll val is ", Integer.toString(rollVal));
+            Log.i("roll val is ", Integer.toString(rollVal));
             Log.i("PlayerNum", Integer.toString(playerNum));
             boolean enabled = false;
             int clickedIdx = -99;
             String boardTypeCheck = "";
 
-            //Searches board for clicked button, and disables all non player(starting precaution)
+            for (int k = 0; k < 57; k++) { //first checks to see if it is a click to move a piece -->clicking on a blank space
+                if (button == this.gameBoard[k] && gameBoardCopy[k] != playerNum) {
+                    Log.i("k ", Integer.toString(k));
+                    Log.i("marked Button", Integer.toString(markedButton));
+                    if (k == playerNum*14)
+                    {
+                        boardType = "Start"; //
+                    }
+                    if (k == 56 || markedButton == 5 || markedButton ==19 || markedButton ==33 ||markedButton ==47
+                            && (markedButton + gameStateInfo.getDieValue() != k))
+                    {
+                        boardType = "shortcut";
+                    }
+                    //if ()Owen wants to make every shortcut move say shortcut
+                    AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, k);
+                    Log.i("sending move board", Integer.toString(markedButton));
+                    Log.i("move is boardType", boardType);
+                    Log.i("from space", Integer.toString(markedButton));
+                    Log.i("to space ", Integer.toString(k));
+                    game.sendAction(move);
+                }
+                //conditions
+            }
+
+            for (int l = 0; l <4; l++) //Moving in home doesn't get in here...So if I roll a one and try to move something in my home base...it enables
+            //the correct button I need to move to, but it never sends the action
+            {
+                Log.i("got into l ", "loop");
+                if (button == this.playerHome[playerNum][l] && homeCopy[playerNum][l] != playerNum)
+                {
+                    boardType = "Home";
+                    AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, l);
+                    game.sendAction(move);
+                    Log.i("sent action", "home");
+                }
+            }
+
+            //Searches board for clicked button, and disables all non player(starting precaution) -->click on own piece
             for (int i = 0; i < 57; i++) {
                 if (button == this.gameBoard[i] && gameBoardCopy[i] == playerNum) //finds the button index
                 {
@@ -758,7 +830,7 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
 
                 }
 
-                else if (gameBoardCopy[i] != playerNum) //if it's not a player button, disable
+                else if (gameBoardCopy[i] != playerNum && this.gameBoard[i] != button) //if it's not a player button, disable
                 {
                     gameBoard[i].setEnabled(false);
                 }
@@ -787,59 +859,40 @@ public boolean Moves(String board, int pieceLoc, boolean enable) {
                         boardTypeCheck = "home";
                     }
                 }
-                else if (homeCopy[playerNum][m] != playerNum) //disable if it's not the player's piece
+                else if (homeCopy[playerNum][m] != playerNum && playerHome[playerNum][m] != button) //disable if it's not the player's piece &&
                 {
                     playerHome[playerNum][m].setEnabled(false);
+                    Log.i("disabled", Integer.toString(m));
                 }
             }
 
-            if (clickedIdx >-1)//if the button clicked has been found
+            if (clickedIdx >-1) //if the player clicked on its own piece --> own piece enabing moves
             {
 
                 Log.i("enabling board type",boardTypeCheck);
                 Log.i("for position", Integer.toString(clickedIdx));
-                Moves(boardTypeCheck, clickedIdx, true); //enable possible moves
+                if (Moves(boardTypeCheck, clickedIdx, true))
+                    for (int z = 0; z<4; z++) {
+                        if (playerHome[0][z].isEnabled()) {
+                            Log.i("clickable space1", Integer.toString(z));
+                        }
+                    }
+                {Log.i("move is ", "true");} //enable possible moves for that clicked piece
+
             }
 
                 //When the player clicks on an available space to make a move
-                for (int k = 0; k < 57; k++) {
-                    if (button == this.gameBoard[k] && gameBoardCopy[k] != playerNum) {
-                        Log.i("k ", Integer.toString(k));
-                        Log.i("markedButton", Integer.toString(markedButton));
-                        if (k == playerNum*14)
-                        {
-                            boardType = "Start"; //
-                        }
-                        if (k == 56 || markedButton == 5 || markedButton ==19 || markedButton ==33 ||markedButton ==47
-                                && (markedButton + gameStateInfo.getDieValue() != k))
-                        {
-                            boardType = "shortcut";
-                        }
-                        //if ()Owen wants to make every shortcut move say shortcut
-                        AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, k);
-                        Log.i("sending move board", Integer.toString(markedButton));
-                        Log.i("move is boardType", boardType);
-                        Log.i("from space", Integer.toString(markedButton));
-                        Log.i("to space ", Integer.toString(k));
-                        game.sendAction(move);
-                    }
-                    //conditions
-                }
 
-                for (int l = 0; l <4; l++) //Moving in home doesn't get in here...So if I roll a one and try to move something in my home base...it enables
-                     //the correct button I need to move to, but it never sends the action
-                {
-                    if (button == this.playerHome[playerNum][l] && homeCopy[playerNum][l] != playerNum)
-                    {
-                        boardType = "Home";
-                        AggravationMovePieceAction move = new AggravationMovePieceAction(this, boardType, markedButton, l);
-                        game.sendAction(move);
-                        Log.i("sent action", "home");
-                    }
-                }
 
             }
-            Log.i("end of", "on click");
+        for (int z = 0; z<4; z++) {
+            if (playerHome[0][z].isEnabled()) {
+                Log.i("clickable space2", Integer.toString(z));
+            }
+        }
+
+
+            Log.i("end of ", "on click");
         }
 
 
