@@ -53,11 +53,6 @@ public class AggravationLocalGame extends LocalGame {
         int startCopy[]= officialGameState.getStartArray(playerNum);
         int homeCopy[] = officialGameState.getHomeArray(playerNum);
 
-        if (officialGameState.getTurn() != 3)
-        {
-            officialGameState.setTurn(playerNum +1);
-            return true;
-        }
 
         if(action instanceof AggravationRollAction) {
             if(officialGameState.getTurn()!=playerNum) return false; //safety net
